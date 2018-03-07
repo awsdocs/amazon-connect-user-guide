@@ -38,7 +38,7 @@ When you set **User Defined** or **External** values in dynamic attribute fields
 |  Get customer input  |  Branches based on customer intent\.  |  Plays an interruptible audio prompt and branches based on DTMF or Amazon Lex intents\. If you use text\-to\-speech, you can use a maximum of 1,024 characters\.  | 
 |  Store customer input  |  Stores numerical input to contact attribute\.  |  Plays an interruptible audio prompt and stores digits via DTMF as a contact attribute\. To enable encryption, contact your system administrator to add a public signing key to the **Contact flow security keys** settings of your Amazon Connect instance\.  | 
 |  Loop prompts  |  Loops a sequence of prompts while a customer or agent is on hold or in queue\.  |  When **Loop prompts** is used in a queue flow, audio playback can be interrupted with a flow at preset times\.  | 
-|  Hold customer or agent  |  Places a customer or agent on or off hold\.  |  Settings: [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/connect/latest/userguide/contactflow.html)  | 
+|  Hold customer or agent  |  Places a customer or agent on or off hold\.  |  Settings: Agent on hold / customer on call Customer on hold / agent on call Agent and customer on call  | 
 
 ### Integrate<a name="contact-integrate"></a>
 

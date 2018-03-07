@@ -14,28 +14,28 @@ When you add a prompt to a contact flow, you can use SSML tags to provide a more
 
 The following SSML tags are supported in Amazon Connect:
 
-+ <speak>
++ speak
 
-+ <break>
++ break
 
-+ <lang>
++ lang
 
-+ <mark>
++ mark
 
-+ <p>
++ p
 
-+ <phoneme>
++ phoneme
 
-+ <prosody>
++ prosody
 
-+ <s>
++ s
 
-+ <say\-as>
++ say-as
 
-+ <sub>
++ sub
 
-+ <w>
++ w
 
-+ <amazon:effect name="whispered">
++ amazon:effect name="whispered"
 
 If you use an unsupported tag in your input text it is automatically ignored when it is processed\. To learn more about the SSML tags, see [SSML Tags in Amazon Polly](http://docs.aws.amazon.com/polly/latest/dg/supported-ssml.html)\.

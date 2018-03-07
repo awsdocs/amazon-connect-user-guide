@@ -30,7 +30,7 @@ Agent event streams are created in JavaScript Object Notation \(JSON\) format\. 
 | --- | --- | 
 |  LOGIN  |  Agent login to the contact center\.  | 
 |  LOGOUT  |  Agent logout from the contact center\.  | 
-|  STATE\_CHANGE  |  One of the following changed: [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/connect/latest/userguide/agent-event-streams.html)  | 
+|  STATE\_CHANGE  |  One of the following changed: Agent configuration, such as profile or the assigned hierarchy group\. Agent state in the contact control panel, such as Available\. Agent conversation state, such as on hold\.  | 
 |  HEART\_BEAT  |  This event is published every 120 seconds if there are no other events published during that time\.  | 
 
 The following table described the fields in the `AgentEvent` object\.
@@ -53,8 +53,8 @@ The following table describes the properties of the `AgentSnapshot` object\.
 
 | Field | Type | Description | 
 | --- | --- | --- | 
-|  Configuration  |  `Configuration` object\.  |  Information about the agent, including: [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/connect/latest/userguide/agent-event-streams.html)  | 
-|  AgentStatus  |  `AgentStatus` object  |  Agent status data, including: [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/connect/latest/userguide/agent-event-streams.html)  | 
+|  Configuration  |  `Configuration` object\.  |  Information about the agent, including: Username FirstName LastName RoutingProfile HierarchyGroups  | 
+|  AgentStatus  |  `AgentStatus` object  |  Agent status data, including: AgentARN \- the ARN for the agent status\. Name \- the name of the status, such as Available or Offline\.  | 
 |  Contacts  |  List of `Contact` objects  |  List of contacts  | 
 
 The following table describes the `Configuration` object properties\.
@@ -74,7 +74,7 @@ The following table describes the `AgentStatus` object properties\.
 | Field | Type | Description | 
 | --- | --- | --- | 
 |  ARN  |  String  |  The Amazon Resource Name for the agent status\.  | 
-|  Name  |  String  |  The name of the status event\. Values include the following plus any custom values you have defined: [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/connect/latest/userguide/agent-event-streams.html)  | 
+|  Name  |  String  |  The name of the status event\. Values include the following plus any custom values you have defined: Available Offline  | 
 |  StartTimestamp  |  Timestamp  |  The time at which the agent event occurred, in ISO 8601 format\. This is the time at which the agent changed from one status to another\.  | 
 
 The following table describes the `RoutingProfile` object properties\.
@@ -122,8 +122,8 @@ The following table describes the `Contact` object properties\.
 |  ContactId  |  String  |  UUID identifier for the contact  | 
 |  InitialContactId  |  String  |  The ContactId of the original contact that was transferred\.  | 
 |  Channel  |  String  |  Enumeration of the method of communication, such as Voice\.  | 
-|  InitiationMethod  |  String  |  Enumeration of how the contact was initiated: [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/connect/latest/userguide/agent-event-streams.html)  | 
-|  State  |  String  |  An enumeration of the state of the contact: [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/connect/latest/userguide/agent-event-streams.html)  | 
+|  InitiationMethod  |  String  |  Enumeration of how the contact was initiated: Inbound Outbound Transfer Callback  | 
+|  State  |  String  |  An enumeration of the state of the contact: INCOMING PENDING CONNECTING CONNECTED CONNECTED\_ONHOLD MISSED ERROR ENDED  | 
 |  StateStartTimestamp  |  String  |  A time stamp for the time at which the contact entered the State\.  | 
 |  ConnectedToAgentTimestamp  |  String  |  A time stamp for the time the contact was connected to an agent\.  | 
 |  QueueTimestamp  |  String  |  A time stamp for the time at which the contact was put into a queue\.  | 
