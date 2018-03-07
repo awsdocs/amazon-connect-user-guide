@@ -150,7 +150,7 @@ You can also resolve the issue by using Firefox as your browser\.
 
 ## How to Enable Manager Listen\-in<a name="manager-listen-in"></a>
 
-As a manager, you can listen in on active calls as your agents interact with your customers\. Only users that are assigned the **CallCenterManager** security profile, or that are assigned the **Enable** permissions for **Manager listen in** can listen in on agent calls\.
+As a manager, you can listen in on active calls as your agents interact with your customers\. Only users that are assigned the **Enable** permissions for **Manager listen in** can listen in on agent calls\. The **CallCenterManager** security profile includes this permission, but not permission to access the CCP\. You can add the permission for the CCP to the **CallCenterManager** profile, or also assign the **Agent** profile to an account that is already assigned the **CallCenterManager** profile\.
 
 Before you can use the listen\-in feature, you need to enable call recording in your contact flows\. The listen\-in feature works only when call recording is enabled\.
 
@@ -158,7 +158,7 @@ Before you can use the listen\-in feature, you need to enable call recording in 
 
 1. Log in to your Amazon Connect instance using an account that has permissions to edit contact flows\.
 
-1. Identify a call flow that handles customer contacts to which listen in on\.
+1. Identify a call flow that handles customer contacts that you want to listen in on\.
 
 1. Choose **Routing**, **Contact flows**, and then choose the name of the contact flow to open it in the editor\.
 

@@ -15,7 +15,8 @@ There is a limit of 10 numbers per contact center\. If you reach your limit and 
 
 1. Choose **Claim a number** in the top\-right corner of the screen\. You can choose a **Toll free** or a **DID \(Direct Inward Dialing\)** number\.
 **Note**  
-You cannot enter a number of your choice and you can only choose one number across both types\.
+If you want to select a number from a country, but there are no numbers displayed for that country when you select it, you can request additional numbers for that country using the [Amazon Connect service limits increase form](https://console.aws.amazon.com/support/home#/case/create?issueType=service-limit-increase&limitType=service-code-connect)\.  
+If you want to keep a phone number you already have, you can port the phone number and use it with Amazon Connect\. To learn more, see [Port Your Current Phone Number](http://docs.aws.amazon.com/connect/latest/adminguide//gettingstarted.html#numberporting)\.
 
 1. Enter a description for the number and, if required, attach it to a contact flow in **Contact flow / IVR**\.
 
