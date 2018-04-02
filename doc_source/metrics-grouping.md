@@ -61,85 +61,44 @@ Historical metrics are defined by groups\. Each group has pre\-selected metrics 
 Metrics are divided into **Contact metrics** and **Agent metrics**\. Only one option can be selected at a time and relevant metrics are pre\-selected per view\. Additional metrics per view can be selected\.
 
 The definitions below are the complete list of available metrics across all the historical metrics groups and both views\.
-
 + **Agent idle time**—Sum of time that an agent spent in a productive state, but not handling contacts\.
-
 + **Average customer hold time**—Average time that customers spent on hold, divided by the number of calls taken\.
-
 + **Average agent interaction time**—Average amount of time that agents and customers interacted on contacts\.
-
 + **After contact work time**—Sum of time spent in **After contact work**\.
-
 + **Agent on contact time**—Sum of time that an agent spent with active contacts\.
-
 + **Nonproductive time**—Sum of time spent in a nonproductive state, excluding **Error** and **Offline**\.
-
 + **Average after contact work time**—Average time that an agent spent in **After contact work time**\. 
-
 + **Average handle time**—Average of **Contact handle time**\.
-
 + **Average queue abandon time**—Average amount of time that customers spent in a queue before abandoning the call\.
-
 + **Average agent interaction and customer hold time**—Average of the sum of agent interaction and customer hold time\.
-
 + **Average agent interaction time**—Average amount of time that agents and customers interacted on contacts\.
-
 + **Average outbound agent interaction time**—Average of the time that agents interacted with customers on outbound calls\.
-
 + **Average outbound after contact work time**—Average time that agents spent in **After contact work time** for outbound contacts\.
-
 + **Contacts abandoned**—Number of contacts when the customer disconnected while in queue\.
-
 + **Contacts abandoned in x seconds**—Count of contacts when the customer disconnected while in the queue for x number of seconds \(ranges 15–600 seconds\)\.
-
 + **Contacts agent hung up first**—Count of contacts when the agent disconnected before the customer\.
-
 + **Contacts consulted**—Count of contacts when an agent consulted with a third party\.
-
 + **Contacts handled**—Count of contacts handled by an agent\.
-
 + **Contacts handled incoming**—Count of incoming contacts handled by an agent\.
-
 + **Contacts handled outbound**—Count of outbound contacts handled by an agent\.
-
 + **Contacts hold customer disconnect**—Count of contacts disconnected by the customer while the customer was on hold\.
-
 + **Contacts put on hold**—Count of contacts put on hold by an agent at least one time\.
-
 + **Contacts hold agent disconnect**—Count of contacts disconnected by the agent while the customer was on hold\.
-
 + **Contacts hold disconnect**—Count of contacts disconnected while the customer was on hold\.
-
 + **Contacts joined in x seconds**—Count of contacts that were answered by an agent within x number of seconds \(ranges 15–600 seconds\)\.
-
 + **Contacts queued**—Count of contacts placed into a queue\.
-
 + **Contacts transferred in**—Count of contacts transferred to a queue\.
-
 + **Contacts transferred out**—Count of contacts transferred out of a queue\.
-
 + **Error status time**—Sum of time that an agent spent in the **Error** status\.
-
 + **Customer hold time**—Sum of the time that customers spent on hold\. This value does not include queue time\.
-
 + **Agent answer rate**—Percentage of contacts routed to an agent that were successfully answered\.
-
 + **Maximum queued time**—The longest amount of time that a customer spent in a queue\.
-
 + **Contacts missed**—Count of the number of contacts that agents did not answer successfully\. A single contact can be missed multiple times, but eventually answered successfully\.
-
 + **Contact flow time**—Sum of the time that customers spent in contact flows\.
-
 + **Transfer out time**—Sum of the time spent after a customer was transferred out by an IVR or agent\.
-
 + **Contact handle time**—Sum of time that an agent spent on a call, including hold time and **After contact work time**\.
-
 + **Occupancy**—Agent Handle Time/\(Agent Handle Time \+ Agent Idle Time\)\.
-
 + **Service level x seconds**—Percentage of contacts answered within x number of seconds \(ranges 15–600 seconds\)\.
-
 + **Online time**—Sum of the time that an agent spent in states other than **Offline**\.
-
 + **Agent interaction and hold time**—Sum of the sums of agent interaction and customer hold time\.
-
 + **Agent interaction time**—Sum of the time that agents interacted with customers\.

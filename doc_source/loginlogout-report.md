@@ -2,6 +2,10 @@
 
 The Login/Logout report displays the login and logout information for the agents in your Amazon Connect instance\. For each agent session, the login and logout times are displayed as a row in the report\. You can use the report to determine the time your agents were logged in to Amazon Connect\. The report also displays the amount of time for each session that an agent was logged in to Amazon Connect\.
 
+**Important**  
+A Login/Logout report can contain up to 10,000 rows\. When you generate a Login/Logout report that includes more than 10,000 rows, the report fails to complete\. If you generate a report and view it on the Login/Logout report page, you receive an error if you attempt to display a page of the report beyond row 10,000\. If you schedule a Login/Logout report that contains more than 10,000 rows, the report fails, no report output is saved to your S3 bucket, and you cannot view the report\.  
+If you have a contact center with a lot of agents, and your reports fail to complete, you can specify a shorter time range to reduce the size of the report generated, or apply filters to the report, such as routing profile and agent hierarchy\. You can then use other filters to capture all of the login / logout data for your instance\. For more information, see [Generate a Login/Logout Report](#loginlogout-report-generate)\.
+
 You can view the report in the Amazon Connect interface, download the report, or share it with other users\. You can set a schedule for the days of the week to generate the report, and you can filter the report on agent, agent hierarchy, or routing profile to include only records for a specific set of agents in the report\.
 
 **Important**  

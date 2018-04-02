@@ -5,21 +5,13 @@ A contact flow is an editable roadmap directing the customer experience of the c
 You can create a contact flow using the contact flow templates provided\. You can also create your own contact flow from scratch, using the **Create contact flow** editor\.
 
 The following template types are available:
-
 + **Customer queue flow**—Manages what the customer experiences while in queue, before being joined to an agent\. Customer queue flows are interruptible and can include actions such as an audio clip apologizing for a delay and offering an option to receive a callback, leveraging the **Transfer to queue** block\.
-
 + **Customer hold flow**—Manages what the customer experiences while the customer is on hold\. With this flow, one or more audio prompts can be played to a customer using the **Loop prompts** block while waiting on hold\.
-
 + **Customer whisper flow**—Manages what the customer experiences as part of an inbound call immediately before being joined with an agent\. The agent and customer whispers are played to completion, then the two are joined\.
-
 + **Outbound whisper flow**—Manages what the customer experiences as part of an outbound call before being connected with an agent\. In this flow, the customer whisper is played to completion, then the two are joined\. For example, this flow can be used to enable call recordings for outbound calls with the **Set call recording behavior** block\.
-
 + **Agent hold flow**—Manages what the agent experiences when on hold with a customer\. With this flow, one or more audio prompts can be played to an agent using the **Loop prompts** block while the customer is on hold\.
-
 + **Agent whisper flow**—Manages what the agent experiences as part of an inbound call immediately before being joined with a customer\. The agent and customer whispers are played to completion, then the two are joined\.
-
 + **Transfer to agent flow**—Manages what the agent experiences when transferring to another agent\. This type of flow is associated with transfer to agent quick connects, and often plays messaging, then completes the transfer using the **Transfer to agent** block\.
-
 + **Transfer to queue flow**—Manages what the agent experiences when transferring to another queue\. This type of flow is associated with transfer to queue quick connects, and often plays messaging, then completes the transfer using the **Transfer to queue** block\.
 
 ## Contact Block Definitions<a name="contact-blocks"></a>
@@ -241,9 +233,7 @@ When you attempt to import or export a large or complex contact flow, the export
 1. Choose **Routing**, **Contact flows**\.
 
 1. Do one of the following:
-
    + To replace an existing contact flow with the one you are importing, open the contact flow to replace\.
-
    + Create a new contact flow of the same type as the one you are importing\.
 
 1. Choose **Save**, **Import flow**\.

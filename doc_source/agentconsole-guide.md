@@ -36,42 +36,39 @@ Before agents can use the CCP to take calls, you configure permissions\. These p
 
 Making international calls using Amazon Connect is possible and the CCP provides the correct formatting for this automatically\.
 
+E\.164 defines a general format for international telephone numbers\. Numbers are limited to a maximum of 15 digits, excluding the international call prefix\. The presentation of a number is usually prefixed with the plus sign \(\+\), indicating that the number includes the country calling code\. When dialing, the number must typically be prefixed with the appropriate international call prefix \(in place of the plus sign\), which is a trunk code to reach an international circuit from within the country of call origination\. Phone numbers that are not formatted in E\.164 may work, but it depends on the phone or handset that is being used as well as the carrier from which the call is being originated\.
+
+To express a US phone number to E\.164 format, add the '\+' prefix and the country code \(1\) in front of the number\. In the UK and many other countries internationally, local dialing requires the addition of a 0 in front of the subscriber number\. However, to use E\.164 formatting, this 0 must be removed\. A number such as 020 718 xxxxx in the UK would be formatted as \+44 20 718 xxxxx\.
+
 ## Set up Softphones and Desk Phones<a name="phone-settings"></a>
 
 Before agents can use the CCP, check the following configurations:
-
 + **Headset connectivity**—Check the settings in Device Management to ensure that your computer recognizes the headset and allows proper headset connectivity\.
-
 + **Set up headset**—You may need to adjust your browser settings to ensure correct peripheral selection\.
-
 + **Desktop notifications**—Ensure that the browser is not in incognito mode so that desktop notifications can be displayed\.
-
 + **Microphone**—Ensure that the microphone settings are always enabled\.
-
 + **Dialing**—In **Settings**, you can configure the softphone to dial a DID desk phone if required\. When you choose a desk phone, enter the DID number to which calls go\.
 
 Agents can log in using the URL, user name, and password provided by their Amazon Connect administrator\. Each agent has a unique user name and password\.
 
-If agents are using a softphone, the IP address used must be the address for the region where you created your Amazon Connect instance\. The following table lists the supported IP address for each region\.
+If agents are using a softphone, the IP address used must be in the IP address range for the region where you created your Amazon Connect instance\. The following table lists the supported IP address ranges for each region\. You should allow access for all addresses in both of the ranges listed in the table\.
 
-In addition to allowing the IP address and ports for agents to use the CCP, you also need to allow access for the softphone signaling endpoints, which are hosted in Amazon EC2\. For information about the IP ranges used by Amazon EC2, see [https://ip\-ranges\.amazonaws\.com/ip\-ranges\.json](https://ip-ranges.amazonaws.com/ip-ranges.json)\.
+For agents to use the CCP, you also need to allow access for the softphone signaling endpoints, which are hosted in Amazon EC2\. For information about the IP ranges used by Amazon EC2, see [https://ip\-ranges\.amazonaws\.com/ip\-ranges\.json](https://ip-ranges.amazonaws.com/ip-ranges.json)\.
 
 
 | Region | IP Address | Port | 
 | --- | --- | --- | 
-| US\-EAST\-1 | 52\.55\.191\.224/27 | 3478 \(UDP\) | 
-| US\-WEST\-2 | 54\.190\.198\.32/28 | 3478 \(UDP\) | 
-| AP\-SOUTHEAST\-2 | 13\.210\.2\.192/26 | 3478 \(UDP\) | 
-| EU\-CENTRAL\-1 | 35\.158\.127\.64/26 | 3478 \(UDP\) | 
+| US\-EAST\-1 | 52\.55\.191\.224/27 18\.233\.213\.128/25 | 3478 \(UDP\) | 
+| US\-WEST\-2 | 54\.190\.198\.32/28 18\.236\.61\.0/25 | 3478 \(UDP\) | 
+| AP\-SOUTHEAST\-2 | 13\.210\.2\.192/26 13\.236\.8\.0/25 | 3478 \(UDP\) | 
+| EU\-CENTRAL\-1 | 35\.158\.127\.64/26 18\.184\.2\.128/25 | 3478 \(UDP\) | 
 
 ### Status Settings<a name="status"></a>
 
 The status settings are used for reporting purposes to ensure that system issues are resolved quickly and to manage resources\.
 
 The following settings are available:
-
 + **Available**—Indicates that an agent is available to take calls\.
-
 + **Offline**—Logs agents out and removes them from the pool of available agents\.
 
 ## Work with Calls<a name="working-with-calls"></a>
@@ -79,13 +76,9 @@ The following settings are available:
 Using the Contact Control Panel \(CCP\), you can perform the following actions on a softphone\. When you opt for a desk phone, you have the same controls as softphone\. The only difference is that there is no **Accept** button on a desk phone\.
 
 **Accepting incoming calls**
-
 + To accept an incoming call, choose **Accept call**\.
-
 + To edit settings, choose **Settings**\.
-
 + To end a call, choose **End call**\.
-
 + To put a call on hold, choose **Hold**\.
 
 When a call is connected, a new set of options become available in the CCP\.
@@ -99,11 +92,8 @@ Agents can also manually enter a phone number to transfer calls to by choosing *
 **To enable agent call transfers**
 
 1. Create and publish a contact flow for the type of transfer to enable\.
-
    + To enable transfers to another agent, create a **transfer to agent** contact flow\.
-
    + To enable transfers to a queue, create a **transfer to queue** contact flow\.
-
    + External transfers do not require a specific type of contact flow\.
 **Note**  
 You must publish your contact flows to make them active in your contact center\.
@@ -127,11 +117,8 @@ You must publish your contact flows to make them active in your contact center\.
 1. After the call is answered by an agent, or sent to a queue, choose **Leave call** to disconnect from the call\.
 
 1. To use conference, swap, or hold:
-
 + To begin a conference call, choose **Join** to perform a soft transfer\. To drop out of the call, choose **Leave**\.
-
 + Choose **Swap** to switch between talking to a customer and the person to whom you’re transferring the call\.
-
 + Choose **Hold all** to put all parties on hold\.
 
 Some settings that are configured in Amazon Connect include setting agents to go into the `After call work` state after they are done with their call\. Agents can also be configured to accept a call automatically, without having to choose **Accept**\.

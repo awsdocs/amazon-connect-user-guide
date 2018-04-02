@@ -51,9 +51,7 @@ Prompts are audio files played in call flows\. Only 8 KHz \.wav files that are l
 1. On the **Manage voice prompts** screen, choose **\+Create new prompt**\.
 
 1. You can choose the following actions:
-
    + **Upload**—Choose the file to upload\.
-
    + **Record**—Choose the red circle to begin recording\. Use the red square to stop\. You can choose **Crop** to cut the recorded prompt or **Discard** to record a new prompt\.
 
 1. For **Step 2: Input basic information**, enter the name of the file, and then choose **Create**\.
@@ -131,11 +129,8 @@ To reactivate a queue, follow the same steps as above\.
 ## Creating Quick Connects<a name="quickconnect"></a>
 
 Calls can be transferred to an agent, a queue, or an external number\.
-
 + **External**—Calls are transferred to an external number \(such as an on\-call pager\)\. 
-
 + **Agent**—Calls are transferred to a specific agent as part of a contact flow\.
-
 + **Queue**—Calls are transferred to a queue as part of a contact flow\.
 
 **To add a quick connect**
