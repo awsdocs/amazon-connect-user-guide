@@ -46,6 +46,7 @@ Performance
 + **Transferred in**—Count of contacts transferred to a queue\.
 + **Transferred out**—Count of contacts transferred out of a queue\.
 + **Queued**—Number of contacts placed into the queue\.
++ **Occ 1**—Occupancy computed as Agent Handle Time/\(Agent Handle Time \+ Agent Idle Time\)\.
 
 **To create a routing profiles report with additional metrics for hold time and consult**
 

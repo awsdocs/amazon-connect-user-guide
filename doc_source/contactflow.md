@@ -1,6 +1,6 @@
 # Understanding Contact Flows<a name="contactflow"></a>
 
-A contact flow is an editable roadmap directing the customer experience of the contact center from the time they enter the system to the end of the contact\.
+A contact flow defines each step of the experience customers have when they interact with your contact center\.
 
 You can create a contact flow using the contact flow templates provided\. You can also create your own contact flow from scratch, using the **Create contact flow** editor\.
 

@@ -24,7 +24,7 @@ Amazon's trademarks and trade dress may not be used in
       + [Working with Report Parameters](working-with-reporting.md)
       + [Generating Real-Time Metrics](real-time-metrics.md)
       + [Understanding Historical Metrics Grouping](metrics-grouping.md)
-         + [Creating Contact Search Reports](contact-search.md)
+      + [Creating Contact Search Reports](contact-search.md)
    + [Login/Logout Reports](loginlogout-report.md)
    + [Agent Event Streams](agent-event-streams.md)
 + [Using the Amazon Connect Contact Control Panel](agentconsole-guide.md)

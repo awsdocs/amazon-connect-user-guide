@@ -23,108 +23,213 @@ If you enable server\-side encryption for the Kinesis stream you select for agen
 
 ## Agent Event Streams Data Model<a name="agent-event-stream-model"></a>
 
-Agent event streams are created in JavaScript Object Notation \(JSON\) format\. For each event, a JSON blob is sent to the Kinesis data stream\. Each blob includes data about the event, as described in the following table\.
+Agent event streams are created in JavaScript Object Notation \(JSON\) format\. For each event type, a JSON blob is sent to the Kinesis data stream\. The following event types are included in agent event streams:
++ LOGIN—An agent login to the contact center\.
++ LOGOUT—An agent logout from the contact center\.
++ STATE\_CHANGE—One of the following changed:
+  + Agent configuration, such as profile or the assigned hierarchy group\.
+  + Agent state in the contact control panel, such as Available\.
+  + Agent conversation state, such as on hold\.
++ HEART\_BEAT—This event is published every 120 seconds if there are no other events published during that interval\.
 
+Each agent event type blob includes the following data about the event\.
 
-| Agent event type | Description | 
-| --- | --- | 
-|  LOGIN  |  Agent login to the contact center\.  | 
-|  LOGOUT  |  Agent logout from the contact center\.  | 
-|  STATE\_CHANGE  |  One of the following changed: Agent configuration, such as profile or the assigned hierarchy group\. Agent state in the contact control panel, such as Available\. Agent conversation state, such as on hold\.  | 
-|  HEART\_BEAT  |  This event is published every 120 seconds if there are no other events published during that time\.  | 
+### AgentEvent<a name="AgentEvent"></a>
 
-The following table described the fields in the `AgentEvent` object\.
+The `AgentEvent` object includes the following properties:
 
+**AgentARN**  
+The Amazon Resource Name \(ARN\) for the agent\. To find the ARN for an agent, open the user settings for the user in Amazon Connect\. The ARN is displayed in the address bar\.  
+Type: ARN
 
-| Field | Type | Description | 
-| --- | --- | --- | 
-|  Version  |  String  |  The version of the agent event stream in date format, such as 2017\-10\-10\.  | 
-|  EventId  |  String  |  Universally unique identifier \(UUID\) for the event\.  | 
-|  AWSAccountId  |  String  |  The 12\-digit AWS account ID for the AWS account associated with the Amazon Connect instance\.  | 
-|  InstanceARN  |  String  |  Amazon Resource Name for the Amazon Connect instance where the agent’s user account is created\.  | 
-|  AgentARN  |  String  |  The Amazon Resource Name for the agent\.  | 
-|  EventTimestamp  |  String  |  A time stamp for the event, in ISO 8601 standard format\.  | 
-|  EventType  |  String  |  The type of event, one of LOGIN, LOGOUT, STATE\_CHANGE, or HEART\_BEAT\.  | 
-|  PreviousAgentSnapshot  |  `AgentSnapshot` object  |  Contains agent configuration, such as username, first name, last name, routing profile, hierarchy groups\), contacts, and agent status\. Not applicable to Login or Logout events\.  | 
-|  CurrentAgentSnapshot  |  `AgentSnapshot` object  |  Contains agent configuration, such as username, first name, last name, routing profile, hierarchy groups, contacts, and agent status\.  | 
+**AWSAccountId**  
+The 12\-digit AWS account ID for the AWS account associated with the Amazon Connect instance\.  
+Type: String
 
-The following table describes the properties of the `AgentSnapshot` object\.
+**CurrentAgentSnapshot**  
+Contains agent configuration, such as username, first name, last name, routing profile, hierarchy groups, contacts, and agent status\.  
+Type: `AgentSnapshot` object
 
+**EventId**  
+Universally unique identifier \(UUID\) for the event\.  
+Type: String
 
-| Field | Type | Description | 
-| --- | --- | --- | 
-|  Configuration  |  `Configuration` object\.  |  Information about the agent, including: Username FirstName LastName RoutingProfile HierarchyGroups  | 
-|  AgentStatus  |  `AgentStatus` object  |  Agent status data, including: AgentARN \- the ARN for the agent status\. Name \- the name of the status, such as Available or Offline\.  | 
-|  Contacts  |  List of `Contact` objects  |  List of contacts  | 
+**EventTimestamp**  
+A time stamp for the event, in ISO 8601 standard format\.  
+Type: String \(*yyyy*\-*mm*\-*dd*T*hh*:*mm*:*ss*Z\)
 
-The following table describes the `Configuration` object properties\.
+**EventType**  
+The type of event\.   
+Valid values: `STATE_CHANGE` \| `HEART_BEAT` \| `LOGIN` \| `LOGOUT` 
 
+**InstanceARN**  
+Amazon Resource Name for the Amazon Connect instance in which the agent’s user account is created\.  
+Type: ARN
 
-| Field | Type | Description | 
-| --- | --- | --- | 
-|  UserName  |  String  |  The user name for the agent’s Amazon Connect user account\.  | 
-|  FirstName  |  String  |  The first name entered in the agent's Amazon Connect account\.  | 
-|  LastName  |  String  |  The last name entered in the agent's Amazon Connect account\.  | 
-|  RoutingProfile  |  `RoutingProfile` object\.  |  The routing profile for the agent associated with the event\.  | 
-|  HierarchyGroups  |  `HierarchyGroups` object\.  |  The hierarchy group, up to five levels of group, for the agent associated with the event\.  | 
+**PreviousAgentSnapshot**  
+Contains agent configuration, such as username, first name, last name, routing profile, hierarchy groups\), contacts, and agent status\. Not applicable to LOGIN or LOGOUT events\.  
+Type: `AgentSnapshot` object
 
-The following table describes the `AgentStatus` object properties\.
+**Version**  
+The version of the agent event stream in date format, such as 2017\-10\-10\.  
+Type: String
 
+### AgentSnapshot<a name="AgentSnapshot"></a>
 
-| Field | Type | Description | 
-| --- | --- | --- | 
-|  ARN  |  String  |  The Amazon Resource Name for the agent status\.  | 
-|  Name  |  String  |  The name of the status event\. Values include the following plus any custom values you have defined: Available Offline  | 
-|  StartTimestamp  |  Timestamp  |  The time at which the agent event occurred, in ISO 8601 format\. This is the time at which the agent changed from one status to another\.  | 
+The `AgentSnapshot` object includes the following properties:
 
-The following table describes the `RoutingProfile` object properties\.
+**AgentStatus**  
+Agent status data, including:  
++ AgentARN—the ARN for the agent\.
++ Name—the name of the status, such as Available or Offline\.
+Type: `AgentStatus` object\.
 
+**Configuration**  
+Information about the agent, including:   
++ FirstName—the agent's first name\.
++ HierarchyGroups—the hierarchy group the agent is assigned to, if any\.
++ LastName—the agent's last name\.
++ RoutingProfile—the routing profile the agent is assigned to\.
++ Username—the agent's Amazon Connect user name\.
+Type: `Configuration` object
 
-| Field | Type | Description | 
-| --- | --- | --- | 
-|  ARN  |  String  |  Amazon Resource Name for the agent's routing profile\.  | 
-|  Name  |  String  |  The name of the routing profile\.  | 
-|  InboundQueues  |  List of `Queue` objects\.  |  A list of `Queue` objects associated with the agent's routing profile\.  | 
-|  DefaultOutboundQueue  |  `Queue` object  |  The default outbound queue for the agent's routing profile\.  | 
+**Contacts**  
+List of contacts  
+Type: `ContactList` object
 
-The following table describes the `Queue` object properties\.
+### Configuration<a name="Configuration"></a>
 
+The `Configuration` object includes the following properties:
 
-| Field | Type | Description | 
-| --- | --- | --- | 
-|  ARN  |  String  |  Amazon Resource Name for the queue\.  | 
-|  Name  |  String  |  The name of the queue\.  | 
+**FirstName**  
+The first name entered in the agent's Amazon Connect account\.  
+Type: String  
+Length: 1\-100
 
-The following table describes the `HierarchyGroups` object properties\.
+**AgentHierarchyGroups**  
+The hierarchy group, up to five levels of grouping, for the agent associated with the event\.  
+Type: `AgentHierarchyGroups` object
 
+**LastName**  
+The last name entered in the agent's Amazon Connect account\.  
+Type: String  
+Length: 1\-100
 
-| Field | Type | Description | 
-| --- | --- | --- | 
-|  Level1  |  `HierarchyGroup` object\.  |  Includes details for Level1 of the hierarchy assigned to the agent\.  | 
-|  Level2  |  `HierarchyGroup` object  |  Includes details for Level2 of the hierarchy assigned to the agent\.  | 
-|  Level3  |  `HierarchyGroup` object  |  Includes details for Level3 of the hierarchy assigned to the agent\.  | 
-|  Level4  |  `HierarchyGroup` object  |  Includes details for Level4 of the hierarchy assigned to the agent\.  | 
-|  Level5  |  `HierarchyGroup` object  |  Includes details for Level5 of the hierarchy assigned to the agent\.  | 
+**RoutingProfile**  
+The routing profile assigned to the agent associated with the event\.  
+Type: `RoutingProfile` object\.
 
-The following table describes the `HierarchyGroup` object properties\.
+**Username**  
+The user name for the agent’s Amazon Connect user account\.  
+Type: String  
+Length: 1\-100
 
+### Contact Object<a name="Contact"></a>
 
-| Field | Type | Description | 
-| --- | --- | --- | 
-|  ARN  |  String  |  The Amazon Resource Name for the agent hierarchy\.  | 
-|  Name  |  String  |  The name of the hierarchy group\.  | 
+The `Contact` object includes the following properties:
 
-The following table describes the `Contact` object properties\.
+**ContactId**  
+UUID identifier for the contact  
+Type: String  
+Length: 1\-256
 
+**InitialContactId**  
+The `ContactId` of the original contact that was transferred\.  
+Type: String  
+Length: 1\-256
 
-| Field | Type | Description | 
-| --- | --- | --- | 
-|  ContactId  |  String  |  UUID identifier for the contact  | 
-|  InitialContactId  |  String  |  The ContactId of the original contact that was transferred\.  | 
-|  Channel  |  String  |  Enumeration of the method of communication, such as Voice\.  | 
-|  InitiationMethod  |  String  |  Enumeration of how the contact was initiated: Inbound Outbound Transfer Callback  | 
-|  State  |  String  |  An enumeration of the state of the contact: INCOMING PENDING CONNECTING CONNECTED CONNECTED\_ONHOLD MISSED ERROR ENDED  | 
-|  StateStartTimestamp  |  String  |  A time stamp for the time at which the contact entered the State\.  | 
-|  ConnectedToAgentTimestamp  |  String  |  A time stamp for the time the contact was connected to an agent\.  | 
-|  QueueTimestamp  |  String  |  A time stamp for the time at which the contact was put into a queue\.  | 
-|  Queue  |  Queue object  |  The queue the contact was placed in\.  | 
+**Channel**  
+Enumeration of the method of communication, such as Voice\.  
+Valid values: `VOICE`
+
+**InitiationMethod**  
+How the contact was initiated\.  
+Valid values: `INBOUND` \| `OUTBOUND` \| `TRANSFER` \| `CALLBACK` \| `API` 
+
+**State**  
+An enumeration of the state of the contact\.  
+Valid values: `INCOMING` \| `PENDING` \| `CONNECTING` \| `CONNECTED` \| `CONNECTED_ONHOLD` \| `MISSED` \| `ERROR` \| `ENDED` 
+
+**StateStartTimestamp**  
+A time stamp for the time at which the contact entered the State\.  
+Type: String \(*yyyy*\-*mm*\-*dd*T*hh*:*mm*:*ss*Z\)
+
+**ConnectedToAgentTimestamp**  
+A time stamp for the time the contact was connected to an agent\.   
+Type: String \(*yyyy*\-*mm*\-*dd*T*hh*:*mm*:*ss*Z\)
+
+**QueueTimestamp**  
+A time stamp for the time at which the contact was put into a queue\.  
+Type: String \(*yyyy*\-*mm*\-*dd*T*hh*:*mm*:*ss*Z\)
+
+**Queue**  
+The queue the contact was placed in\.  
+Type: `Queue` object
+
+### HierarchyGroup Object<a name="Hierarchygroup-object"></a>
+
+The `HierarchyGroup` object includes the following properties:
+
+ARN  
+The Amazon Resource Name for the agent hierarchy\.  
+Type: String
+
+Name  
+The name of the hierarchy group\.  
+Type: String
+
+### AgentHierarchyGroups Object<a name="Hierarchygroups-object"></a>
+
+The `AgentHierarchyGroups` object includes the following properties:
+
+Level1  
+Includes details for Level1 of the hierarchy assigned to the agent\.  
+Type: `HierarchyGroup` object
+
+Level2  
+Includes details for Level2 of the hierarchy assigned to the agent\.  
+Type: `HierarchyGroup` object
+
+Level3  
+Includes details for Level3 of the hierarchy assigned to the agent\.  
+Type: `HierarchyGroup` ob4ject
+
+Level4  
+Includes details for Level4 of the hierarchy assigned to the agent\.  
+Type: `HierarchyGroup` object
+
+Level5  
+Includes details for Level5 of the hierarchy assigned to the agent\.  
+Type: `HierarchyGroup` object
+
+### Queue Object<a name="queue-object"></a>
+
+The `Queue` object includes the following properties:
+
+ARN  
+Amazon Resource Name for the queue\.  
+Type: String
+
+Name  
+The name of the queue\.  
+Type: String
+
+### RoutingProfile Object<a name="routingprofile"></a>
+
+The `RoutingProfile` object includes the following properties:
+
+ARN  
+Amazon Resource Name for the agent's routing profile\.  
+Type: String
+
+Name  
+The name of the routing profile\.  
+Type: String
+
+InboundQueues  
+A list of `Queue` objects associated with the agent's routing profile\.  
+Type: List of `Queue` object
+
+DefaultOutboundQueue  
+The default outbound queue for the agent's routing profile\.  
+Type: `Queue` object
