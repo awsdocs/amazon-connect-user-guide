@@ -49,19 +49,17 @@ Before agents can use the CCP, check the following configurations:
 + **Microphone**—Ensure that the microphone settings are always enabled\.
 + **Dialing**—In **Settings**, you can configure the softphone to dial a DID desk phone if required\. When you choose a desk phone, enter the DID number to which calls go\.
 
+### Softphone CCP IP Address Ranges<a name="ccp-ip-ranges"></a>
+
 Agents can log in using the URL, user name, and password provided by their Amazon Connect administrator\. Each agent has a unique user name and password\.
 
-If agents are using a softphone, the IP address used must be in the IP address range for the region where you created your Amazon Connect instance\. The following table lists the supported IP address ranges for each region\. You should allow access for all addresses in both of the ranges listed in the table\.
+If agents are using a softphone, the IP address used must be in the IP address range for the region where you created your Amazon Connect instance\. The IP addresses used by Amazon Connect in each region are listed, along with the addresses for all AWS services, in the [https://ip\-ranges\.amazonaws\.com/ip\-ranges\.json](https://ip-ranges.amazonaws.com/ip-ranges.json) file with the service name AMAZON\_CONNECT\.
 
-For agents to use the CCP, you also need to allow access for the softphone signaling endpoints, which are hosted in Amazon EC2\. For information about the IP ranges used by Amazon EC2, see [https://ip\-ranges\.amazonaws\.com/ip\-ranges\.json](https://ip-ranges.amazonaws.com/ip-ranges.json)\.
+You should allow UDP traffic on port 3478 for all addresses listed for the region in which you created your instance\.
 
+For more information, see [AWS IP Address Ranges](http://docs.aws.amazon.com/general/latest/gr/aws-ip-ranges.html) in the Amazon Web Services General Reference\.
 
-| Region | IP Address | Port | 
-| --- | --- | --- | 
-| US\-EAST\-1 | 52\.55\.191\.224/27 18\.233\.213\.128/25 | 3478 \(UDP\) | 
-| US\-WEST\-2 | 54\.190\.198\.32/28 18\.236\.61\.0/25 | 3478 \(UDP\) | 
-| AP\-SOUTHEAST\-2 | 13\.210\.2\.192/26 13\.236\.8\.0/25 | 3478 \(UDP\) | 
-| EU\-CENTRAL\-1 | 35\.158\.127\.64/26 18\.184\.2\.128/25 | 3478 \(UDP\) | 
+For agents to use the CCP, you also need to allow access for the softphone signaling endpoints, which are hosted in Amazon EC2\.
 
 ### Status Settings<a name="status"></a>
 

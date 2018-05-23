@@ -36,7 +36,7 @@ Choose **View historical changes** to view the change history\. You can filter c
 
 ## Managing Agent Status<a name="agent-status"></a>
 
-Agent status is used for reporting and metrics, as well as resource management\. Amazon Connect provides default editable states, but custom status values can be added\. Customized agent status values are auxiliary by default\. For more information, see [Working with Reporting and Metrics](working-metrics.md)\.
+Agent status is used for reporting and metrics, as well as resource management\. Amazon Connect provides default editable states, but custom status values can be added\. Customized agent status values are auxiliary by default\.
 
 **To add a new agent status**
 

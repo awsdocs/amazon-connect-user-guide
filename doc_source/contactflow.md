@@ -1,5 +1,11 @@
 # Understanding Contact Flows<a name="contactflow"></a>
 
+**Topics**
++ [Contact Block Definitions](#contact-blocks)
++ [Creating Contact Flows](#create-contact-flow)
++ [Contact Flow Logs](#contact-flow-logs)
++ [Contact Flow Import/Export](#contact-flow-import-export)
+
 A contact flow defines each step of the experience customers have when they interact with your contact center\.
 
 You can create a contact flow using the contact flow templates provided\. You can also create your own contact flow from scratch, using the **Create contact flow** editor\.
@@ -27,7 +33,7 @@ When you set **User Defined** or **External** values in dynamic attribute fields
 | Block | Action | Description | 
 | --- | --- | --- | 
 |  Play prompt  |  Plays audio\.  |  Prompts can be an audio file, stored in the prompt library, or text\-to\-speech, which can optionally be specified in a flow via a contact attribute\. If you use text\-to\-speech, you can use a maximum of 1,024 characters\.  | 
-|  Get customer input  |  Branches based on customer intent\.  |  Plays an interruptible audio prompt and branches based on DTMF or Amazon Lex intents\. If you use text\-to\-speech, you can use a maximum of 1,024 characters\.  | 
+|  Get customer input  |  Branches based on customer intent\.  |  Plays an interruptible audio prompt and branches based on DTMF or Amazon Lex intents\. If you use text\-to\-speech, you can use a maximum of 1,024 characters\. Amazon Lex bots support both spoken utterances and keypad input when used in a contact flow\.  | 
 |  Store customer input  |  Stores numerical input to contact attribute\.  |  Plays an interruptible audio prompt and stores digits via DTMF as a contact attribute\. To enable encryption, contact your system administrator to add a public signing key to the **Contact flow security keys** settings of your Amazon Connect instance\.  | 
 |  Loop prompts  |  Loops a sequence of prompts while a customer or agent is on hold or in queue\.  |  When **Loop prompts** is used in a queue flow, audio playback can be interrupted with a flow at preset times\.  | 
 |  Hold customer or agent  |  Places a customer or agent on or off hold\.  |  Settings: Agent on hold / customer on call Customer on hold / agent on call Agent and customer on call  | 
