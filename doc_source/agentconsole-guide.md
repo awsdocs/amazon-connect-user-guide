@@ -61,6 +61,8 @@ For more information, see [AWS IP Address Ranges](http://docs.aws.amazon.com/gen
 
 For agents to use the CCP, you also need to allow access for the softphone signaling endpoints, which are hosted in Amazon EC2\.
 
+When there are new IP address ranges supported for Amazon Connect, they are added to the publicly available [ip\-ranges\.json](https://ip-ranges.amazonaws.com/ip-ranges.json) for a minimum of 30 days before they are used by the service\. After 30 days, softphone traffic through the new IP address ranges increases over the subsequent two weeks\. After two weeks, traffic is routed through the new ranges equivalent to all available ranges\.
+
 ### Status Settings<a name="status"></a>
 
 The status settings are used for reporting purposes to ensure that system issues are resolved quickly and to manage resources\.

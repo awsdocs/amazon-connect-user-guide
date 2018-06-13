@@ -26,13 +26,13 @@ Routing Profiles reports display data about activity in your contact center grou
 
 ## To create a real\-time metrics report
 
-1. Log in to your contact center using an account that has at least Access permission for Access metrics\. The QualityAnalyst and CallCenterManager security profiles include this permission\.
+1. Log in to your contact center using an account that has at least Access permission for Access metrics\. The **QualityAnalyst** and **CallCenterManager** security profiles include this permission\.
 
-1. Choose Metrics and Quality, Real\-time metrics\.
+1. Choose **Metrics and Quality**, **Real\-time metrics**\.
 
-1. Choose the report type to create, Queues, Agents, or Routing profiles\.
+1. Choose the report type to create, **Queues**, **Agents**, or **Routing profiles**\.
 
-1. Optionally, select the number of rows to include per page, 5, 10, 20, or 50\.
+1. Optionally, select the number of rows to include per page, **5**, **10**, **20**, or **50**\.
 
 1. Customize the report to provide the view of your contact center that you want\. For more information, see [Customize Real\-time Metrics Reports](#customize-real-time-reports)\.
 
@@ -173,7 +173,7 @@ The following metrics are available to include in reports, but are not included 
 + **Handled out**—Number of outbound contacts in the queue during the specified time range that were handled by an agent\.
 + **Hold abandons**—Number of contact that disconnected while the customer was on hold\. A disconnect could be because the customer hung up while on hold, or that there was a technical issue with the contact while on hold\.
 + **Consult**—Number of contacts in the queue that were handled by an agent, and the agent consulted with another agent or call center manager during the contact\. 
-+ **Max Queued**—Maximum number of contacts in the queue during the time range\. This includes any contact that was added to the queue, even if the contact was not connected with an agent, such as abandoned contacts\.
++ **Max Queued**—The longest amount of time that a contact spent in the queue before being connected to an agent or hanging up the call before being connected to an agent\. This includes any contact that was added to the queue, even if the contact was not connected with an agent, such as abandoned contacts\.
 + **Missed**—Number of contacts added to the queue but not answered by agents\. This does not include abandoned contacts\. 
 + **Avg abandon time**—Average amount of time, in seconds, that abandoned contacts were in the queue before being abandoned\.
 + **Avg queue answer time**—Average amount of time, in seconds, that a contact was in the queue before being answered by an agent\. This is calculated using only the amount of time that the contact was in the queue, and not any time the contact spent in prior steps of the contact flow, such as listening or responding to prompts\.

@@ -87,7 +87,7 @@ If you want to create a new dashboard, you can remove all of the report tables y
 
 When you change the settings for a report you have open, the report displayed on the page is updated to reflect the new settings, but those settings changes to not affect the default report displayed\. You can save the changes to a new report, and then open that report from the Saved reports page\. You can also set a schedule for the report to generate a report with your settings with the recurrence you define\. 
 
-Note that scheduling a report also makes the report accessible by any other users in your Amazon Connect instance that have permissions to view Saved reports\. Any user with sufficient permissions can also modify your scheduled report\. Scheduled reports are saved as \.csv files in the Amazon Simple Storage Service \(Amazon S3\) bucket defined for reports in your instance\. You can choose to add a prefix to the report files sent to Amazon S3 on the **Delivery Options** tab of the Schedule Report settings\.
+Note that scheduling a report also makes the report accessible by any other users in your Amazon Connect instance that have permissions to view Saved reports\. Any user with sufficient permissions can also modify your scheduled report\. Scheduled reports are saved as \.csv files in the Amazon Simple Storage Service \(Amazon S3\) bucket defined for reports in your instance\. You can choose to add a prefix to the report files sent to Amazon S3 on the **Delivery Options** tab of the **Schedule Report** settings\.
 
 **Important**  
 For scheduled reports, there is a delay of 15 minutes after the scheduled report time before the report is generated\. This is to ensure that the report includes all of the data about activity that occurred during the time range specified for the report\. Data from your contact center is not immediately processed and available to include in reports, so some data from the time range may not be captured in a report if the report is generated at the second the time range ends\. For example, if you create a scheduled report for time frame of 8:00 AM to 5:00 PM, and there is activity in your contact center between 4:46:00 PM and 4:59:59 PM, the data about that activity may not be aggregated prior 5:00 PM when the report is scheduled to generate\. Instead, the report is generated after 5:15 PM, by which time the data for the last 15 minutes of the time range is included in the report\.
@@ -164,8 +164,6 @@ You can customize the metrics reports to get the view of your contact center tha
 
 You can select filters for your report to limit the data included in a report to a specific category, such as queue or routing profile\. When you select filters, the numbers of filters you selected is displayed next to the filter category\. The fields available to select for filtering depends on the grouping selected for a report\.
 
-add image
-
 You must select at least one metric for a report\. An exclamation point \(\!\) is displayed next to any metrics displayed next to metrics that are not available to include in the report with the selected grouping\. 
 
 You can filter on the following categories:
@@ -199,8 +197,9 @@ Sum of the amount of time spent in After Contact Work \(ACW\) status after handl
 You can specify an After call work timeout value in user profiles\.
 
 **Agent on contact time**  
-Sum of time that an agent was on a contact, including hold time and after call work\. This is calculated with the following formula:  
-`Agent on Contact time = AgentInteractionDuration + CustomerHoldDuration + After contact work time` \(including callbacks\)\.
+Sum of time that an agent was on a contact, including hold time and after call work\. Most of the time, this is calculated with the following formula:  
+`Agent on Contact time = AgentInteractionDuration + CustomerHoldDuration + After contact work time` \(including callbacks\)\.  
+In some cases, the value reported for this metric also includes agent time spent in an auxiliary state\. The time in the auxiliary state is included in the metric value, but not available in the CTR or as a separate metric\.
 
 **Agent idle time**  
 Sum of time that an agent spent in a productive status, but not handling contacts\. A productive status is any status other than **Offline** or any custom agent status that you create\.
@@ -281,7 +280,7 @@ Count of contacts handled by an agent, including both incoming and outgoing cont
 Count of incoming contacts handled by an agent\.
 
 **Contacts handled outbound**  
-Count of outbound contacts that were handled by an agent\. This includes contact that were initiated using the StartOutboundVoiceContact operation in the Amazon Connect API\.
+Count of outbound contacts that were handled by an agent\. This includes contacts that were initiated using the StartOutboundVoiceContact operation in the Amazon Connect API\.
 
 **Contacts put on hold**  
 Count of contacts put on hold by an agent one or more times\.
