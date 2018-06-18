@@ -22,6 +22,7 @@ Amazon's trademarks and trade dress may not be used in
    + [Working with Hierarchies](contact-management.md)
    + [Login/Logout Reports](loginlogout-report.md)
    + [Agent Event Streams](agent-event-streams.md)
++ [Amazon Connect Contact Attributes](contact-attributes.md)
 + [Amazon Connect Metrics and Reports](connect-metrics.md)
    + [Real-time Metrics Reports](real-time-metrics-reports.md)
    + [Historical Metrics Reports](historical-metrics.md)
