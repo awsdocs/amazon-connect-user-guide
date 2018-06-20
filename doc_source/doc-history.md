@@ -1,13 +1,13 @@
 # Document History<a name="doc-history"></a>
 
-The following table describes the important changes to the documentation since the last release of Amazon Connect\.
-+ **Latest documentation update:** December 15, 2017 
+The following table describes the additions and updates to the documentation\.
++ **Latest documentation update:**June 18, 2018 
 
 
 | Change | Description | Date | 
 | --- | --- | --- | 
-| Added content for contact attributes\. | Published a new topic on contact attributes and new system metrics atrtributes in Amazon Connect, including the new Get metrics block\. For more information, see [Amazon Connect Contact Attributes](contact-attributes.md) | June 18, 2018 | 
-| Replaced the content on metrics and reports with new content\. | The previous metrics content was replaced with new content, including Real\-time and Historical metrics reports and metric descriptions, working with reports, and the Contact Trace Record \(CTR\) data model\. For more information, see [Amazon Connect Metrics and Reports](connect-metrics.md) | May 22, 2018 | 
+| Added content for contact attributes\. | Published a new topic on contact attributes and new system metrics atrtributes in Amazon Connect, including the new Get metrics block\. For more information, see [Amazon Connect Contact Attributes](contact-attributes.md)\. | June 18, 2018 | 
+| Replaced the content on metrics and reports with new content\. | The previous metrics content was replaced with new content, including Real\-time and Historical metrics reports and metric descriptions, working with reports, and the Contact Trace Record \(CTR\) data model\. For more information, see [Amazon Connect Metrics and Reports](connect-metrics.md)\. | May 22, 2018 | 
 | Updated the data model content for agent event streams\. | Updated the agent event streams data model content to use a new format, and change HierarchyGroups to AgentHierarchyGroups\. For more information, see [Agent Event Streams Data Model](agent-event-streams.md#agent-event-stream-model)\. | April 20, 2018 | 
 | Added additional IP ranges for softphones\. | Updated the list of IP address ranges required for using the softphone in the CCP\. For more information, see [Set up Softphones and Desk Phones](agentconsole-guide.md#phone-settings)\. | March 30, 2018 | 
 | Added Manager listen\-in | Added steps to configure and enable a manager to listen in on agent calls\. For more information, see [How to Enable Manager Listen\-in](agentconsole-guide.md#manager-listen-in)\. | December 10, 2017 | 

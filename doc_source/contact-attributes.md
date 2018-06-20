@@ -192,9 +192,9 @@ $\.Lex\.Slots\.slotName where slotName is the name of the slot to reference in t
 
 ## Using System Metric Attributes<a name="attrib-system-metrics"></a>
 
-Amazon Connect includes system metric attributes that can help you define routing conditions in your contact flows based on real\-time metrics about the queues and agents in your contact center\. When you include a **Get metrics** block in your contact flow, metrics are retrieved for the current working queue, or other queue that you specify\.
+Amazon Connect includes system metric attributes that can help you define routing conditions in your contact flows based on real\-time metrics about the queues and agents in your contact center\. When you include a **Get metrics** block in your contact flow, metrics are retrieved for the current working queue, or other queue that you specify, and returned as attributes in the Metrics namespace\.
 
-You can reference the metric attributes returned to determine the optimal route for a contact by checking current queue metrics, such as the number of contacts currently in a queue, the number of available agents in a queue, and the length of time the oldest contact has been in a queue\. You could even get metrics for multiple queues and use a **Set contact attributes** block to store the metric attributes\. You could then compare queue metric attributes using a **Check contact attributes** block, and route the contact to the queue with the fewest calls in it, or to a callback if all queues are busy\. To learn more about the metric attributes available, see [System Metrics Attributes](#attribs-system-metrics-table)\.
+You can reference the metric attributes returned to determine the optimal route for a contact by checking current queue metrics, such as the number of contacts currently in a queue, the number of available agents in a queue, and the length of time the oldest contact has been in a queue\. You could even get metrics for multiple queues and use a **Set contact attributes** block to store the metric attributes for each queue\. You could then compare queue metric attributes using a **Check contact attributes** block, and route the contact to the queue with the fewest calls in it, or to a callback if all queues are busy\. To learn more about the metric attributes available, see [System Metrics Attributes](#attribs-system-metrics-table)\.
 
 **To use system metrics attributes in a contact flow**
 
@@ -210,11 +210,23 @@ You can reference the metric attributes returned to determine the optimal route 
 
    If you do not select a queue, metrics are retrieved for the current working queue\.
 
+1. Copy the metric attributes to user\-defined attributes by adding a **Set contact attributes** block to the contact flow\. Connect the **Success** branch of the **Get metrics** block to it\.
+
+1. Edit the **Set contact attributes** block, and select **Save text as attribute**\. For the **Destination key**, type a name for to use for the attribute, such as queueCount for the number of contacts currently in the queue\. For **Value**, type the reference to the metric attribute in the metric namespace, such as $\.Metrics\.Queue\.Count\.
+
+   This creates a user\-defined attribute named queueCount that stores the value for the queue count metric\.
+
 1. Add a **Check contact attributes** block and connect the **Success** branch of the **Get metrics** block to it\.
 
-1. In the **Check contact attributes** block, specify the metric attribute to use, and then add conditions to check the value against like any other attribute\.
+1. To create a branching condition based on the value of the metric, now a user\-defined attribute, add a **Check contact attributes** block to the contact flow\. Connect the Success branch of the Set contact attributes block to the Check contact attributes block\.
 
-1. Add additional blocks to the contact flow and route the contact based on the result of the conditions checked\.
+1. Edit the **Check contact attributes** block\. Under **Attribute to check**, choose **User Defined**\. In the second field, type the reference to the metric attribute to copy, such as $\.Metrics\.Queue\.Size\.
+
+1. For the **Conditions to check**, choose the conditions to compare the attribute value to, and then type a value in the **Value** field\.
+
+1. Add additional blocks to the contact flow, connecting the branch of the Check contact attributes block to route the call to the next block in the flow\. 
+
+Be sure to save and publish the contact flow to make it available in your contact center\.
 
 ## Contact Attributes Available in Amazon Connect<a name="connect-attrib-list"></a>
 
@@ -256,9 +268,9 @@ The following table lists the attributes available from Amazon Lex bots\.
 
 | Attribute | Description | Type | 
 | --- | --- | --- | 
-| dialogState  | The last dialog state returned from an Amazon Lex bot\. The value is 'Fulfilled' if an Intent was returned to the contact flow\. | External | 
-| intentName  | The user intent returned by Amazon Lex\. | External | 
-| Slots  | Map of intent slots \(key/value pairs\) Amazon Lex detected from the user input during the interaction\. | External | 
+| dialogState | The last dialog state returned from an Amazon Lex bot\. The value is 'Fulfilled' if an Intent was returned to the contact flow\. | External | 
+| intentName | The user intent returned by Amazon Lex\. | External | 
+| Slots | Map of intent slots \(key/value pairs\) Amazon Lex detected from the user input during the interaction\. | External | 
 | sessionAttribute | Map of key\-value pairs representing the session\-specific context information\. | External | 
 
 ## System Metrics Attributes<a name="attribs-system-metrics-table"></a>
