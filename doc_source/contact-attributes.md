@@ -46,7 +46,7 @@ There are four system attributes related to contacts available in contact flow b
 
 ## External Attributes<a name="external-attributes"></a>
 
-External attributes are returned as key\-value pairs from the most recent invocation of an **Invoke AWS Lambda function** block\. External attributes are overwritten with each invocation of the Lambda function\. You can access external attributes in contact flows via $\.External\.AttributeName\. For more information about using attributes in Lambda functions, see [Granting Amazon Connect Access to AWS Lambda Functions](http://docs.aws.amazon.com//connect-lambda-functions.html)\.
+External attributes are returned as key\-value pairs from the most recent invocation of an **Invoke AWS Lambda function** block\. External attributes are overwritten with each invocation of the Lambda function\. You can access external attributes in contact flows via $\.External\.AttributeName\. For more information about using attributes in Lambda functions, see [Using AWS Lambda Functions with Amazon Connect](http://docs.aws.amazon.com/connect/latest/adminguide/connect-lambda-functions.html)\.
 
 These attributes are not included in CTRs, not passed to the next Lambda invocation, and not passed to the CCP for screenpop information\. However, they can be passed as Lambda function inputs on an **Invoke AWS Lambda function** block, or copied to user\-defined attributes via the **Set contact attributes** block\. When used in **Set contact attributes** blocks, the attributes that are copied are included in CTRs, and can be used in the CCP\.
 
@@ -218,13 +218,13 @@ You can reference the metric attributes returned to determine the optimal route 
 
 1. Add a **Check contact attributes** block and connect the **Success** branch of the **Get metrics** block to it\.
 
-1. To create a branching condition based on the value of the metric, now a user\-defined attribute, add a **Check contact attributes** block to the contact flow\. Connect the Success branch of the Set contact attributes block to the Check contact attributes block\.
+1. To create a branching condition based on the value of the metric, now a user\-defined attribute, add a **Check contact attributes** block to the contact flow\. Connect the Success branch of the Set contact attributes block to the **Check contact attributes** block\.
 
-1. Edit the **Check contact attributes** block\. Under **Attribute to check**, choose **User Defined**\. In the second field, type the reference to the metric attribute to copy, such as $\.Metrics\.Queue\.Size\.
+1. Edit the **Check contact attributes** block\. Under **Attribute to check**, choose **User Defined**\. In the second field, type the reference to the user\-defined attribute created, such as queueCount\.
 
 1. For the **Conditions to check**, choose the conditions to compare the attribute value to, and then type a value in the **Value** field\.
 
-1. Add additional blocks to the contact flow, connecting the branch of the Check contact attributes block to route the call to the next block in the flow\. 
+1. Add additional blocks to the contact flow, connecting the branch of the **Check contact attributes** block to route the call to the next block in the flow\. 
 
 Be sure to save and publish the contact flow to make it available in your contact center\.
 
@@ -280,24 +280,6 @@ The metrics attributes in the following table are returned when you use the **Ge
 
 | Attribute | Description | Type | 
 | --- | --- | --- | 
-| Queue\.Name | The name of the queue\. | System | 
-| Queue\.ARN | The ARN for the queue\. | System | 
-| TextToSpeechVoiceId | The name of the voice to use for text\-to\-speech\. | System | 
-| ContactId | The unique identifier of the contact\. | System | 
-| InitialContactId | The unique identifier for the first contact a customer had with your contact center\. Use the InitialContactId to track contacts between contact flows\. | System | 
-| PreviousContactId | The unique identifier for the contact before it was transferred\. Use the PreviousContactId to trace contacts between contact flows\. | System | 
-| Channel | The method of contact\. Currently, only VOICE is supported in Amazon Connect\. | System | 
-| InstanceARN | The ARN for your Amazon Connect instance\. | System | 
-| InitiationMethod | How the contact was initiated\. Valid values include: INBOUND, OUTBOUND, TRANSFER, or CALLBACK\. | System | 
-| SystemEndpoint\.Type | The type of endpoint for a contact\. Currently only TELEPHONE\_NUMBER is supported\. | System | 
-| SystemEndpoint\.Address | The value for the system endpoint\. Currently only a telephone number is supported\. | System | 
-| CustomerEndpoint\.Type | The type of endpoint for the customer\. Currently only TELEPHONE\_NUMBER is supported\. | System | 
-| CustomerEndpoint\.Address | The value for the customer endpoint\. Currently only a telephone number is supported\. | System | 
-| Queue\.OutboundCallerId | The outbound caller ID number defined for the queue\. This can be useful for reverting the caller ID after setting a custom caller ID\. | System | 
-| Agent\.UserName | The user name an agent uses to log in to Amazon Connect\. | System | 
-| Agent\.FirstName | The agent’s first name as entered in their Amazon Connect user account\.  | System | 
-| Agent\.LastName |  The agent’s last name as entered in their Amazon Connect user account\. | System | 
-| Agent\.ARN | The ARN of the agent\. | System | 
 | Metrics\.Queue\.Name | The name of the queue for which metrics were retrieved\. | System | 
 | Metrics\.Queue\.ARN | The ARN of the queue for which metrics were retrieved\. | System | 
 | Metrics\.Queue\.Size | The number of contacts currently in the queue\. | System | 

@@ -1,11 +1,11 @@
 # Document History<a name="doc-history"></a>
 
 The following table describes the additions and updates to the documentation\.
-+ **Latest documentation update:**June 18, 2018 
 
 
 | Change | Description | Date | 
 | --- | --- | --- | 
+| Add content for the new Call phone number block\. | Updated the content about contact flows to include the new Call phone number block, including how to use the block in a contact flow\. For more information, see [Using a **Call phone number** block in a contact flow](contactflow.md#using-call-number-block) | July 2, 1018 | 
 | Added content for contact attributes\. | Published a new topic on contact attributes and new system metrics atrtributes in Amazon Connect, including the new Get metrics block\. For more information, see [Amazon Connect Contact Attributes](contact-attributes.md)\. | June 18, 2018 | 
 | Replaced the content on metrics and reports with new content\. | The previous metrics content was replaced with new content, including Real\-time and Historical metrics reports and metric descriptions, working with reports, and the Contact Trace Record \(CTR\) data model\. For more information, see [Amazon Connect Metrics and Reports](connect-metrics.md)\. | May 22, 2018 | 
 | Updated the data model content for agent event streams\. | Updated the agent event streams data model content to use a new format, and change HierarchyGroups to AgentHierarchyGroups\. For more information, see [Agent Event Streams Data Model](agent-event-streams.md#agent-event-stream-model)\. | April 20, 2018 | 

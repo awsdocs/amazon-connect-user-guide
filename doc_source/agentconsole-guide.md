@@ -32,9 +32,11 @@ You can log in to the CCP using the link provided by the Amazon Connect administ
 
 Before agents can use the CCP to take calls, you configure permissions\. These permissions are edited in Amazon Connect, and cover a range of activities from generating reports to making calls\. The permissions also ensure that agents only see, and have access to, what's relevant to their job\. For more information, see [Managing User Profiles and Permissions](users.md#usermanagement)\.
 
-## Make International Calls<a name="international-calls-ccp"></a>
+## Use E\.164 Format for Telephone Numbers<a name="international-calls-ccp"></a>
 
-Making international calls using Amazon Connect is possible and the CCP provides the correct formatting for this automatically\.
+Amazon Connect requires phone numbers in [ E\.164](https://www.itu.int/rec/T-REC-E.164/en) format\. E\.164 is an international public telecommunication numbering plan defined by the International Telecommunication Union \(ITU\)\. Using phone numbers in E\.164 format ensures that numbers are interpreted consistently when placing calls between countries, and when phone numbers are passed between software applications and telephony services\.
+
+When you place calls from the CCP using Amazon Connect the CCP provides the correct formatting for numbers automatically\.
 
 E\.164 defines a general format for international telephone numbers\. Numbers are limited to a maximum of 15 digits, excluding the international call prefix\. The presentation of a number is usually prefixed with the plus sign \(\+\), indicating that the number includes the country calling code\. When dialing, the number must typically be prefixed with the appropriate international call prefix \(in place of the plus sign\), which is a trunk code to reach an international circuit from within the country of call origination\. Phone numbers that are not formatted in E\.164 may work, but it depends on the phone or handset that is being used as well as the carrier from which the call is being originated\.
 
@@ -53,9 +55,9 @@ Before agents can use the CCP, check the following configurations:
 
 Agents can log in using the URL, user name, and password provided by their Amazon Connect administrator\. Each agent has a unique user name and password\.
 
-If agents are using a softphone, the IP address used must be in the IP address range for the region where you created your Amazon Connect instance\. The IP addresses used by Amazon Connect in each region are listed, along with the addresses for all AWS services, in the [https://ip\-ranges\.amazonaws\.com/ip\-ranges\.json](https://ip-ranges.amazonaws.com/ip-ranges.json) file with the service name AMAZON\_CONNECT\.
+If agents use a softphone, the IP address used must be in the IP address range for the region where you created your Amazon Connect instance\. The IP addresses used by Amazon Connect in each region are listed, along with the addresses for all AWS services, in the [https://ip\-ranges\.amazonaws\.com/ip\-ranges\.json](https://ip-ranges.amazonaws.com/ip-ranges.json) file with the service name AMAZON\_CONNECT\.
 
-You should allow UDP traffic on port 3478 for all addresses listed for the region in which you created your instance\.
+You must allow UDP traffic in both directions on port 3478 for all addresses listed for the region in which you created your instance\. For web requests to the CCP, allow access on port 443 \(https\) in both directions\.
 
 For more information, see [AWS IP Address Ranges](http://docs.aws.amazon.com/general/latest/gr/aws-ip-ranges.html) in the Amazon Web Services General Reference\.
 

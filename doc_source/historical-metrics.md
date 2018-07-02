@@ -289,6 +289,9 @@ Count of contacts put on hold by an agent one or more times\.
 Count of contacts disconnected while the customer was on hold\. This includes both the agent and the customer ending the contact\. 
 
 **Contacts hold agent disconnect**  
+Count of contacts that were disconnected by the agent while the customer was on hold\.
+
+**Contacts hold customer disconnect**  
 Count of contacts that were disconnected by the customer while the customer was on hold\.
 
 **Contacts incoming**  

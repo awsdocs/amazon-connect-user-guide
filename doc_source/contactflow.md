@@ -3,6 +3,7 @@
 **Topics**
 + [Contact Block Definitions](#contact-blocks)
 + [Creating Contact Flows](#create-contact-flow)
++ [Using a **Call phone number** block in a contact flow](#using-call-number-block)
 + [Contact Flow Logs](#contact-flow-logs)
 + [Contact Flow Import/Export](#contact-flow-import-export)
 
@@ -37,6 +38,7 @@ When you set **User Defined** or **External** values in dynamic attribute fields
 |  Store customer input  |  Stores numerical input to contact attribute\.  |  Plays an interruptible audio prompt and stores digits via DTMF as a contact attribute\. To enable encryption, contact your system administrator to add a public signing key to the **Contact flow security keys** settings of your Amazon Connect instance\.  | 
 |  Loop prompts  |  Loops a sequence of prompts while a customer or agent is on hold or in queue\.  |  When **Loop prompts** is used in a queue flow, audio playback can be interrupted with a flow at preset times\.  | 
 |  Hold customer or agent  |  Places a customer or agent on or off hold\.  |  Settings: Agent on hold / customer on call Customer on hold / agent on call Agent and customer on call  | 
+| Call phone number | Initiates an outbound call from an outbound whisper flow\. | Use the **Call phone number** block to place an outbound call\. This block is supported only in outbound whisper flows\. You can optionally set the phone number displayed as the caller ID number to a number from your instance, or to a number using an attribute\. The number must be in E\.164 format\. | 
 
 ### Integrate<a name="contact-integrate"></a>
 
@@ -53,12 +55,11 @@ When you set **User Defined** or **External** values in dynamic attribute fields
 |  Set working queue  |  Specifies the queue to be used when **Transfer to queue** is invoked\.  |  A queue must be specified before invoking **Transfer to queue**\. It’s also the default queue for checking attributes, such as staffing, queue status, and hours of operation\. To use a Set queue block to set the queue dynamically, such as with contact attributes, you must specify the ARN for the queue rather than the queue name\. To find the ARN for a queue, open the queue in the queue editor\. The ARN is included as the last part of the URL displayed in the browser address bar after /queue\. For example, `.../queue/76f149bd-9edb-4128-b969-347f083d1501`\.   | 
 |  Set call recording behavior  |  Sets options for call recordings\.  |  Enables or disables call recording for the agent, customer, or both\.  | 
 |  Set contact attributes  |  Stores key\-value pairs as contact attributes\.  |  Contact attributes are accessible by other areas of Amazon Connect, such as the CCP and CTRs\.  | 
-| Get metrics | Retrieves real\-time metrics about queues and agents in your contact center and returns them as attributes\. | Use metrics attributes to define routing logic based on metric values, such as number of contact in a queue, number of available agents, and oldest contact in a queue\. For more information, see [Amazon Connect Contact Attributes](contact-attributes.md) | 
+| Get metrics | Retrieves real\-time metrics about queues and agents in your contact center and returns them as attributes\. | Use metrics attributes to define routing logic based on metric values, such as number of contact in a queue, number of available agents, and oldest contact in a queue\. For more information, see [Amazon Connect Contact Attributes](contact-attributes.md)\. | 
 |  Change queue priority/routing age  |  Alters the priority of the contact in queue\.  |  Routing age alters the time in queue for the contact, which determines its priority in comparison to when other contacts are received\. Queue priority sets the contact to a high priority that can be compared to other contacts that have a priority set \(typically between 1 and 1000\)\.   | 
 |  Set hold flow  |  Links from one contact flow type to another\.  |  Specifies the flow to invoke when a customer or agent is put on hold\.  | 
 |  Set whisper flow  |  Overrides the default whisper by linking to a whisper flow\.  |  Specifies the whisper to be played to customer on an outbound call, or to the customer or agent when the call is joined\.  | 
 |  Set callback number  |  Sets a callback number\.  |  Specifies the number to be used to call the customer back in the CCP, or when **Transfer to queue** is invoked with the callback option\. When specifying a phone number in Amazon Connect, the number must be in [E\.164 format](https://en.wikipedia.org/wiki/E.164)\. Numbers in E\.164 format do not include the leading zeroes you would dial for a local or regional call within the same country when dialing the number from a phone\. For example, if you usually dial 0400xxxxxx to place a call in Australia, the number in E\.164 format includes the country code of 61 and removes the leading zero for the number\. The number to use in Amazon Connect is **\+61400xxxxxx**\.  | 
-|  Set agent status  |  This allows for the setting of an agent status via a contact flow\.  |  For example, you can use this with **Store customer input** to set the agent status to **On hold** so they don’t hear the input from the customer during credit card entry\.  | 
 |  Set voice  |  Sets the voice\.  |  Sets the voice to interact with the customer, and optionally the voice if using text\-to\-speech \(TTS\)\.  | 
 |  Set customer queue flow  |  Set queue flow\.  |  Specifies the flow to invoke when a customer is transferred to a queue\.  | 
 
@@ -73,7 +74,7 @@ When you set **User Defined** or **External** values in dynamic attribute fields
 |  Check contact attributes  |  User\-based comparison checks\.  |  Branches based on a comparison to the value of a contact attribute\. Examples of supported comparisons include: **Equals**, **Is Greater Than**, **Is Less Than**, **Starts With**, **Contains**\.  | 
 |  Distribute by percentage  |  Routes customers randomly based on a percentage\.   |  Like flipping a coin, contacts are distributed randomly, which doesn’t guarantee exact percentage splits\.   | 
 
-### Terminate/Transfer<a name="contact-terminate"></a>
+### Terminate / Transfer<a name="contact-terminate"></a>
 
 
 | Block | Action | Description | 
@@ -83,7 +84,7 @@ When you set **User Defined** or **External** values in dynamic attribute fields
 |  Transfer to phone number  |  Transfers the customer\.  |  Ends the current contact flow and transfers the customer to a phone number\. If the country you want to select is not listed, you can submit a request to add countries you want to transfer calls to using the [Amazon Connect service limits increase form](https://console.aws.amazon.com/support/home#/case/create?issueType=service-limit-increase&limitType=service-code-connect)\.  | 
 |  Transfer to agent  |  Transfers the customer to an agent\.  |  Ends the current contact flow and transfers the customer to an agent\. If the agent is on a call, the contact is disconnected\.  | 
 |  Transfer to flow  |  Transfers the customer to another flow\.  |  Ends the current contact flow and transfers the customer to a flow of the same type, such as customer queue flow, customer hold flow, customer whisper flow, agent hold flow, agent whisper flow, transfer to agent flow, and transfer to queue flow\.   | 
-|  End flow/return from interruption  |  Ends the current flow without disconnecting the caller\.  |  This can be used to return to Loop prompts when it has been interrupted\. When **End flow/return from interruption** is invoked, the customer remains connected to the system\.  | 
+|  End flow / Resume  |  Ends the current flow without disconnecting the caller\.  |  This can be used to return to Loop prompts when it has been interrupted\. When **End flow / Resume** is invoked, the customer remains connected to the system\.  | 
 
 ## Creating Contact Flows<a name="create-contact-flow"></a>
 
@@ -118,6 +119,40 @@ For groups that support multiple branches, drag the connector to the appropriate
 All connectors must be connected to a block in order to successfully publish your contact flow\.
 
 A saved contact flow cannot be assigned to a number until it is published\.
+
+## Using a **Call phone number** block in a contact flow<a name="using-call-number-block"></a>
+
+Use the **Call phone number** block in an outbound whisper flow to initiate an outbound call to a customer and, optionally, specify a custom caller ID number that is displayed to call recipients\. This is useful when you have multiple telephone numbers used to make outbound calls, but want to consistently display the same company phone number for the caller ID for calls made from your contact center\. You can also use the block to display a phone number for a specific line of business, or for displaying different numbers to customers based on their account type\.
+
+When an outbound call is placed from your contact center, the number used to place the outbound call is the number selected as the **Outbound caller ID number** for the queue with which the outbound whisper flow is associated\. The caller ID number displayed to the call recipient is the number used to place the call\. In some cases, you may want to display a different number as the caller ID number for your organization\. For example, if you have customers in multiple geographic locations, you may want to display a number local to the area where your customers are\. Perhaps your organization has multiple lines of business serviced by a single set of agents, and want to display a different number from your instance for each line of business so that customers have the correct number to call back\.
+
+When you use a **Call phone number** block in an outbound whisper flow, you can optionally set the caller ID number for outbound calls\. You can select any phone number from your instance, or use an attribute to set the number dynamically during the contact flow\. The attribute can be a user\-defined attribute you create using a **Set contact attributes** block in the contact flow, or an external attribute returned from an AWS Lambda function\. When you use an attribute to set the number, the value of the attribute must be a phone number from your instance in E\.164 format\. If the number is not in E\.164 format, the number from the queue is used for the caller ID number\. If no number is set for the outbound caller ID number for the queue, the contact flow will not execute\.
+
+For more information about E\.164, see [Use E\.164 Format for Telephone Numbers](agentconsole-guide.md#international-calls-ccp)\.
+
+The **Call phone number** block is supported only in outbound whisper flow contact flows\. Only published contact flows can be selected as the outbound whisper flow for a queue\.
+
+### How it Works<a name="call-number-block-how-it-works"></a>
+
+Outbound whisper flows execute in Amazon Connect immediately after an agent accepts the call during direct dial and callback scenarios\. When the contact flow executes, the caller ID number is set if one is specified in the **Call phone number** block\. If no caller ID is specified in the **Call phone number** block, the caller ID number defined for the queue is used when the call is placed\. When there is an error with a call that is initiated by the **Call phone number** block, the call is disconnected and the agent is placed in ACW status\.
+
+### Specify a custom caller ID number using a **Call phone number** block
+
+1. In Amazon Connect choose **Routing**, **Contact flows**\.
+
+1. Choose the down arrow next to **Create contact flow**, and then choose **Create outbound whisper flow**\.
+
+1. Add a **Call phone number** block to the flow, and connect the **Entry point** block to it\.
+
+   The **Call phone number** block must be placed before a **Play prompt** block if one is included in your contact flow\.
+
+1. Select the **Call phone number** block, and then select **Caller ID number to display**\.
+
+1. Do one of the following:
+   + To use a number from your instance, choose **Select a number from your instance**, and then search for or select the number to use from the drop\-down\.
+   + Choose **Use attribute** to use a contact attribute to provide the value for the caller ID number\. You can use either a **User Defined** attribute you create using a **Set contact attributes** block, or an **External** attribute returned from an AWS Lambda function\. The value of any attribute you use must be a phone number claimed for your instance and be in E\.164 format\. If the number used from an attribute is not in E\.164 format, the number set for the **Outbound caller ID number** for the queue is used\.
+
+1. Add any additional blocks to complete your contact flow, and connect the **Success** branch of the **Call phone number** block to the next block in the flow\. Note that there is no error branch for the block\. If a call is not successfully initiated, the contact flow ends and the agent is placed in ACW state\.
 
 ## Contact Flow Logs<a name="contact-flow-logs"></a>
 
