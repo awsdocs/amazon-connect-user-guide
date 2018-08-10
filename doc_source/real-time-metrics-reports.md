@@ -2,11 +2,11 @@
 
 Real\-time metrics reports show real\-time or near\-real time metrics information about activity in your contact center\. Metrics such as **Online** show the number of agents currently online in real\-time, updating every 15 seconds\. Metrics such as **Handled** and **Abandoned** reflect near real\-time values for your contact center\. Data in Real\-time reports is refreshed as follows:
 + The report page updates every 15 seconds\.
-+ Metrics such as **Active** and **Availability** update as activity occurs, with very a very small system delay for processing the activity\.
++ Metrics such as **Active** and **Availability** update as activity occurs, with a small system delay for processing the activity\.
 + Agent near real\-time metrics, such as **Missed** and **Occupancy**, update every 5 minutes\.
 + Contact near real\-time metrics update about 1 minute after a contact ends\.
 
-Report templates are included for **Queues**, **Agents**, and **Routing profiles**\. You can also customize each of the report types and specify a time range for the report and select filters for fields to include or exclude from the report\. You can add additional reports, or display multiple versions of the same report type, and customize each to include different information or a different time range\. Updating one report does not affect the other reports displayed on the report page\. When you create a real\-time metrics report, it is displayed on the Real\-time metrics page, and updates automatically to show current activity in your contact center\.
+Report templates are included for **Queues**, **Agents**, and **Routing profiles**\. You can also customize each of the report types, specify a time range for the report, and select filters for fields to include or exclude from the report\. You can add additional reports, or display multiple versions of the same report type, and customize each to include different information or a different time range\. Updating one report does not affect the other reports displayed on the report page\. When you create a real\-time metrics report, it is displayed on the Real\-time metrics page, and updates automatically to show current activity in your contact center\.
 
 ## Types of Real\-time Metrics Reports<a name="types-real-time-reports"></a>
 
@@ -44,14 +44,12 @@ For **Queues** and **Routing profiles** reports, the first row of the report is 
 
 You can customize real\-time metrics report you create to get the view of your contact center that is the most meaningful for your organization\. To customize your report, choose the cog icon near the top\-right corner of the report table\.
 
-insert image
-
 ![\[Image NOT FOUND\]](http://docs.aws.amazon.com/connect/latest/userguide/images/connect_report_settings_icon.png)
 
 The following settings are common to all real\-time metrics reports\.
 
 On the **Time Range** tab:
-+ Trailing windows for time the previous X hour\(s\)—select the time range, in hours, for data included in the report displayed on the Real\-time metrics dashboard\. You can select from the following values:
++ Trailing windows for time \- the previous X hour\(s\)—select the time range, in hours, for data included in the report displayed on the Real\-time metrics dashboard\. You can select from the following values:
   + \.5
   + 1
   + 2
@@ -131,7 +129,7 @@ The following sections describe the metrics available to include in real\-time m
 
 The following metrics are available to include in both **Queues** and **Routing profiles** real\-time metrics reports\.
 
-### Agents<a name="real-time-queue-agent-metrics"></a>
+### Agent Metrics<a name="real-time-queue-agent-metrics"></a>
 
 The following agent metrics are included in default reports\.
 + **Online**—Number of agents with a status other than offline\.
@@ -142,13 +140,13 @@ The following agent metrics are included in default reports\.
 + **Available**—Number of agents with a status of **Available**\.
 + **Staffed**—Number of agents currently logged in and with a status of **Available**, **On call**, or in **ACW**\.
 
-### Metrics Available in Performance Reports<a name="real-time-queues-performance"></a>
+### Performance Metrics<a name="real-time-queues-performance"></a>
 
 The following performance metrics are included in default reports\.
 + **In queue**—Number of customers currently waiting in the queue\.
 + **Oldest**—Length of time in the queue for the contact that has been in the queue the longest\.
 + **Scheduled**—Number of customers for which there is a call back scheduled for this queue\.
-+ **Queued**—Number of contacts currently in the queue\.
++ **Queued**—Number of contacts added to the queue during the reporting interval\.
 + **Handled**—Number of contacts in this queue that were answered by an agent\.
 + **Abandoned**—Number of contacts that were abandoned from the queue during the reporting time range\.
 + **AHT**—Average handled time \(AHT\) is the average time, from start to finish, that a contact was connected with an agent\. This is calculated by averaging the amount of time between the call being answered by an agent and the call ending\.
@@ -174,7 +172,7 @@ The following metrics are available to include in reports, but are not included 
 + **Hold abandons**—Number of contact that disconnected while the customer was on hold\. A disconnect could be because the customer hung up while on hold, or that there was a technical issue with the contact while on hold\.
 + **Consult**—Number of contacts in the queue that were handled by an agent, and the agent consulted with another agent or call center manager during the contact\. 
 + **Max Queued**—The longest amount of time that a contact spent in the queue before being connected to an agent or hanging up the call before being connected to an agent\. This includes any contact that was added to the queue, even if the contact was not connected with an agent, such as abandoned contacts\.
-+ **Missed**—Number of contacts added to the queue but not answered by agents\. This does not include abandoned contacts\. 
++ **Missed**—Number of contacts added to the queue but not answered by agents, including abandoned contacts\.
 + **Avg abandon time**—Average amount of time, in seconds, that abandoned contacts were in the queue before being abandoned\.
 + **Avg queue answer time**—Average amount of time, in seconds, that a contact was in the queue before being answered by an agent\. This is calculated using only the amount of time that the contact was in the queue, and not any time the contact spent in prior steps of the contact flow, such as listening or responding to prompts\.
 + **Avg hold time**—Average amount of time, in seconds, that a contact in the queue was on hold\.
@@ -182,6 +180,8 @@ The following metrics are available to include in reports, but are not included 
 + **Avg interaction and hold time**—Average amount of time, in seconds, that contacts in the queue spent interacting with agents and on hold\. This is the same as **Avg hold time** plus **Avg interaction time**\.
 + **Transferred in**—Number of contacts transferred in to the queue during the time range\.
 + **Transferred out**—Number of contacts transferred out from the queue during the time range\.
++ **Transferred in from queue**—Number of contacts transferred into this queue from another queue during a customer queue flow\.
++ **Transferred out from queue**—Number of contacts transferred out of this queue to another queue during a customer queue flow\.
 
 ### Metrics Available in Agents Reports<a name="real-time-agent-report-metrics"></a>
 

@@ -55,7 +55,7 @@ Before agents can use the CCP, check the following configurations:
 
 Agents can log in using the URL, user name, and password provided by their Amazon Connect administrator\. Each agent has a unique user name and password\.
 
-If agents use a softphone, the IP address used must be in the IP address range for the region where you created your Amazon Connect instance\. The IP addresses used by Amazon Connect in each region are listed, along with the addresses for all AWS services, in the [https://ip\-ranges\.amazonaws\.com/ip\-ranges\.json](https://ip-ranges.amazonaws.com/ip-ranges.json) file with the service name AMAZON\_CONNECT\.
+If agents use a softphone, they must have permission to connect to the IP addresses in the address range for the region where you created your Amazon Connect instance\. The IP addresses used by Amazon Connect in each region are listed, along with the addresses for all AWS services, in the [https://ip\-ranges\.amazonaws\.com/ip\-ranges\.json](https://ip-ranges.amazonaws.com/ip-ranges.json) file with the service name AMAZON\_CONNECT\.
 
 You must allow UDP traffic in both directions on port 3478 for all addresses listed for the region in which you created your instance\. For web requests to the CCP, allow access on port 443 \(https\) in both directions\.
 

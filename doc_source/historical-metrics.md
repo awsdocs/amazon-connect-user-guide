@@ -136,6 +136,7 @@ You can select from the following settings for grouping, or organizing, data in 
   + **Agent Hierarchy Level Five**
   + **Phone Number**
   + **Queue**
+  + Routing Profile
 
   You can select only one agent hierarchy at a time for grouping\. If you have not defined any agent hierarchies, the grouping option is greyed out and not selectable\.
 + **Selected groupings \(Maximum 5\)**—you can choose to group report data by up to 5 of the available grouping options\. When only one grouping option is selected, all report data is grouped by that option\. When more than one option is selected, report data is first grouped by the grouping option that is first in the list, and then those records are grouped within that group by the additional grouping option added to the **Selected groupings** column\. 
@@ -164,7 +165,7 @@ You can customize the metrics reports to get the view of your contact center tha
 
 You can select filters for your report to limit the data included in a report to a specific category, such as queue or routing profile\. When you select filters, the numbers of filters you selected is displayed next to the filter category\. The fields available to select for filtering depends on the grouping selected for a report\.
 
-You must select at least one metric for a report\. An exclamation point \(\!\) is displayed next to any metrics displayed next to metrics that are not available to include in the report with the selected grouping\. 
+You must select at least one metric for a report\. An exclamation point \(\!\) is displayed next to any metrics that are not available to include in the report with the selected grouping\. 
 
 You can filter on the following categories:
 + **Queue**—Select one or more queues for which you want to include data in the report\. If you do not select any queues, all queues are included in the report\. You can search for a queue by typing the name of the queue in the Search field, or scroll through the queues listed in the drop\-down list, and then select the check box to filter the report results to that queue\.
@@ -184,7 +185,7 @@ Choose the metrics or fields to include in the report\. Only the metrics you sel
 The following metrics are available to include in historical metrics reports in Amazon Connect\.
 
 **Agent Name**  
- The agent’s name, displayed as Last name, First name\. 
+ The agent’s name, displayed as Last name, First name\.
 
 **Agent First Name**  
 The agent’s first name as entered in their Amazon Connect user account\.
@@ -280,7 +281,7 @@ Count of contacts handled by an agent, including both incoming and outgoing cont
 Count of incoming contacts handled by an agent\.
 
 **Contacts handled outbound**  
-Count of outbound contacts that were handled by an agent\. This includes contacts that were initiated using the StartOutboundVoiceContact operation in the Amazon Connect API\.
+Count of outbound contacts that were handled by an agent\. This includes contacts that were initiated using the `StartOutboundVoiceContact` operation in the Amazon Connect API\.
 
 **Contacts put on hold**  
 Count of contacts put on hold by an agent one or more times\.
@@ -295,7 +296,7 @@ Count of contacts that were disconnected by the agent while the customer was on 
 Count of contacts that were disconnected by the customer while the customer was on hold\.
 
 **Contacts incoming**  
-Count of incoming contacts to the contact center\. This is the count of contact that initiated outside of Amazon Connect, not contacts that start in Amazon Connect and go out to customers\.
+Count of incoming contacts to the contact center, including inbound calls and transfers\. This is the count of contact that initiated outside of Amazon Connect, not contacts that start in Amazon Connect and go out to customers\.
 
 **Contacts answered in 15 seconds**  
 Count of contacts that were answered by an agent within 15 seconds of being placed in a queue, based on the `EnqueueTimestamp`\.
@@ -347,6 +348,12 @@ Count of contacts for the queue that were transferred by an agent to an internal
 
 **Contacts transferred out external**  
 Count of contact for the queue that were transferred to an external source, such as a phone number that is external to your contact center\.
+
+**Contacts transferred in from queue**  
+The number of contacts transferred in to the queue from another queue in a Transfer to queue contact flow\.
+
+**Contacts transferred out from queue**  
+The number of contacts transferred from this queue to another queue in a Transfer to queue contact flow\.
 
 **Error status time**  
 Sum of time that an agent spent in the **Error** status\.
