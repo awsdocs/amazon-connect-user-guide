@@ -136,7 +136,7 @@ You can select from the following settings for grouping, or organizing, data in 
   + **Agent Hierarchy Level Five**
   + **Phone Number**
   + **Queue**
-  + Routing Profile
+  + **Routing Profile**
 
   You can select only one agent hierarchy at a time for grouping\. If you have not defined any agent hierarchies, the grouping option is greyed out and not selectable\.
 + **Selected groupings \(Maximum 5\)**—you can choose to group report data by up to 5 of the available grouping options\. When only one grouping option is selected, all report data is grouped by that option\. When more than one option is selected, report data is first grouped by the grouping option that is first in the list, and then those records are grouped within that group by the additional grouping option added to the **Selected groupings** column\. 

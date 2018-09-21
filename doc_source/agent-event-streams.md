@@ -9,7 +9,7 @@ You can use the agent event streams to create dashboards that display agent info
 Agent event streams are not enabled by default\. Before you can enable agent event streams in Amazon Connect, create a data stream in Amazon Kinesis Data Streams\. Then, choose the Kinesis stream as the stream to use for agent event streams\. Though you can use the same stream for both agent event streams and contact trace records, managing and getting data from the stream is much easier when you use a separate stream for each\. For more information, see the [Amazon Kinesis Data Streams Developer Guide](http://docs.aws.amazon.com/streams/latest/dev/)\.
 
 **Note**  
-If you enable server\-side encryption for the Kinesis stream you select for agent event streams, Amazon Connect cannot publish to the stream because it does not have permission to kms:GenerateDataKey\. No records are published to the stream\.
+If you enable server\-side encryption for the Kinesis stream you select for agent event streams, Amazon Connect cannot publish to the stream because it does not have permission to Kinesis kms:GenerateDataKey\. To work\-around this, enable encryption for call recordings or scheduled reports, create a customer master key \(CMK\) using KMS to use for encryption, and then choose the same CMK for your Kinesis data stream that you use for call recording or scheduled reports encryption so that Amazon Connect has appropriate permissions to encrypt data sent to Kinesis\. To learn more about creating a customer master key \(CMK\) KMS key, see [Creating Keys](http://docs.aws.amazon.com/kms/latest/developerguide/create-keys.html)\.
 
 **To enable agent event streams**
 
@@ -39,7 +39,7 @@ Each agent event type blob includes the following data about the event\.
 The `AgentEvent` object includes the following properties:
 
 **AgentARN**  
-The Amazon Resource Name \(ARN\) for the agent\. To find the ARN for an agent, open the user settings for the user in Amazon Connect\. The ARN is displayed in the address bar\.  
+The Amazon Resource Name \(ARN\) for the agent account\.  
 Type: ARN
 
 **AWSAccountId**  
@@ -82,6 +82,9 @@ The `AgentSnapshot` object includes the following properties:
 Agent status data, including:  
 + AgentARN—the ARN for the agent\.
 + Name—the name of the status, such as Available or Offline\.
++ StartTimestamp—The time stamp in ISO 8601 standard format for the time at which the agent entered the status\.
+
+  Type: String \(*yyyy*\-*mm*\-*dd*T*hh*:*mm*:*ss*Z\)
 Type: `AgentStatus` object\.
 
 **Configuration**  
@@ -171,7 +174,7 @@ Type: `Queue` object
 The `HierarchyGroup` object includes the following properties:
 
 ARN  
-The Amazon Resource Name for the agent hierarchy\.  
+The Amazon Resource Name \(ARN\) for the agent hierarchy\.  
 Type: String
 
 Name  

@@ -13,41 +13,42 @@ Contact attributes let you pass data between Amazon Connect and other services, 
 + [Using Attributes in the Contact Control Panel](#use-attribs-ccp)
 + [Referencing Contact Attributes](#how-to-reference-attributes)
 + [Using System Metric Attributes](#attrib-system-metrics)
++ [System Attributes for Contact Flows](#system-attributes)
 + [Contact Attributes Available in Amazon Connect](#connect-attrib-list)
 + [System Metrics Attributes](#attribs-system-metrics-table)
 
 ## Using Contact Attributes<a name="using-contact-attributes"></a>
 
-When you create a contact flow, you can create user\-defined contact attributes using **Set contact attributes** blocks\. You can then reference them in other parts of a contact flow using any other block that supports dynamic attributes\. For example, you could use a **Check contact attributes** block to compare the value of an attribute to a condition you define, and then route the contact based on the comparison\. You could also retrieve data from external sources, and then create user\-defined attributes from the external data so that you can reference them later in a contact flow, such as the status of an order or an expected shipping date\.
+When you create a contact flow, you can create user\-defined contact attributes using **Set contact attributes** blocks\. You can then reference them in other parts of a contact flow using any other block that supports dynamic attributes\. For example, you could use a **Check contact attributes** block to compare the value of an attribute to a condition you define, and then route the contact based on the results of the comparison\. You could also retrieve data from external sources, and then create user\-defined attributes from the external data so that you can reference them later in a contact flow, such as the status of an order or an expected shipping date\.
 
-Personalize the customer experience by including the customer's name when you use text to speech text in a **Play prompt** or **Get customer input** block to speak messages to your customer\. Use contact attributes to store input provided by a customer during an interaction with a Amazon Lex bot to enable automated interactions\.
+Personalize the customer experience by including the customer's name when you use text to speech text in a **Play prompt** or **Get customer input** block to speak messages to your customer\. Use contact attributes to store input provided by a customer during an interaction with an Amazon Lex bot to enable automated interactions\.
 
-As a best practice, treat attributes and attribute values as case\-sensitive, and always match case in each context where they are used\.
+As a best practice, make attributes and attribute values case\-sensitive, and always match case in each context where they are used\.
 
 The following types of contact attributes are available in Amazon Connect:
-+ **System**—Predefined attributes in Amazon Connect\. You can reference system attributes, but you cannot create them\. There are system attributes related to contacts, and system attributes related to metrics\. Not all blocks in a contact flow support using System attributes\. For example, you cannot use a System attribute to store customer input\. Instead, use a user\-defined attribute to store the data input by a customer\.
++ **System**—Predefined attributes in Amazon Connect\. You can reference system attributes, but you cannot create them\. Some system attributes relate to contacts, and some relate to metrics\. Not all blocks in a contact flow support using System attributes\. For example, you cannot use a System attribute to store customer input\. Instead, use a user\-defined attribute to store the data input by a customer\.
 + **Agent**—A subset of system attributes related to agents in your contact center\.
 + **Queue metrics**—System metric attributes returned when you use a **Get queue metrics** block in your contact flow\.
-+ **User\-defined**—Attributes are created during the execution of a contact flow using **Set contact attributes** blocks\. When you get data from an external source, you can copy key\-value pairs as user\-defined attributes to reference later in a contact flow\. User\-defined attributes can also be created through the Amazon Connect API\.
++ **User\-defined**—Attributes that are created when a contact flow is run using **Set contact attributes** blocks\. When you get data from an external source, you can copy key\-value pairs as user\-defined attributes to reference later in a contact flow\. You can also create user\-defined attributes through the Amazon Connect API\.
 
-  User\-defined attributes include all attributes set by using a **Set contact attributes** block in a contact flow\. User\-defined attributes are included in contact trace records \(CTRs\), are available to Lambda functions that are invoked after the **Set contact attributes** block, and are created in the Attributes namespace\. They are also available to applications that integrate with the CCP for screenpop information, and can be referenced in contact flows\.
-+ **External**—Attributes are created via a process external to Amazon Connect, such as when you use an **Invoke AWS Lambda function** block in a contact flow, or integrate with an Amazon Lex bot\.
+  User\-defined attributes include all attributes set by using a **Set contact attributes** block in a contact flow\. User\-defined attributes are included in contact trace records \(CTRs\)\. They are available to Lambda functions that are invoked after the **Set contact attributes** block, and are created in the Attributes namespace\. They are also available to applications that integrate with the Contact Control Panel \(CCP\) for screenpop information, and can be referenced in contact flows\.
++ **External**—Attributes are created via a process external to Amazon Connect\. For example, when you use an **Invoke AWS Lambda function** block in a contact flow, or integrate with an Amazon Lex bot\.
 
   External attributes are returned as key\-value pairs from the most recent invocation of an **Invoke AWS Lambda function** block\. External attributes are overwritten with each invocation of the Lambda function\. You can access external attributes in contact flows via $\.External\.AttributeName\. For more information about using attributes in Lambda functions, see [Using AWS Lambda Functions with Amazon Connect](http://docs.aws.amazon.com/connect/latest/adminguide/connect-lambda-functions.html)\.
 
   These attributes are not included in CTRs, not passed to the next Lambda invocation, and not passed to the CCP for screenpop information\. However, they can be passed as Lambda function inputs on an **Invoke AWS Lambda function** block, or copied to user\-defined attributes via the **Set contact attributes** block\. When used in **Set contact attributes** blocks, the attributes that are copied are included in CTRs, and can be used in the CCP\.
 + **Lex slots**—External attribute for the slot name of an Amazon Lex bot\.
-+ **Lex attributes**—External attribute for session attributes from an Amazon Lex bot\.
++ **Lex attributes**—Session attributes from an Amazon Lex bot interaction\.
 
 ## Using Contact Attributes to Personalize the Customer Experience<a name="use-attributes-cust-exp"></a>
 
-Contact attributes in your contact flows can provide a more personalized customer experience\. For example, specify a custom call flow based on comparing an attribute to a value, and then route the call based on the value comparison, such as routing customers to different tiers of support based on their account number\. Or retrieve a customer's name, save the name as an attribute, and then include the name attribute in a text to speech string so that the customer's name is said during the interaction\.
+Contact attributes in your contact flows can provide a more personalized customer experience\. For example, specify a custom call flow based on comparing an attribute to a value\. You then route the call based on the value comparison, such as routing customers to different tiers of support based on their account number\. Or retrieve a customer's name and save it as an attribute\. Include the name attribute in a text to speech string so that the customer's name is said during the interaction\.
 
 The steps in the following sections describe how to use contact attributes with different blocks in a contact flow\.
 
 ### Using a Set Contact Attributes Block<a name="use-set-contact-attrib-block"></a>
 
-Use a **Set contact attributes** block to set a value that is later referenced in a contact flow\. For example, you could create a personalized greeting for customers routed to a queue based on the type of customer account, or define an attribute for a company name or line of business to include in text to speech strings said to a customer\. The **Set contact attributes** block is useful for copying attributes retrieved from external sources to user\-defined attributes\.
+Use a **Set contact attributes** block to set a value that is later referenced in a contact flow\. For example, create a personalized greeting for customers routed to a queue based on the type of customer account\. You could also define an attribute for a company name or line of business to include in the text to speech strings said to a customer\. The **Set contact attributes** block is useful for copying attributes retrieved from external sources to user\-defined attributes\.
 
 **To set a contact attribute with a Set contact attributes block**
 
@@ -131,7 +132,7 @@ Any attribute returned from an AWS Lambda function is overwritten with the next 
 
 ## Use Amazon Connect Contact Attributes with Other Services<a name="attribs-external-references"></a>
 
-You can reference contact attributes set in your Amazon Connect contact flow in other services, such as in an Amazon Lex bot or AWS Lambda function, so that data associated with the customer or the contact can be shared between services for a seamless customer experience\. To use contact attributes to access other resources, set a user\-defined attribute in your contact flow and use the Amazon Resource Name \(ARN\) of the resource you want to access as the value for the attribute\. For example, to use an Amazon Connect prompt in a Lambda function, set a user\-defined attribute to the ARN for the prompt, and then access that attribute from the Lambda function\.
+You can reference contact attributes set in your Amazon Connect contact flow in other services, such as in an Amazon Lex bot or AWS Lambda function\. This allows data associated with the customer or the contact to be shared between services\. To use contact attributes to access other resources, set a user\-defined attribute in your contact flow and use the Amazon Resource Name \(ARN\) of the resource you want to access as the value for the attribute\. For example, to use an Amazon Connect prompt in a Lambda function, set a user\-defined attribute to the ARN for the prompt, and then access that attribute from the Lambda function\.
 
 ## Using Attributes in the Contact Control Panel<a name="use-attribs-ccp"></a>
 
@@ -147,13 +148,15 @@ For example, included with your Amazon Connect instance, there is a contact flow
 
 The way you reference contact attributes depends on how they were created and how you are accessing them\. To reference attributes in the same namespace, such as a system attribute, you use the attribute name, or the name you specified as the **Destination key**\. To reference values in a different namespace, such as referencing an external attribute, you specify the JSONPath syntax to the attribute\.
 
-For example, to reference a customer name from a Lambda function lookup, you would use $\.External\.AttributeName, replacing AttributeName with the name of the attribute returned from the Lambda function\. To reference an attribute from an Amazon Lex bot, you use the format $\.Lex\. and then include the part of the Amazon Lex bot to reference, such as $\.Lex\.intentName or $\.Lex\.dialogState\. To reference the customer input to an Amazon Lex bot slot, use $\.Lex\.Slots\.slotName\.
+For example, to reference a customer name from a Lambda function lookup, you would use $\.External\.AttributeKey, replacing AttributeKey with the key \(or name\) of the attribute returned from the Lambda function\. To reference an attribute from an Amazon Lex bot, you use the format $\.Lex\. and then include the part of the Amazon Lex bot to reference, such as $\.Lex\.IntentName or $\.Lex\.dialogState\. To reference the customer input to an Amazon Lex bot slot, use $\.Lex\.Slots\.slotName\.
+
+To reference user\-defined attributes, such as those set with the **Set contact attributes** block, use $\.AttributeKey\.AttributeValue, where AttributeKey is the name you used for the **Destination key**, and AttributeValue is what you entered in the **Value** field in the **Set contact attributes** block\.
 
 JSONPath is a standardized way to query elements of a JSON object\. JSONPath uses path expressions to navigate elements, nested elements, and arrays in a JSON document\. For more information about JSON, see [Introducing JSON](http://www.json.org/)\.
 
 ### Checking Attribute Values in a Check Contact Attributes Block<a name="check-contact-attrib-block"></a>
 
-When you include a **Check contact attributes** block in a contact flow, it checks the value of the attribute you specify\. You then add a condition to compare the value of the attribute to, such as "greater than" or "contains\." For each condition you add, an output branch is added to the block\. You can then route the contact based on the conditions by connecting the output branch for the condition to the next block in the contact flow\. For example, you can check the current number of calls in a queue, then route the call to the queue if active calls is less than 5, or route the call to another different queue if the number of active calls is more than 5\. You can use whichever metrics or attributes you want to make routing decisions as appropriate for your needs\. The following procedure describes how to check for the number of contacts in a queue and then route the call to a queue that has less than 5 active contacts in it\.
+When you include a **Check contact attributes** block in a contact flow, it checks the value of the attribute you specify\. You then add a condition to compare the value of the attribute to, such as "greater than" or "contains\." For each condition you add, an output branch is added to the block\. You can then route the contact based on the conditions by connecting the output branch for the condition to the next block in the contact flow\. For example, you can check the current number of calls in a queue, then route the call to the queue if the active calls are fewer than 5\. You can also route the call to another different queue if the number of active calls is more than 5\. You can use whichever metrics or attributes you want to make routing decisions as appropriate for your needs\. The following procedure describes how to check for the number of contacts in a queue and then route the call to a queue that has fewer than 5 active contacts in it\.
 
 ### Using a Check contact attributes block to route a call to a queue
 
@@ -173,7 +176,7 @@ When you include a **Check contact attributes** block in a contact flow, it chec
 
 1. Under **Branch**, drag a **Check contact attributes** block to the designer\.
 
-1. Choose the title of the block to display the settings for the block\. Then, under **Attribute to check**, select **Queue metrics** in the **Type** drop\-down\.
+1. Choose the title of the block to display the settings for the block\. Then, under **Attribute to check**, select **Queue metrics** in the **Type** drop\-down menu\.
 
 1. Under **Attribute**, choose **Contacts in queue**\.
 
@@ -181,15 +184,15 @@ When you include a **Check contact attributes** block in a contact flow, it chec
 
    By default, the **Check contact attributes** block includes a single condition, **No match**\. The **No match** branch is followed when there are no matches for any of the conditions you define in the block\.
 
-1. Under **Conditions to check**, select **Is less than** as the operator for the condition in the drop\-down, then in the value field enter 5\.
+1. Under **Conditions to check**, select **Is less than** as the operator for the condition in the drop\-down menu, then in the value field enter 5\.
 
-1. Choose **Add another condition**, then choose **Is greater or equal** from the drop\-down, and enter 5 in the value field\.
+1. Choose **Add another condition**, then choose **Is greater or equal** from the drop\-down menu, and enter 5 in the value field\.
 
 1. Choose **Save**\.
 
-   You now see 2 new output branches for the **Check contact attributes** block\.
+   You now see two new output branches for the **Check contact attributes** block\.
 
-You can now add additional blocks to the contact flow to route the call as desired\. For example, connect the < 5 branch to a **Transfer to queue** block to transfer calls to the queue when there are less than 5 calls currently in the queue\. Connect the > 5 branch to a Set customer callback number block and then transfer the call to a callback queue using a **Transfer to queue** block so the customer doesn't have to stay on hold\.
+You can now add additional blocks to the contact flow to route the call as desired\. For example, connect the < 5 branch to a **Transfer to queue** block to transfer calls to the queue when there are fewer than five calls currently in the queue\. Connect the > 5 branch to a Set customer callback number block and then transfer the call to a callback queue using a **Transfer to queue** block so the customer doesn't have to stay on hold\.
 
 ### Referencing Attributes from a Play Prompt Block<a name="attribs-play-prompt"></a>
 
@@ -215,9 +218,9 @@ When you reference attributes in a **Get customer input** block, and choose Amaz
 
 1. Choose the title of the block to display the block settings, then select **Text to speech \(Ad hoc\)**\.
 
-1. Choose **Enter text**, then enter text in the **Enter text to be spoken** field that is used as a message or greeting to your customers, such as, "Thank you for calling" followed by a request to enter information to fulfill the intents you defined in your Amazon Lex bot\.
+1. Choose **Enter text**, then enter text in the **Enter text to be spoken** field that is used as a message or greeting to your customers\. For example, "Thank you for calling" followed by a request to enter information to fulfill the intents you defined in your Amazon Lex bot\.
 
-1. Choose the **Amazon Lex** tab, then from the drop\-down choose the Amazon Lex bot to use to get customer input\.
+1. Choose the **Amazon Lex** tab, then from the drop\-down menu, choose the Amazon Lex bot to use to get customer input\.
 
 1. By default, the **Alias** field is populated with $LATEST\. To use a different alias of the bot, enter the alias value to use\.
 
@@ -229,9 +232,9 @@ When you reference attributes in a **Get customer input** block, and choose Amaz
 
 ## Using System Metric Attributes<a name="attrib-system-metrics"></a>
 
-Amazon Connect includes system metric attributes that can help you define routing conditions in your contact flows based on real\-time metrics about the queues and agents in your contact center\. When you include a **Get queue metrics** block in your contact flow, metrics are retrieved for the current working queue, or other queue that you specify, and returned as attributes in the Metrics namespace\.
+Amazon Connect includes system metric attributes that can help you define routing conditions in your contact flows based on real\-time metrics about the queues and agents in your contact center\. When you include a **Get queue metrics** block in your contact flow, metrics are retrieved for the current working queue, or other queue that you specify, and returned as attributes that you can reference in blocks that occur after that block in the flow\.
 
-You can reference the metric attributes returned to determine the optimal route for a contact by checking current queue metrics, such as the number of contacts currently in a queue, the number of available agents in a queue, and the length of time the oldest contact has been in a queue\. You could even get metrics for multiple queues and use a **Set contact attributes** block to store the metric attributes for each queue\. You could then compare queue metric attributes using a **Check contact attributes** block, and route the contact to the queue with the fewest calls in it, or to a callback if all queues are busy\. To learn more about the metric attributes available, see [System Metrics Attributes](#attribs-system-metrics-table)\.
+You can reference the metric attributes returned to determine the optimal route for a contact\. Check the current queue metrics, such as the number of contacts or available agents in a queue, and how long the oldest contact has been in a queue\. You could even get metrics for multiple queues and use a **Set contact attributes** block to store the metric attributes for each queue\. You could then compare queue metric attributes using a **Check contact attributes** block, and route the contact to the queue with the fewest calls in it, or to a callback if all queues are busy\. To learn more about the metric attributes available, see [System Metrics Attributes](#attribs-system-metrics-table)\.
 
 **To use system metrics attributes in a contact flow**
 
@@ -243,7 +246,7 @@ You can reference the metric attributes returned to determine the optimal route 
 
 1. Optionally, to specify a queue select the **Set queue** check box and do one of the following:
    + Select the queue to retrieve metrics for from the drop\-down list\.
-   + Select **Use attribute**, and the select the attribute to use\.
+   + Select **Use attribute**, then select the attribute to use\.
 
    If you do not select a queue, metrics are retrieved for the current working queue\.
 
@@ -251,48 +254,19 @@ You can reference the metric attributes returned to determine the optimal route 
 
 1. Choose the title of the **Check contact attributes** block to display the properties for the block\.
 
-1. \. Under **Attribute to check**, choose **Queue metrics** in the **Type** drop\-down\. In the **Attribute** drop\-down, select the attribute to check\. 
+1. Under **Attribute to check**, in the **Type** drop\-down menu, choose **Queue metrics**\. In the **Attribute** drop\-down menu, select the attribute to check\. 
 
 1. To create a branching condition based on the value of the metric attribute, choose **Add another condition**\.
 
-1. For the **Conditions to check**, choose the conditions to compare the attribute value to, and then type a value in the **Value** field\.
+1. For the **Conditions to check**, choose the conditions to compare the attribute value to, and then enter a value in the **Value** field\.
 
-1. Add additional blocks to the contact flow, connecting the branch of the **Check contact attributes** block to route the call to the next block in the flow\. 
+1. Add additional blocks to the contact flow, connecting the branch of the **Check contact attributes** block to route the call to the next block in the flow\.
 
-Be sure to save and publish the contact flow to make it available in your contact center\.
+1. Save and publish the contact flow to make it available in your contact center\.
 
-## Contact Attributes Available in Amazon Connect<a name="connect-attrib-list"></a>
+## System Attributes for Contact Flows<a name="system-attributes"></a>
 
-The following sections describes the contact attributes available in Amazon Connect\.
-
-### Contact Flow System Attributes<a name="attribs-system-table"></a>
-
-
-| Attribute | Description | Type | 
-| --- | --- | --- | 
-| Customer number | The customer’s phone number\.  | System | 
-| Dialed number |  The number the customer dialed to call your contact center\. | System | 
-| Customer callback number | The number to dial to call back the customer\. | System | 
-| Stored customer input | An attribute created from the most recent invocation of a **Store customer input ** block\. | System | 
-| Queue\.Name | The name of the queue\. | System | 
-| Queue\.ARN | The ARN for the queue\. | System | 
-| TextToSpeechVoiceId | The name of the voice to use for text\-to\-speech\. | System | 
-| ContactId | The unique identifier of the contact\. | System | 
-| InitialContactId | The unique identifier for the first contact a customer had with your contact center\. Use the Initial Contact Id to track contacts between contact flows\. | System | 
-| PreviousContactId | The unique identifier for the contact before it was transferred\. Use the Previous Contact Id to trace contacts between contact flows\. | System | 
-| Channel | The method of contact\. Currently, only VOICE is supported in Amazon Connect\. | System | 
-| InstanceARN | The ARN for your Amazon Connect instance\. | System | 
-| InitiationMethod | How the contact was initiated\. Valid values include: INBOUND, OUTBOUND, TRANSFER, CALLBACK, and API\. | System | 
-| SystemEndPoint\.Address | The number the customer dialed to reach your contact center\. | System | 
-| SystemEndPoint\.Type | The type of the system endpoint\. Valid value is TELEPHONE\_NUMBER\. | System | 
-| CustomerEndpoint\.Address | The phone number the customer used to call in to your instance\. | System | 
-| CustomerEndpoint\.Type | The type of the customer endpoint\. Valid value is TELEPHONE\_NUMBER\. | System | 
-| Queue\.OutboundCallerId\.Address | The outbound caller ID number defined for the queue\. This can be useful for reverting the caller ID after setting a custom caller ID\. | System | 
-| Queue\.OutboundCallerId\.Type | The type of the outbound caller Id\. Valid value is TELEPHONE\_NUMBER\. | System | 
-
-#### System Attributes for Contact Flows<a name="system-attributes"></a>
-
-You can use the following System attributes in Amazon Connect\. When creating a contact flow, the following System attributes are available:
+When creating a contact flow, you can use the following system attributes in Amazon Connect:
 + **Customer number**—The phone number of the customer\. When used in an outbound whisper flow, this is the number the agents dialed to reach the customer\. When used in inbound flows, this is the number from which the customer placed the call\. This attribute is included in the CTRs and Lambda input object under CustomerEndpoint\.
 + **Dialed number**—The number that the customer dialed to reach your contact center\. This attribute is included in the CTRs and Lambda input under SystemEndpoint\.
 + **Customer callback number**—The number that the system uses to call the customer back, either for the **Transfer to callback** queue functionality, or for an agent dialing from the CCP\. The default value is the number the customer used to call your contact center, but can be overwritten with the **Set callback number** block\. This attribute is not included in CTRs, and not accessible in Lambda input\. You can copy the attribute to a user\-defined attribute with the **Set contact attribute** block, which is included in CTRs\. You can also pass this attribute as a Lambda input parameter in an **Invoke AWS Lambda function** block, which is not included in CTRs\.
@@ -303,53 +277,82 @@ You can use the following System attributes in Amazon Connect\. When creating a 
 + **Text to speech voice**—The Amazon Polly voice used for text to speech in a contact flow\.
 + **Contact id**—The unique identifier for the contact\.
 + **Initial contact id**—The unique identifier for the contact associated with the first interaction between the customer and your contact center\.
-+ **Previous contact id**—The unique identifier for the leg of the contact that occurred prior to the current contact\.
++ **Previous contact id**—The unique identifier for the leg of the contact that occurred before the current contact\.
 + **Channel**—The method used to contact your contact center\. Currently only VOICE is supported\.
 + **Instance ARN**—The ARN for your Amazon Connect instance\.
 + **Initiation method**—Indicates how the contact was initiated\. Valid values include: INBOUND, OUTBOUND, TRANSFER, CALLBACK, API, and QUEUE\_TRANSFER\.
-+ **Lex intent**—The name of the intent as it is defined in your Amazon Lex bot\.
++ **Lex intent**—The name of the intent as defined in your Amazon Lex bot\.
+
+## Contact Attributes Available in Amazon Connect<a name="connect-attrib-list"></a>
+
+The following sections describe the contact attributes available in Amazon Connect\.
+
+### Contact Flow System Attributes<a name="attribs-system-table"></a>
+
+
+| Attribute | Description | Type | JSONPath Reference | 
+| --- | --- | --- | --- | 
+| Customer number | The customer’s phone number\. | System | $\.CustomerEndpoint\.Address | 
+| Dialed number | The number the customer dialed to call your contact center\. | System | $\.SystemEndpoint\.Address | 
+| Customer callback number | The number to dial to call back the customer\. | System | not applicable | 
+| Stored customer input | An attribute created from the most recent invocation of a **Store customer input ** block\. | System | not applicable | 
+| Queue name | The name of the queue\. | System | $\.Queue\.Name | 
+| Queue ARN | The ARN for the queue\. | System | $\.Queue\.ARN | 
+| Text to speech voice | The name of the voice to use for text\-to\-speech\. | System | $\.TextToSpeechVoiceId | 
+| Contact id | The unique identifier of the contact\. | System | $\.ContactId | 
+| Initial contact id | The unique identifier for the first contact a customer had with your contact center\. Use the initial contact ID to track contacts between contact flows\. | System | $\.InitialContactId | 
+| Previous contact id | The unique identifier for the contact before it was transferred\. Use the previous contact ID to trace contacts between contact flows\. | System | $\.PreviousContactId | 
+| Channel | The method of contact\. Currently, only VOICE is supported in Amazon Connect\. | System | $\.Channel | 
+| Instance ARN | The ARN for your Amazon Connect instance\. | System | $\.InstanceARN | 
+| Initiation method | How the contact was initiated\. Valid values include: INBOUND, OUTBOUND, TRANSFER, CALLBACK, and API\. | System | $\.InitiationMethod | 
+| System Endpoint Type | The type of the system endpoint\. Valid value is TELEPHONE\_NUMBER\. | System | $\.SystemEndpoint\.Type | 
+| Customer Endpoint type | The type of the customer endpoint\. Valid value is TELEPHONE\_NUMBER\. | System | $\.CustomerEndpoint\.Type | 
+| Queue Outbound Caller ID number | The outbound caller ID number defined for the queue\. This can be useful for reverting the caller ID after setting a custom caller ID\. | System | $\.Queue\.OutboundCallerId\.Address | 
+| Queue Outbound Caller ID number type | The type of the outbound caller ID number\. Valid value is TELEPHONE\_NUMBER\. | System | $\.Queue\.OutboundCallerId\.Type | 
 
 ### Agent Attributes<a name="attribs-agent"></a>
 
+The following table lists the agent attributes available in Amazon Connect\.
 
-| Attribute | Description | Type | 
-| --- | --- | --- | 
-| Agent\.UserName | The user name an agent uses to log in to Amazon Connect\. | System | 
-| Agent\.FirstName | The agent’s first name as entered in their Amazon Connect user account\.  | System | 
-| Agent\.LastName |  The agent’s last name as entered in their Amazon Connect user account\. | System | 
-| Agent\.ARN | The ARN of the agent\. | System | 
 
-### External Contact Attributes<a name="attribs-lambda-table"></a>
-
-Attributes returned as key\-value pairs from a Lambda function are external attributes\.
+| Attribute | Description | Type | JSONPath Reference | 
+| --- | --- | --- | --- | 
+| Agent User name | The user name an agent uses to log in to Amazon Connect\. | System | $\.Agent\.UserName | 
+| Agent First name | The agent’s first name as entered in their Amazon Connect user account\.  | System | $\.Agent\.FirstName | 
+| Agent Last name | The agent’s last name as entered in their Amazon Connect user account\. | System | $\.Agent\.LastName | 
+| Agent ARN | The ARN of the agent\. | System | $\.Agent\.ARN | 
 
 ### Contact Attributes from Amazon Lex<a name="attribs-lex-table"></a>
 
 The following table lists the attributes available from Amazon Lex bots\.
 
 
-| Attribute | Description | Type | 
-| --- | --- | --- | 
-| dialogState | The last dialog state returned from an Amazon Lex bot\. The value is 'Fulfilled' if an intent was returned to the contact flow\. | External | 
-| intentName | The user intent returned by Amazon Lex\. | External | 
-| Slots | Map of intent slots \(key/value pairs\) Amazon Lex detected from the user input during the interaction\. | External | 
-| sessionAttributes | Map of key\-value pairs representing the session\-specific context information\. | External | 
+| Attribute | Description | Type | JSONPath Reference | 
+| --- | --- | --- | --- | 
+| Dialog state | The last dialog state returned from an Amazon Lex bot\. The value is 'Fulfilled' if an intent was returned to the contact flow\. | External | $\.Lex\.dialogState | 
+| Intent name | The user intent returned by Amazon Lex\. | External | $\.Lex\.IntentName | 
+| Slots | Map of intent slots \(key/value pairs\) Amazon Lex detected from the user input during the interaction\. | External | $\.Lex\.Slots\.slotName | 
+| Session attributes | Map of key\-value pairs representing the session\-specific context information\. | External | $\.Lex\.sessionAttributes\.attributeKey | 
+
+#### External Contact Attributes<a name="attribs-lambda-table"></a>
+
+Attributes returned as key\-value pairs from a Lambda function are external attributes\. To reference external attributes in JSONPath, use $\.External\.attributeName, where AttributeName is the attribute name, or the key of the key\-value pair returned from the function\. For example, if the function returns a contact ID, reference the attribute with $\.External\.ContactId\. When referencing a contact ID returned from Amazon Connect, the JSONPath is $\.ContactId\. Note the inclusion of \.External in the JSONPath reference when the attribute is external to Amazon Connect\. Make sure to match the case for attribute names returned from external sources\.
 
 ## System Metrics Attributes<a name="attribs-system-metrics-table"></a>
 
-The metrics attributes in the following table are returned when you use the **Get metrics** block to retrieve metrics for a queue\. If there is no current activity in your contact center, null values are returned for these attributes\.
+The metrics attributes in the following table are returned when you use the **Get queue metrics** block to retrieve metrics for a queue\. If there is no current activity in your contact center, null values are returned for these attributes\.
 
 
-| Attribute | Description | Type | 
-| --- | --- | --- | 
-| Metrics\.Queue\.Name | The name of the queue for which metrics were retrieved\. | System | 
-| Metrics\.Queue\.ARN | The ARN of the queue for which metrics were retrieved\. | System | 
-| Metrics\.Queue\.Size | The number of contacts currently in the queue\. | System | 
-| Metrics\.Queue\.OldestContactAge | For the contact that has been in the queue the longest, the length of time that the contact has been in the queue, in seconds\. | System | 
-| Metrics\.Agents\.Online\.Count | Number of agents currently online \(in any state other than offline\)\. | System | 
-| Metrics\.Agents\.Available\.Count | Number of agents whose state is set to Available\. | System | 
-| Metrics\.Agents\.Staffed\.Count | Number of agents currently staffed, which is agents in Available, ACW, or Busy states\. | System | 
-| Metrics\.Agents\.AfterContactWork\.Count | Number of agents currently in ACW state\. | System | 
-| Metrics\.Agents\.Busy\.Count | Number of agents currently active on a contact\. | System | 
-| Metrics\.Agents\.Missed\.Count | Number of agents in Missed state, which is the state an agent enters after a missed call\. | System | 
-| Metrics\.Agents\.NonProductive\.Count | Number of agents in a non\-productive state\. | System | 
+| Attribute | Description | Type | JSONPath Reference | 
+| --- | --- | --- | --- | 
+| Queue name | The name of the queue for which metrics were retrieved\. | System | $\.Metrics\.Queue\.Name | 
+| Queue ARN | The ARN of the queue for which metrics were retrieved\. | System | $\.Metrics\.Queue\.ARN | 
+| Metrics queue size | The number of contacts currently in the queue\. | System | $\.Metrics\.Queue\.Size | 
+| Oldest contact in queue | For the contact that has been in the queue the longest, the length of time that the contact has been in the queue, in seconds\. | System | $\.Metrics\.Queue\.OldestContactAge | 
+| Agents online | The number of agents currently online, which means logged in and in any state other than offline\. | System | $\.Metrics\.Agents\.Online\.Count | 
+| Agents available | The number of agents whose state is set to Available\. | System | $\.Metrics\.Agents\.Available\.Count | 
+| Agents staffed | The number of agents currently staffed, which is agents logged in and in Available, ACW, or Busy states\. | System | $\.Metrics\.Agents\.Staffed\.Count | 
+| Agents in After contact work | The number of agents currently in the ACW state\. | System | $\.Metrics\.Agents\.AfterContactWork\.Count | 
+| Agents busy | The number of agents currently active on a contact\. | System | $\.Metrics\.Agents\.Busy\.Count | 
+| Agents missed count | The number of agents in the Missed state, which is the state an agent enters after a missed call\. | System | $\.Metrics\.Agents\.Missed\.Count | 
+| Agents in non\-productive state | The number of agents in a non\-productive \(NPT\) state\. | System | $\.Metrics\.Agents\.NonProductive\.Count | 

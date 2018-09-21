@@ -131,7 +131,7 @@ If you're experiencing problems with your microphone, you may need to grant micr
 
 For Google Chrome steps, see [Use your camera and microphone in Chrome](https://support.google.com/chrome/answer/2693767?hl=en)\.
 
-For Mozilla Firefox steps, see [Permissions Manager](https://support.mozilla.org/en-US/kb/permissions-manager-give-ability-store-passwords-set-cookies-more)\.
+For Mozilla Firefox steps, see [Firefox Page Info window](https://support.mozilla.org/en-US/kb/firefox-page-info-window)\.
 
 **Important**  
 A change introduced in Google Chrome version 64 may result in issues with receiving calls if you are using an embedded Contact Control Panel \(CCP\) softphone using the Amazon Connect Streams library\. If you are experiencing issues with your microphone when using Chrome version 64, you can resolve the issue by building and deploying the latest version of the [Amazon Connect Streams API](https://github.com/aws/amazon-connect-streams/blob/master/Documentation.md#downloading-streams), following the steps under *Downloading Streams*\.  
@@ -147,7 +147,7 @@ Before you can use the listen\-in feature, you need to enable call recording in 
 
 1. Log in to your Amazon Connect instance using an account that has permissions to edit contact flows\.
 
-1. Identify a call flow that handles customer contacts that you want to listen in on\.
+1. Identify a contact flow that handles customer contacts that you want to listen in on\.
 
 1. Choose **Routing**, **Contact flows**, and then choose the name of the contact flow to open it in the editor\.
 
