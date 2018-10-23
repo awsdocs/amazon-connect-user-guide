@@ -18,7 +18,7 @@ Amazon's trademarks and trade dress may not be used in
    + [Working with User Settings](users.md)
    + [Understanding Contact Flows](contactflow.md)
    + [Using Text-to-Speech with Amazon Connect](text-to-speech.md)
-   + [Configuring Interactive Voice Response Workflows](routing.md)
+   + [Creating a Customer Contact Flow](routing.md)
    + [Working with Hierarchies](contact-management.md)
    + [Login/Logout Reports](loginlogout-report.md)
    + [Agent Event Streams](agent-event-streams.md)

@@ -6,10 +6,12 @@ You can use the agent event streams to create dashboards that display agent info
 
 ## Enabling Agent Event Streams<a name="agent-event-streams-enable"></a>
 
-Agent event streams are not enabled by default\. Before you can enable agent event streams in Amazon Connect, create a data stream in Amazon Kinesis Data Streams\. Then, choose the Kinesis stream as the stream to use for agent event streams\. Though you can use the same stream for both agent event streams and contact trace records, managing and getting data from the stream is much easier when you use a separate stream for each\. For more information, see the [Amazon Kinesis Data Streams Developer Guide](http://docs.aws.amazon.com/streams/latest/dev/)\.
+Agent event streams are not enabled by default\. Before you can enable agent event streams in Amazon Connect, create a data stream in Amazon Kinesis Data Streams\. Then, choose the Kinesis stream as the stream to use for agent event streams\. Though you can use the same stream for both agent event streams and contact trace records, managing and getting data from the stream is much easier when you use a separate stream for each\. For more information, see the [Amazon Kinesis Data Streams Developer Guide](https://docs.aws.amazon.com/streams/latest/dev/)\.
+
+When data is sent to Kinesis, the partition key used is the agent ARN\. All events for a single agent are sent to the same shard, and any resharding events in the stream are ignored\.
 
 **Note**  
-If you enable server\-side encryption for the Kinesis stream you select for agent event streams, Amazon Connect cannot publish to the stream because it does not have permission to Kinesis kms:GenerateDataKey\. To work\-around this, enable encryption for call recordings or scheduled reports, create a customer master key \(CMK\) using KMS to use for encryption, and then choose the same CMK for your Kinesis data stream that you use for call recording or scheduled reports encryption so that Amazon Connect has appropriate permissions to encrypt data sent to Kinesis\. To learn more about creating a customer master key \(CMK\) KMS key, see [Creating Keys](http://docs.aws.amazon.com/kms/latest/developerguide/create-keys.html)\.
+If you enable server\-side encryption for the Kinesis stream you select for agent event streams, Amazon Connect cannot publish to the stream because it does not have permission to Kinesis kms:GenerateDataKey\. To work\-around this, enable encryption for call recordings or scheduled reports, create a customer master key \(CMK\) using KMS to use for encryption, and then choose the same CMK for your Kinesis data stream that you use for call recording or scheduled reports encryption so that Amazon Connect has appropriate permissions to encrypt data sent to Kinesis\. To learn more about creating a customer master key \(CMK\) KMS key, see [Creating Keys](https://docs.aws.amazon.com/kms/latest/developerguide/create-keys.html)\.
 
 **To enable agent event streams**
 
@@ -147,7 +149,7 @@ Valid values: `VOICE`
 
 **InitiationMethod**  
 How the contact was initiated\.  
-Valid values: `INBOUND` \| `OUTBOUND` \| `TRANSFER` \| `CALLBACK` \| `API` 
+Valid values: `INBOUND` \| `OUTBOUND` \| `TRANSFER` \| `CALLBACK` \| `QUEUE_TRANSFER` \| `API` 
 
 **State**  
 An enumeration of the state of the contact\.  

@@ -1,6 +1,6 @@
 # Using the Amazon Connect Contact Control Panel<a name="agentconsole-guide"></a>
 
-The Amazon Connect Contact Control Panel \(CCP\) is used by agents to communicate with contacts\. The CCP can be used with a softphone or a desktop phone\. The phone number and configurations are managed in Amazon Connect\.
+The Amazon Connect Contact Control Panel \(CCP\) is used by agents to communicate with contacts\. The CCP can be used with a softphone or a desk phone\. The phone number and configurations are managed in Amazon Connect\.
 
 ## Amazon Connect CCP Concepts<a name="amazon-connect-ccp-concepts"></a>
 
@@ -59,7 +59,7 @@ If agents use a softphone, they must have permission to connect to the IP addres
 
 You must allow UDP traffic in both directions on port 3478 for all addresses listed for the region in which you created your instance\. For web requests to the CCP, allow access on port 443 \(https\) in both directions\.
 
-For more information, see [AWS IP Address Ranges](http://docs.aws.amazon.com/general/latest/gr/aws-ip-ranges.html) in the Amazon Web Services General Reference\.
+For more information, see [AWS IP Address Ranges](https://docs.aws.amazon.com/general/latest/gr/aws-ip-ranges.html) in the Amazon Web Services General Reference\.
 
 For agents to use the CCP, you also need to allow access for the softphone signaling endpoints, which are hosted in Amazon EC2\.
 
@@ -94,8 +94,8 @@ Agents can also manually enter a phone number to transfer calls to by choosing *
 **To enable agent call transfers**
 
 1. Create and publish a contact flow for the type of transfer to enable\.
-   + To enable transfers to another agent, create a **transfer to agent** contact flow\.
-   + To enable transfers to a queue, create a **transfer to queue** contact flow\.
+   + To enable transfers to another agent, create a Transfer to agent contact flow\.
+   + To enable transfers to a queue, create a Transfer to queue contact flow\.
    + External transfers do not require a specific type of contact flow\.
 **Note**  
 You must publish your contact flows to make them active in your contact center\.
@@ -141,7 +141,7 @@ You can also resolve the issue by using Firefox as your browser\.
 
 As a manager, you can listen in on active calls as your agents interact with your customers\. Only users that are assigned the **Enable** permissions for **Manager listen in** can listen in on agent calls\. The **CallCenterManager** security profile includes this permission, but not permission to access the CCP\. You can add the permission for the CCP to the **CallCenterManager** profile, or also assign the **Agent** profile to an account that is already assigned the **CallCenterManager** profile\.
 
-Before you can use the listen\-in feature, you need to enable call recording in your contact flows\. The listen\-in feature works only when call recording is enabled\.
+Before you can use the listen\-in feature, you need to enable call recording in your contact flows\. The listen\-in feature works only when call recording is enabled\. To enable Manager listen\-in for outbound calls, the contact flow in which you enable call recording must be in the flow selected as the outbound contact flow for the queue used for outbound calls\.
 
 **To enable manager listen\-in**
 

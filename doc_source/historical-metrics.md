@@ -85,7 +85,7 @@ If you want to create a new dashboard, you can remove all of the report tables y
 
 ## Customize Historical Metrics Reports<a name="customize-historical-metrics"></a>
 
-When you change the settings for a report you have open, the report displayed on the page is updated to reflect the new settings, but those settings changes to not affect the default report displayed\. You can save the changes to a new report, and then open that report from the Saved reports page\. You can also set a schedule for the report to generate a report with your settings with the recurrence you define\. 
+When you change the settings for a report you have open, the report displayed on the page is updated to reflect the new settings, but those settings changes to not affect the default report displayed\. You can save the changes to a new report, and then open that report from the Saved reports page\. You can also set a schedule for the report to generate a report with your settings with the recurrence you define\.
 
 Note that scheduling a report also makes the report accessible by any other users in your Amazon Connect instance that have permissions to view Saved reports\. Any user with sufficient permissions can also modify your scheduled report\. Scheduled reports are saved as \.csv files in the Amazon Simple Storage Service \(Amazon S3\) bucket defined for reports in your instance\. You can choose to add a prefix to the report files sent to Amazon S3 on the **Delivery Options** tab of the **Schedule Report** settings\.
 
@@ -209,10 +209,10 @@ Sum of time that an agent spent in a productive status, but not handling contact
 Amount of time agents spent in a status other than Error or Offline, but was not handling contacts\.
 
 **Average queue abandon time**  
-Average amount of time that customers spent in a queue before abandoning the call\. This is calculated by averaging the difference between the EnqueueTimestamp and DequeueTimestamp for contacts that were abandoned while in a queue\. Any call that was placed in a queue but not picked up by an agent or transferred to a callback is considered an abandoned call\.
+Average amount of time that customers spent in a queue before abandoning the call\. This is calculated by averaging the difference between the `EnqueueTimestamp` and `DequeueTimestamp` for contacts that were abandoned while in a queue\. Any call that was placed in a queue but not picked up by an agent or transferred to a callback is considered an abandoned call\.
 
 **Average after contact work time**  
-Average time that an agent spent in After contact work time status\. This is calculated by averaging the **AfterContactWorkDuration** for all contacts included in the report based on the selected filters\.
+Average time that an agent spent in After contact work time status\. This is calculated by averaging the `AfterContactWorkDuration` for all contacts included in the report based on the selected filters\.
 
 **Average queue answer time**  
 Average of time that contacts were in a queue before being answered by an agent\. This is the average for `QueueInfo`:`Duration`\.
@@ -278,10 +278,20 @@ Count of contacts when an agent consulted with a third party\. The agent interac
 Count of contacts handled by an agent, including both incoming and outgoing contacts\.
 
 **Contacts handled incoming**  
-Count of incoming contacts handled by an agent\.
+Count of incoming contacts that were handled by an agent, including the following types of contacts:  
++ Inbound calls
++ Transfer to agent
++ Transfer to queue
++ Queue to queue transfer
 
 **Contacts handled outbound**  
-Count of outbound contacts that were handled by an agent\. This includes contacts that were initiated using the `StartOutboundVoiceContact` operation in the Amazon Connect API\.
+Count of outbound contacts that were handled by an agent\. This includes contacts that were initiated by an agent using the CCP\.
+
+**Callback contacts handled**  
+The total number of contacts handled by an agent that were initiated from a queued callback\.
+
+**API Contacts handled**  
+Total number of contacts handled by an agent that were initiated using an Amazon Connect API operation, such as `StartOutboundVoiceContact`\.
 
 **Contacts put on hold**  
 Count of contacts put on hold by an agent one or more times\.
@@ -296,7 +306,17 @@ Count of contacts that were disconnected by the agent while the customer was on 
 Count of contacts that were disconnected by the customer while the customer was on hold\.
 
 **Contacts incoming**  
-Count of incoming contacts to the contact center, including inbound calls and transfers\. This is the count of contact that initiated outside of Amazon Connect, not contacts that start in Amazon Connect and go out to customers\.
+Count of incoming contacts to your Amazon Connect instance\. This is the count of contacts that were initiated outside of Amazon Connect, or contacts transferred within Amazon Connect, including the following types of contacts:  
++ Inbound calls
++ Transfer to agent
++ Transfer to queue
++ Queue to queue transfer
+
+**Callback contacts**  
+The total number of contacts initiated from a queued callback\.
+
+**API Contacts**  
+Total number of contacts initiated using an Amazon Connect API operation, such as `StartOutboundVoiceContact`\.
 
 **Contacts answered in 15 seconds**  
 Count of contacts that were answered by an agent within 15 seconds of being placed in a queue, based on the `EnqueueTimestamp`\.

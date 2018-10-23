@@ -4,11 +4,11 @@ This guide covers how to get started with using Amazon Connect to make and recei
 
 ## Amazon Connect Concepts<a name="amazon-connect-concepts"></a>
 
-The terminology and concepts described in this section help you become familair with Amazon Connect\.
+The terminology and concepts described in this section help you become familiar with Amazon Connect\.
 
 **Instance**  
 An Amazon Connect instance is a container that holds all of the settings, data, and artifacts that comprise your contact center, such as the settings for identity management\. You modify instance settings to change the features enabled for your contact center, such as contact flow logging or data streaming\.  
-You modify settings within Amazon Connect after you log in to your Amazon Connect instance to manage users, security profiles for access to Amazon Connect features, and how interactions with customers are handled in your contact center\. in your contact center\.
+You modify settings within Amazon Connect after you log in to your Amazon Connect instance to manage users, security profiles for access to Amazon Connect features, and how interactions with customers are handled in your contact center\.
 
 **Contact**  
 An interaction between a customer and your contact center\. Each contact is assigned a contact ID that you can use to track contacts through your contact center\. Most metrics and reports in Amazon Connect are associated with or related to contacts\.

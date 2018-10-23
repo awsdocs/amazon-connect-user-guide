@@ -143,7 +143,7 @@ The following agent metrics are included in default reports\.
 ### Performance Metrics<a name="real-time-queues-performance"></a>
 
 The following performance metrics are included in default reports\.
-+ **In queue**—Number of customers currently waiting in the queue\.
++ **In queue**—Number of contacts currently waiting in the queue\.
 + **Oldest**—Length of time in the queue for the contact that has been in the queue the longest\.
 + **Scheduled**—Number of customers for which there is a call back scheduled for this queue\.
 + **Queued**—Number of contacts added to the queue during the reporting interval\.
@@ -167,8 +167,14 @@ The following metrics are available to include in reports, but are not included 
 + **SL 300**—Number of contact that were in the queue for less than 300 seconds\.
 + **SL 600**—Number of contact that were in the queue for less than 600 seconds\.
 + **Agent hung up**—Number of contact in the queue that ended because the agent hung up before the customer\.
-+ **Handled in**—Number of incoming contacts in the queue during the specified time range that were handled by an agent\.
-+ **Handled out**—Number of outbound contacts in the queue during the specified time range that were handled by an agent\.
++ **Handled in**—Number of incoming contacts that were handled by an agent and were initiated from one of the following:
+  + Inbound call
+  + Transfer to agent
+  + Transfer to queue
+  + Queue to queue transfer
++ **Handled out**—Number of contacts handled by an agent that were initiated by an agent placing an outbound call using the CCP\.
++ **Callback contacts handled**—Number of contacts handled by an agent that were queued callbacks\.
++ **API contacts handled**—Number of contacts handled by an agent that were initiated by an API operation, such as `StartOutboundVoiceContact`\.
 + **Hold abandons**—Number of contact that disconnected while the customer was on hold\. A disconnect could be because the customer hung up while on hold, or that there was a technical issue with the contact while on hold\.
 + **Consult**—Number of contacts in the queue that were handled by an agent, and the agent consulted with another agent or call center manager during the contact\. 
 + **Max Queued**—The longest amount of time that a contact spent in the queue before being connected to an agent or hanging up the call before being connected to an agent\. This includes any contact that was added to the queue, even if the contact was not connected with an agent, such as abandoned contacts\.

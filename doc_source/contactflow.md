@@ -34,12 +34,28 @@ When you set **User Defined** or **External** values in dynamic attribute fields
 
 | Block | Action | Description | 
 | --- | --- | --- | 
-|  **Play prompt**  |  Plays audio\.  |  Prompts can be an audio file, stored in the prompt library, or text\-to\-speech, which can optionally be specified in a flow via a contact attribute\. If you use text\-to\-speech, you can use a maximum of 1,024 characters\.  | 
+|  **Play prompt**  |  Plays a stored audio file, or delivers a Text\-to\-speech message\.  |  Prompts can be an audio file, stored in the prompt library, or text\-to\-speech, which can optionally be specified in a flow via a contact attribute\. If you use text\-to\-speech, you can use a maximum of 1,024 characters\.  | 
 |  **Get customer input**  |  Branches based on customer intent\.  |  Plays an interruptible audio prompt and branches based on DTMF or Amazon Lex intents\. If you use text\-to\-speech, you can use a maximum of 1,024 characters\. Amazon Lex bots support both spoken utterances and keypad input when used in a contact flow\.  | 
 |  **Store customer input**  |  Stores numerical input to contact attribute\.  |  Plays an interruptible audio prompt and stores digits via DTMF as a contact attribute\. To enable encryption, contact your system administrator to add a public signing key to the **Contact flow security keys** settings of your Amazon Connect instance\.  | 
 |  **Loop prompts**  |  Loops a sequence of prompts while a customer or agent is on hold or in queue\.  |  When **Loop prompts** is used in a queue flow, audio playback can be interrupted with a flow at preset times\.  | 
 |  **Hold customer or agent**  |  Places a customer or agent on or off hold\.  |  Settings: Agent on hold / customer on call Customer on hold / agent on call Agent and customer on call  | 
 | **Call phone number** | Initiates an outbound call from an outbound whisper flow\. | Use the **Call phone number** block to place an outbound call\. This block is supported only in outbound whisper flows\. You can optionally set the phone number displayed as the caller ID number to a number from your instance, or to a number using an attribute\. The number must be in E\.164 format\. | 
+
+### Set<a name="contact-set"></a>
+
+
+| Block | Action | Description | 
+| --- | --- | --- | 
+|  **Set working queue**  |  Specifies the queue to be used when **Transfer to queue** is invoked\.  |  A queue must be specified before invoking **Transfer to queue** except when used in a customer queue flow\. It’s also the default queue for checking attributes, such as staffing, queue status, and hours of operation\. To use a **Set working queue** block to set the queue dynamically, such as with contact attributes, you must specify the ARN for the queue rather than the queue name\. To find the ARN for a queue, open the queue in the queue editor\. The ARN is included as the last part of the URL displayed in the browser address bar after /queue\. For example, `.../queue/aaaaaaaa-bbbb-cccc-dddd-111111111111`\.    | 
+|  **Set call recording behavior**  |  Sets options for call recordings\.  |  Enables or disables call recording for the agent, customer, or both\.  | 
+|  **Set contact attributes**  |  Stores key\-value pairs as contact attributes\.  |  Contact attributes are accessible by other areas of Amazon Connect, such as the CCP and CTRs\.  | 
+| Get queue metrics | Retrieves real\-time metrics about queues and agents in your contact center and returns them as attributes\. | Use a Check contact attributes block to check metric values and define routing logic based on them, such as number of contact in a queue, number of available agents, and oldest contact in a queue\. For more information, see [Using System Metric Attributes](contact-attributes.md#attrib-system-metrics)\. | 
+|  **Change routing priority / age**  |  Alters the priority of the contact in queue\.  |  Routing age alters the time in queue for the contact, which determines its priority in comparison to when other contacts are received\. Queue priority sets the contact to a high priority that can be compared to other contacts that have a priority set \(typically between 1 and 1000\)\.  | 
+|  **Set hold flow**  |  Links from one contact flow type to another\.  |  Specifies the flow to invoke when a customer or agent is put on hold\.  | 
+|  **Set whisper flow**  |  Overrides the default whisper by linking to a whisper flow\.  |  Specifies the whisper to be played to customer on an outbound call, or to the customer or agent when the call is joined\.  | 
+|  **Set callback number**  |  Sets a callback number\.  |  Specifies the number to be used to call the customer back in the CCP, or when **Transfer to queue** is invoked with the callback option\. When specifying a phone number in Amazon Connect, the number must be in [E\.164 format](https://en.wikipedia.org/wiki/E.164)\. Numbers in E\.164 format do not include the leading zeroes you would dial for a local or regional call within the same country when dialing the number from a phone\. For example, if you usually dial 0400xxxxxx to place a call in Australia, the number in E\.164 format includes the country code of 61 and removes the leading zero for the number\. The number to use in Amazon Connect is **\+61400xxxxxx**\.  | 
+|  **Set voice**  |  Sets the voice\.  |  Sets the voice to interact with the customer, and optionally the voice if using text\-to\-speech \(TTS\)\.  | 
+|  **Set customer queue flow**  |  Set queue flow\.  |  Specifies the flow to invoke when a customer is transferred to a queue\.  | 
 
 ### Integrate<a name="contact-integrate"></a>
 
@@ -48,30 +64,14 @@ When you set **User Defined** or **External** values in dynamic attribute fields
 | --- | --- | --- | 
 |  **Invoke AWS Lambda function**  |  Makes a call to AWS Lambda, and optionally returns key\-value pairs\.  |  The returned key\-value pairs can be used to set contact attributes\.  | 
 
-### Set<a name="contact-set"></a>
-
-
-| Block | Action | Description | 
-| --- | --- | --- | 
-|  **Set working queue**  |  Specifies the queue to be used when **Transfer to queue** is invoked\.  |  A queue must be specified before invoking **Transfer to queue** except when used in a customer queue flow\. It’s also the default queue for checking attributes, such as staffing, queue status, and hours of operation\. To use a **Set working queue** block to set the queue dynamically, such as with contact attributes, you must specify the ARN for the queue rather than the queue name\. To find the ARN for a queue, open the queue in the queue editor\. The ARN is included as the last part of the URL displayed in the browser address bar after /queue\. For example, `.../queue/76f149bd-9edb-4128-b969-347f083d1501`\.   | 
-|  **Set call recording behavior**  |  Sets options for call recordings\.  |  Enables or disables call recording for the agent, customer, or both\.  | 
-|  **Set contact attributes**  |  Stores key\-value pairs as contact attributes\.  |  Contact attributes are accessible by other areas of Amazon Connect, such as the CCP and CTRs\.  | 
-| Get queue metrics | Retrieves real\-time metrics about queues and agents in your contact center and returns them as attributes\. | Use metrics attributes to define routing logic based on metric values, such as number of contact in a queue, number of available agents, and oldest contact in a queue\. For more information, see [Amazon Connect Contact Attributes](contact-attributes.md)\. | 
-|  **Change routing priority / age**  |  Alters the priority of the contact in queue\.  |  Routing age alters the time in queue for the contact, which determines its priority in comparison to when other contacts are received\. Queue priority sets the contact to a high priority that can be compared to other contacts that have a priority set \(typically between 1 and 1000\)\.  | 
-|  **Set hold flow**  |  Links from one contact flow type to another\.  |  Specifies the flow to invoke when a customer or agent is put on hold\.  | 
-|  **Set whisper flow**  |  Overrides the default whisper by linking to a whisper flow\.  |  Specifies the whisper to be played to customer on an outbound call, or to the customer or agent when the call is joined\.  | 
-|  **Set callback number**  |  Sets a callback number\.  |  Specifies the number to be used to call the customer back in the CCP, or when **Transfer to queue** is invoked with the callback option\. When specifying a phone number in Amazon Connect, the number must be in [E\.164 format](https://en.wikipedia.org/wiki/E.164)\. Numbers in E\.164 format do not include the leading zeroes you would dial for a local or regional call within the same country when dialing the number from a phone\. For example, if you usually dial 0400xxxxxx to place a call in Australia, the number in E\.164 format includes the country code of 61 and removes the leading zero for the number\. The number to use in Amazon Connect is **\+61400xxxxxx**\.  | 
-|  **Set voice**  |  Sets the voice\.  |  Sets the voice to interact with the customer, and optionally the voice if using text\-to\-speech \(TTS\)\.  | 
-|  **Set customer queue flow**  |  Set queue flow\.  |  Specifies the flow to invoke when a customer is transferred to a queue\.  | 
-
 ### Branch<a name="contact-branch"></a>
 
 
 | Block | Action | Description | 
 | --- | --- | --- | 
 |  **Check queue status**  |  Checks the status of the queue based on specified conditions\.  |  Branches based on the comparison of **Time in Queue** or **Queue capacity**\. If no match is found, the **No Match** branch is followed\.  | 
-|  **Check staffing**  |  Checks based on whether agents are available, staffed, or online\.  |  Branches based on whether agents are available, staffed \(available, on call, and after call work\), or online\.  You must set a queue before using a **Check staffing** block in your contact flow\. If a queue is not set, the block always proceeds through the error branch\. You can use a **Set working queue** block to set the queue\. When a contact is transferred from one flow to another, the queue that is set in a contact flow is passed from that flow to the next flow\.   | 
-|  **Check hours of operation**  |  Checks to see whether the contact is within or outside of business defined hours\.  |  Branches based on specified hours of operation, either directly or as associated to a queue that is within open hours\.  | 
+|  **Check staffing**  |  Checks the current working queue, or queue you specify in the block, for whether agents are available, staffed \(on call, or after call work status\), or online\.  |  Branches based on whether agents are available, staffed \(available, on call, and after call work\), or online\.  You must set a queue before using a **Check staffing** block in your contact flow\. If a queue is not set, the block always proceeds through the error branch\. You can use a **Set working queue** block to set the queue\. When a contact is transferred from one flow to another, the queue that is set in a contact flow is passed from that flow to the next flow\.   | 
+|  **Check hours of operation**  |  Checks to see whether the contact is occurring within or outside of the hours of operation defined for the queue\.  |  Branches based on specified hours of operation, either directly or as associated to a queue that is within open hours\.   | 
 |  **Check contact attributes**  |  Check the values of contact attributes\.  |  Branches based on a comparison to the value of a contact attribute\. Supported comparisons include: **Equals**, **Is Greater Than**, **Is Less Than**, **Starts With**, **Contains**\.  | 
 |  **Distribute by percentage**  |  Routes customers randomly based on a percentage\.  |  Like flipping a coin, contacts are distributed randomly, which doesn’t guarantee exact percentage splits\.  | 
 
@@ -85,7 +85,7 @@ When you set **User Defined** or **External** values in dynamic attribute fields
 |  **Transfer to phone number**  |  Transfers the customer\.  |  Ends the current contact flow and transfers the customer to a phone number\. If the country you want to select is not listed, you can submit a request to add countries you want to transfer calls to using the [Amazon Connect service limits increase form](https://console.aws.amazon.com/support/home#/case/create?issueType=service-limit-increase&limitType=service-code-connect)\.  | 
 |  **Transfer to agent**  |  Transfers the customer to an agent\.  |  Ends the current contact flow and transfers the customer to an agent\. If the agent is on a call, the contact is disconnected\.  | 
 |  **Transfer to flow**  |  Transfers the customer to another flow\.  |  Ends the current contact flow and transfers the customer to a flow of the same type, such as customer queue flow, customer hold flow, customer whisper flow, agent hold flow, agent whisper flow, transfer to agent flow, and transfer to queue flow\.   | 
-|  **End flow / Resume**  |  Ends the current flow without disconnecting the caller\.  |  This can be used to return to Loop prompts when it has been interrupted\. When **End flow / Resume** is invoked, the customer remains connected to the system\.  | 
+|  **End flow / Resume**  |  Ends the current flow without disconnecting the caller\.  |  This can be used to return to a Loop prompts block when it has been interrupted\. When **End flow / Resume** is invoked, the customer remains connected to the system\.  | 
 
 ## Creating Contact Flows<a name="create-contact-flow"></a>
 
@@ -210,7 +210,7 @@ To successfully complete the call transfer to another queue, you must include a 
 
 Amazon Connect contact flow logs provide you with real\-time details about events in your contact flows as customers interact with them\. You can use contact flow logs to help debug your contact flows as you are creating them\. After you publish your contact flows, you can view the logs to gain insight into what happens during complex contact flows, and quickly identify errors that your customers encounter when they connect to your contact center\.
 
-Contact flow logs are stored in Amazon CloudWatch, in the same region as your Amazon Connect instance\. A log entry added as each block in your contact flow is triggered\. You can configure CloudWatch to send alerts when unexpected events occur during active contact flows\. As a contact center manager, you can aggregate data from contact flow logs to analyze performance of contact flows to optimize the experience you provide for your customers\. For more information about CloudWatch Logs, see the [Amazon CloudWatch Logs User Guide](http://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/)\.
+Contact flow logs are stored in Amazon CloudWatch, in the same region as your Amazon Connect instance\. A log entry added as each block in your contact flow is triggered\. You can configure CloudWatch to send alerts when unexpected events occur during active contact flows\. As a contact center manager, you can aggregate data from contact flow logs to analyze performance of contact flows to optimize the experience you provide for your customers\. For more information about CloudWatch Logs, see the [Amazon CloudWatch Logs User Guide](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/)\.
 
 ### Enabling Contact Flow Logs<a name="contact-flow-log-entries"></a>
 

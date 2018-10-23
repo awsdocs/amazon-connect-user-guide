@@ -29,12 +29,12 @@ The following types of contact attributes are available in Amazon Connect:
 + **System**—Predefined attributes in Amazon Connect\. You can reference system attributes, but you cannot create them\. Some system attributes relate to contacts, and some relate to metrics\. Not all blocks in a contact flow support using System attributes\. For example, you cannot use a System attribute to store customer input\. Instead, use a user\-defined attribute to store the data input by a customer\.
 + **Agent**—A subset of system attributes related to agents in your contact center\.
 + **Queue metrics**—System metric attributes returned when you use a **Get queue metrics** block in your contact flow\.
-+ **User\-defined**—Attributes that are created when a contact flow is run using **Set contact attributes** blocks\. When you get data from an external source, you can copy key\-value pairs as user\-defined attributes to reference later in a contact flow\. You can also create user\-defined attributes through the Amazon Connect API\.
++ **User\-defined**—Attributes that are created when a contact flow executes using **Set contact attributes** blocks\. When you get data from an external source, you can copy key\-value pairs as user\-defined attributes to reference later in a contact flow\. You can also create user\-defined attributes through the Amazon Connect API\.
 
   User\-defined attributes include all attributes set by using a **Set contact attributes** block in a contact flow\. User\-defined attributes are included in contact trace records \(CTRs\)\. They are available to Lambda functions that are invoked after the **Set contact attributes** block, and are created in the Attributes namespace\. They are also available to applications that integrate with the Contact Control Panel \(CCP\) for screenpop information, and can be referenced in contact flows\.
 + **External**—Attributes are created via a process external to Amazon Connect\. For example, when you use an **Invoke AWS Lambda function** block in a contact flow, or integrate with an Amazon Lex bot\.
 
-  External attributes are returned as key\-value pairs from the most recent invocation of an **Invoke AWS Lambda function** block\. External attributes are overwritten with each invocation of the Lambda function\. You can access external attributes in contact flows via $\.External\.AttributeName\. For more information about using attributes in Lambda functions, see [Using AWS Lambda Functions with Amazon Connect](http://docs.aws.amazon.com/connect/latest/adminguide/connect-lambda-functions.html)\.
+  External attributes are returned as key\-value pairs from the most recent invocation of an **Invoke AWS Lambda function** block\. External attributes are overwritten with each invocation of the Lambda function\. You can access external attributes in contact flows via $\.External\.AttributeName\. For more information about using attributes in Lambda functions, see [Using AWS Lambda Functions with Amazon Connect](https://docs.aws.amazon.com/connect/latest/adminguide/connect-lambda-functions.html)\.
 
   These attributes are not included in CTRs, not passed to the next Lambda invocation, and not passed to the CCP for screenpop information\. However, they can be passed as Lambda function inputs on an **Invoke AWS Lambda function** block, or copied to user\-defined attributes via the **Set contact attributes** block\. When used in **Set contact attributes** blocks, the attributes that are copied are included in CTRs, and can be used in the CCP\.
 + **Lex slots**—External attribute for the slot name of an Amazon Lex bot\.
@@ -116,7 +116,7 @@ When the Lambda function returns a response from your internal system, the respo
 
 After this block executes during a contact flow, the value is saved as a user\-defined attribute with the name specified by the **Destination key**, in this case customerName\. It can be accessed in any block that uses dynamic attributes\.
 
-To branch your contact flow based on the value of an external attribute, such as an account number, use a **Check contact attributes** block, and then add a condition to compare the value of the attribute to\. Next, branch the contact flow route based on the condition\.
+To branch your contact flow based on the value of an external attribute, such as an account number, use a **Check contact attributes** block, and then add a condition to compare the value of the attribute to\. Next, branch the contact flow based on the condition\.
 
 ****
 
@@ -124,7 +124,7 @@ To branch your contact flow based on the value of an external attribute, such as
    + Select **External** for the **Type**, then enter the key name returned from the Lambda function in the **Attribute** field\.
 **Important**  
 Any attribute returned from an AWS Lambda function is overwritten with the next function invocation\. To reference them later in a contact flow, store them as user\-defined attributes\.
-   + Select **User defined** for the **Type**, and in the **Attribute** field, type the name that you specified as the **Destination key** in the **Set contact attributes** block\.
+   + Select **User Defined** for the **Type**, and in the **Attribute** field, type the name that you specified as the **Destination key** in the **Set contact attributes** block\.
 
 1. Choose **Add another condition**\.
 
@@ -148,9 +148,11 @@ For example, included with your Amazon Connect instance, there is a contact flow
 
 The way you reference contact attributes depends on how they were created and how you are accessing them\. To reference attributes in the same namespace, such as a system attribute, you use the attribute name, or the name you specified as the **Destination key**\. To reference values in a different namespace, such as referencing an external attribute, you specify the JSONPath syntax to the attribute\.
 
-For example, to reference a customer name from a Lambda function lookup, you would use $\.External\.AttributeKey, replacing AttributeKey with the key \(or name\) of the attribute returned from the Lambda function\. To reference an attribute from an Amazon Lex bot, you use the format $\.Lex\. and then include the part of the Amazon Lex bot to reference, such as $\.Lex\.IntentName or $\.Lex\.dialogState\. To reference the customer input to an Amazon Lex bot slot, use $\.Lex\.Slots\.slotName\.
+For example, to reference a customer name from a Lambda function lookup, you use $\.External\.AttributeKey, replacing AttributeKey with the key \(or name\) of the attribute returned from the Lambda function\. To reference an attribute from an Amazon Lex bot, you use the format $\.Lex\. and then include the part of the Amazon Lex bot to reference, such as $\.Lex\.IntentName\. To reference the customer input to an Amazon Lex bot slot, use $\.Lex\.Slots\.*slotName*, replacing *slotName* with the name of the slot in the bot\.
 
-To reference user\-defined attributes, such as those set with the **Set contact attributes** block, use $\.AttributeKey\.AttributeValue, where AttributeKey is the name you used for the **Destination key**, and AttributeValue is what you entered in the **Value** field in the **Set contact attributes** block\.
+To reference user\-defined attributes, such as those set with the **Set contact attributes** block, use the drop\-down menus in subsequent blocks to reference the attribute, or use the Attributes namespace in JSONPath to the attribute if used in a text field\. For example, if you create a user\-defined attribute in a **Set contact attributes** block, you reference it in one of the following ways:
++ In a block that supports attributes, such as a **Check contact attributes** block, choose **User Defined** for the **Type**, and use the value you entered for the **Destination key** in the **Attribute** field\.
++ In a text field in a block, such as a **Play prompt** block, use the JSONPath $\.Attributes\.DestinationKey, replacing DestinationKey with the value you entered in the **Destination key**\.
 
 JSONPath is a standardized way to query elements of a JSON object\. JSONPath uses path expressions to navigate elements, nested elements, and arrays in a JSON document\. For more information about JSON, see [Introducing JSON](http://www.json.org/)\.
 
