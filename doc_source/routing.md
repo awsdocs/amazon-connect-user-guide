@@ -78,7 +78,7 @@ Calls in a queue are automatically prioritized and forwarded to the next availab
 
 A routing profile may assign a priority to one queue over another, but the priority within the queue is always set by the order the contact was added to the queue\.
 
-Use the metrics and reporting features of Amazon Connect to monitor queue performance and wait times in your in your contact center to optimize agent efficiency and reduce customer hold times\. Make sure to plan for peak busy times and how additional calls are handled when your contact center is at full call capacity\. To learn more about queue metrics, see [Amazon Connect Metrics and Reports](connect-metrics.md)\. To learn more about using queue metric attributes in contact flows, see [Using System Metric Attributes](contact-attributes.md#attrib-system-metrics)\.
+Use the metrics and reporting features of Amazon Connect to monitor queue performance and wait times in your contact center to optimize agent efficiency and reduce customer hold times\. Make sure to plan for peak busy times and how additional calls are handled when your contact center is at full call capacity\. To learn more about queue metrics, see [Amazon Connect Metrics and Reports](connect-metrics.md)\. To learn more about using queue metric attributes in contact flows, see [Using System Metric Attributes](contact-attributes.md#attrib-system-metrics)\.
 
 Queue metrics can be monitored and reviewed using both real\-time and historical metrics\. Metrics include **Service Level**, **Average Handle Time**, **Average Abandon Time**, and **Average Hold Time**\.
 
