@@ -5,7 +5,7 @@ In Amazon Connect, data about contacts, such as the amount of time a contact spe
 **Note**  
 Not all metrics are derived from CTR data\. For example, the **Contacts consulted** metric, which is a count of number of times an agent consulted with a third party, is not included in CTRs\.
 
-Within Amazon Connect, you can generate a number of real\-time and historical metric reports to monitor efficiency and utilization, agent performance, and other information about your contact center\. CTRs are available within your instance for 24 months\. You can also choose to stream CTRs to Amazon Kinesis so that you can manage retention and perform advanced analysis on the data for your contact center\.
+Within Amazon Connect, you can generate a number of real\-time and historical metric reports to monitor efficiency and utilization, agent performance, and other information about your contact center\. CTRs are available within your instance for 24 months from the time at which the associated contact was initiated\. You can also choose to stream CTRs to Amazon Kinesis so that you can manage retention and perform advanced analysis on the data for your contact center\.
 
 To get detailed information on the activity of agents in your contact center, you can use [Agent Event Streams](agent-event-streams.md)\.
 

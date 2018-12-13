@@ -5,6 +5,7 @@
 + [Creating Contact Flows](#create-contact-flow)
 + [Using a **Call phone number** block in a contact flow](#using-call-number-block)
 + [Using Queue to Queue Transfer](#queue-to-queue-transfer)
++ [Transferring Calls Directly to an Agent](#transfer-to-agent)
 + [Contact Flow Logs](#contact-flow-logs)
 + [Contact Flow Import/Export](#contact-flow-import-export)
 
@@ -46,7 +47,7 @@ When you set **User Defined** or **External** values in dynamic attribute fields
 
 | Block | Action | Description | 
 | --- | --- | --- | 
-|  **Set working queue**  |  Specifies the queue to be used when **Transfer to queue** is invoked\.  |  A queue must be specified before invoking **Transfer to queue** except when used in a customer queue flow\. It’s also the default queue for checking attributes, such as staffing, queue status, and hours of operation\. To use a **Set working queue** block to set the queue dynamically, such as with contact attributes, you must specify the ARN for the queue rather than the queue name\. To find the ARN for a queue, open the queue in the queue editor\. The ARN is included as the last part of the URL displayed in the browser address bar after /queue\. For example, `.../queue/aaaaaaaa-bbbb-cccc-dddd-111111111111`\.    | 
+|  **Set working queue**  |  Specifies the queue to be used when **Transfer to queue** is invoked\.  |  A queue must be specified before invoking **Transfer to queue** except when used in a customer queue flow\. It’s also the default queue for checking attributes, such as staffing, queue status, and hours of operation\. To use a **Set working queue** block to set the queue dynamically, such as with contact attributes, you must specify the ARN for the queue rather than the queue name\. To find the ARN for a queue, open the queue in the queue editor\. The ARN is included as the last part of the URL displayed in the browser address bar after /queue\. For example, `.../queue/aaaaaaaa-bbbb-cccc-dddd-111111111111`\.   | 
 |  **Set call recording behavior**  |  Sets options for call recordings\.  |  Enables or disables call recording for the agent, customer, or both\.  | 
 |  **Set contact attributes**  |  Stores key\-value pairs as contact attributes\.  |  Contact attributes are accessible by other areas of Amazon Connect, such as the CCP and CTRs\.  | 
 | Get queue metrics | Retrieves real\-time metrics about queues and agents in your contact center and returns them as attributes\. | Use a Check contact attributes block to check metric values and define routing logic based on them, such as number of contact in a queue, number of available agents, and oldest contact in a queue\. For more information, see [Using System Metric Attributes](contact-attributes.md#attrib-system-metrics)\. | 
@@ -74,6 +75,7 @@ When you set **User Defined** or **External** values in dynamic attribute fields
 |  **Check hours of operation**  |  Checks to see whether the contact is occurring within or outside of the hours of operation defined for the queue\.  |  Branches based on specified hours of operation, either directly or as associated to a queue that is within open hours\.   | 
 |  **Check contact attributes**  |  Check the values of contact attributes\.  |  Branches based on a comparison to the value of a contact attribute\. Supported comparisons include: **Equals**, **Is Greater Than**, **Is Less Than**, **Starts With**, **Contains**\.  | 
 |  **Distribute by percentage**  |  Routes customers randomly based on a percentage\.  |  Like flipping a coin, contacts are distributed randomly, which doesn’t guarantee exact percentage splits\.  | 
+|  **Loop**  |   Loops through \(repeats\) the **Looping** branch for the number of loops specified\.  |   After the loops are completed, the **Complete** branch is followed\. If you enter 0 for the loop count, the **Complete** branch is followed the first time this block executes\.An example use of this block is to loop back to a **Get customer input** block to try to enter input, such as an account number, when an initial attempt does not succeed\.  | 
 
 ### Terminate / Transfer<a name="contact-terminate"></a>
 
@@ -84,7 +86,7 @@ When you set **User Defined** or **External** values in dynamic attribute fields
 |  **Transfer to queue**  |  In most contact flows, this block ends the current contact flow and places the customer in queue\. When used in a customer queue flow, this block transfers a call already in a queue to another queue\.  |  When used in most contact flows, a queue must be specified, using **Set working queue**, before invoking **Transfer to queue** except when used in a customer queue flow\. Optionally, the contact can be placed in queue to receive a callback, if a **Set customer callback number** block is used before this block in a flow\. When used in a customer queue flow, a **Loop prompts** block must be used prior to this block in the contact flow\. For more information, see [Using Queue to Queue Transfer](#queue-to-queue-transfer)\.  | 
 |  **Transfer to phone number**  |  Transfers the customer\.  |  Ends the current contact flow and transfers the customer to a phone number\. If the country you want to select is not listed, you can submit a request to add countries you want to transfer calls to using the [Amazon Connect service limits increase form](https://console.aws.amazon.com/support/home#/case/create?issueType=service-limit-increase&limitType=service-code-connect)\.  | 
 |  **Transfer to agent**  |  Transfers the customer to an agent\.  |  Ends the current contact flow and transfers the customer to an agent\. If the agent is on a call, the contact is disconnected\.  | 
-|  **Transfer to flow**  |  Transfers the customer to another flow\.  |  Ends the current contact flow and transfers the customer to a flow of the same type, such as customer queue flow, customer hold flow, customer whisper flow, agent hold flow, agent whisper flow, transfer to agent flow, and transfer to queue flow\.   | 
+|  **Transfer to flow**  |  Transfers the customer to another contact flow\.  |  Ends the current contact flow and transfers the customer to a different contact flow\. Available in transfer to agent and transfer to queue flows\.  | 
 |  **End flow / Resume**  |  Ends the current flow without disconnecting the caller\.  |  This can be used to return to a Loop prompts block when it has been interrupted\. When **End flow / Resume** is invoked, the customer remains connected to the system\.  | 
 
 ## Creating Contact Flows<a name="create-contact-flow"></a>
@@ -205,6 +207,43 @@ In the **Transfer to queue** block, there are two outputs to route calls through
 
 **Important**  
 To successfully complete the call transfer to another queue, you must include a block after the **Transfer to queue** block and connect the **Success** branch to it\. For example, use an **End flow / Resume** block to end the contact flow\. The flow does not end until the call is picked up by an agent\.
+
+## Transferring Calls Directly to an Agent<a name="transfer-to-agent"></a>
+
+To provide a consistent customer experience for your customers, you can route calls directly to the agent the customer last interacted with, if available\. In each block that supports transferring the contact to a queue, such as the **Transfer to queue** block, there is a **By agent** radio button under **Queue** \(or **Queue to check \(optional\)** or **By queue** depending on the block\)\. When you select **By agent**, a drop\-down list that includes the name of all users in your instance is displayed\. When you select user name, the contact is transferred to the queue for that user\.
+
+Contact flow blocks in which you can specify a queue include: **Set working queue**, **Get queue metrics**, **Check queue status**, **Check staffing**, and **Transfer to queue** when used in a customer queue flow\.
+
+**Note**  
+A queue is created for all users in your Amazon Connect instance, but only users assigned the Agent or Admin security profiles have permission to use the Contact Control Panel \(CCP\), which is required to answer calls in Amazon Connect\. If you route a call to a user that cannot access the CCP, the contact can never be answered\.
+
+In some cases, you need to use the ARN of the queue to route the contact directly to an agent\. To determine the ARN for a queue created for users in your instance, first determine the resource ID for the agent's user account\. The resource ID for an agent is a numeric value assigned to the account when it is created\. The ID is included as part of the ARN for the account\. To find the value for the resource ID, enable agent event streams,
+
+The ARN for the queue created for the user account would be in the following format:
+
+arn:aws:connect:aws\-region:awsAccountId:instance/instance\-Id/queue/agent/agentResourceId
+
+arn:aaws:connect:us\-east\-1:613787477748:instance/*instanceId*/queue/agent/agentResourceId
+
+## To route a call directly to an agent
+
+1. In Amazon Connect, choose **Routing**, **Contact flows**\.
+
+1. In the **Contact flow designer**, open an existing, or create a new contact flow\.
+
+1. Add a block in which you can select a queue to transfer a contact to, such as a **Set working queue** block\.
+
+1. Select the title of the block to open the block settings\.
+
+1. Choose **By queue**, then choose **By agent**\.
+
+1. Under **Select an agent**, enter the user name of the agent, or select the agent's user name from the drop\-down list\.
+
+1. Choose **Save**\.
+
+1. Connect the **Success** branch to the next block in your contact flow\.
+
+You can also choose to use an attribute to select the queue created for the agent user account\. To do so, after you choose **By agent**, choose **Use attribute**\.
 
 ## Contact Flow Logs<a name="contact-flow-logs"></a>
 

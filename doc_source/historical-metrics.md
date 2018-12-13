@@ -6,7 +6,6 @@ Historical metrics reports include data about past, completed activity and perfo
   + Agent metrics
 + Agents
   + Agent performance
-  + Agent status
   + Agent activity audit
 + Phone numbers
   + Contact metrics
@@ -31,11 +30,9 @@ You can create historical metrics reports to view historical data for activity i
 
    If you choose a **Queues**, **Agent performance**, or **Phone numbers**, the report is generated when you choose the report type\.
 
-1. To create **Agent status** or **Agent activity audit** reports, do one of the following:
-   + Choose **Agent status**, then select the **Time Zone**, **Start date**, **End Date**, and **Filter By** value for the report, and then choose **Generate Report**\. 
+1. To create an **Agent activity audit** report, choose **Agent activity audit**, then select an agent in the **Agent Login** list and specify the **Date** and **Time Zone** to use for the report\.
 
-     You can filter reports by **Agent** or **Routing Profile** in the **Filter by** drop\-down menu\.
-   + Choose **Agent activity audit**, then select an agent in the **Agent Login** list and specify the **Date** and **Time Zone** to use for the report\.
+   You can filter reports by **Agent** or **Routing Profile** in the **Filter by** drop\-down menu\.
 
 ## Add a Report to the Dashboard<a name="add-hist-metrics-report"></a>
 
@@ -358,7 +355,7 @@ Count of contacts that were answered by an agent within 600 seconds of being pla
 Count of contacts placed into a queue\.
 
 **Contacts transferred in**  
-Count of contacts transferred to a queue by an agent\.
+Count of contacts transferred to a queue by an agent using the CCP\.
 
 **Contacts transferred out**  
 Count of contacts transferred out of a queue after being answered by an agent\.

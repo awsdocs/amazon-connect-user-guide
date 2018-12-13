@@ -55,15 +55,19 @@ Before agents can use the CCP, check the following configurations:
 
 Agents can log in using the URL, user name, and password provided by their Amazon Connect administrator\. Each agent has a unique user name and password\.
 
-If agents use a softphone, they must have permission to connect to the IP addresses in the address range for the region where you created your Amazon Connect instance\. The IP addresses used by Amazon Connect in each region are listed, along with the addresses for all AWS services, in the [https://ip\-ranges\.amazonaws\.com/ip\-ranges\.json](https://ip-ranges.amazonaws.com/ip-ranges.json) file with the service name AMAZON\_CONNECT\.
+If your agents use a softphone for Amazon Connect, you must allow traffic in both directions for the ports and addresses listed below, for the region in which you created your instance\.
 
-You must allow UDP traffic in both directions on port 3478 for all addresses listed for the region in which you created your instance\. For web requests to the CCP, allow access on port 443 \(https\) in both directions\.
-
-For more information, see [AWS IP Address Ranges](https://docs.aws.amazon.com/general/latest/gr/aws-ip-ranges.html) in the Amazon Web Services General Reference\.
-
-For agents to use the CCP, you also need to allow access for the softphone signaling endpoints, which are hosted in Amazon EC2\.
+The IP addresses used by Amazon Connect for each region are listed, along with the addresses for all AWS services, in the [https://ip\-ranges\.amazonaws\.com/ip\-ranges\.json](https://ip-ranges.amazonaws.com/ip-ranges.json) file under the service name AMAZON\_CONNECT\. For agents to use the CCP, you also need to allow access for the softphone signaling endpoints, which are hosted in Amazon EC2\. For more information about IP address ranges in AWS, see [AWS IP Address Ranges](https://docs.aws.amazon.com/general/latest/gr/aws-ip-ranges.html)\.
 
 When there are new IP address ranges supported for Amazon Connect, they are added to the publicly available [ip\-ranges\.json](https://ip-ranges.amazonaws.com/ip-ranges.json) for a minimum of 30 days before they are used by the service\. After 30 days, softphone traffic through the new IP address ranges increases over the subsequent two weeks\. After two weeks, traffic is routed through the new ranges equivalent to all available ranges\.
+
+
+| Protocol | Port | Transport Layer | IP Range | 
+| --- | --- | --- | --- | 
+| HTTP | 80 | TCP | AWS EC2 and CLOUDFRONT ranges in [https://ip\-ranges\.amazonaws\.com/ip\-ranges\.json](https://ip-ranges.amazonaws.com/ip-ranges.json)\. | 
+| HTTPS | 443 | TCP | AWS EC2 and CLOUDFRONT ranges in [https://ip\-ranges\.amazonaws\.com/ip\-ranges\.json](https://ip-ranges.amazonaws.com/ip-ranges.json)\. | 
+| TURN/STUN | 3478 and 49152\-65535 | UDP | AMAZON\_CONNECT ranges in [https://ip\-ranges\.amazonaws\.com/ip\-ranges\.json](https://ip-ranges.amazonaws.com/ip-ranges.json)\. | 
+| TURN relay media | 80 and 443 | UDP and TCP | AMAZON\_CONNECT ranges in [https://ip\-ranges\.amazonaws\.com/ip\-ranges\.json](https://ip-ranges.amazonaws.com/ip-ranges.json)\. | 
 
 ### Status Settings<a name="status"></a>
 

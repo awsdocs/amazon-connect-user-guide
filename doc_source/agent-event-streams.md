@@ -23,6 +23,217 @@ If you enable server\-side encryption for the Kinesis stream you select for agen
 
 1. Under **Agent Events**, select the Kinesis stream to use, and then choose **Save**\.
 
+## Use Agent Event Streams to Determine Agent ACW Time<a name="determine-acw-time"></a>
+
+You can use agent event stream data to determine the amount of time an agent spent in ACW\. Though there is no event in the event stream for the agent entering AWS status, you can use the other agent event data to calculate the time\.
+
+In agent event streams, you can determine the time at which an agent entered ACW status by viewing the `StateStartTimeStamp` for the event for a contact entering the `ENDED` state in the event stream\.
+
+For example, in the following example agent event stream output, the agent enters ACW at "**StateStartTimestamp**": "2018\-10\-25T18:55:27\.027Z"\.
+
+```
+{
+    "AWSAccountId": "012345678901",
+    "AgentARN": "arn:aws:connect:us-east-1:012345678901:instance/aaaaaaaa-bbbb-cccc-dddd-111111111111/agent/agent-ARN",
+    "CurrentAgentSnapshot": {
+        "AgentStatus": {
+            "ARN": "arn:aws:connect:us-east-1:012345678901:instance/aaaaaaaa-bbbb-cccc-dddd-111111111111/agent-state/agent-state-ARN",
+            "Name": "Available",
+            "StartTimestamp": "2018-10-25T18:43:59.059Z"
+        },
+        "Configuration": {
+            "AgentHierarchyGroups": null,
+            "FirstName": "(Removed)",
+            "LastName": "(Removed)",
+            "RoutingProfile": {
+                "ARN": "arn:aws:connect:us-east-1:012345678901:instance/aaaaaaaa-bbbb-cccc-dddd-111111111111/routing-profile/routing-profile-ARN",
+                "DefaultOutboundQueue": {
+                    "ARN": "arn:aws:connect:us-east-1:012345678901:instance/aaaaaaaa-bbbb-cccc-dddd-111111111111/queue/queue-ARN-for-BasicQueue",
+                    "Name": "BasicQueue"
+                },
+                "InboundQueues": [
+                    {
+                        "ARN": "arn:aws:connect:us-east-1:012345678901:instance/aaaaaaaa-bbbb-cccc-dddd-111111111111/queue/queue-ARN-for-BasicQueue",
+                        "Name": "BasicQueue"
+                    },
+                    {
+                        "ARN": "arn:aws:connect:us-east-1:012345678901:instance/aaaaaaaa-bbbb-cccc-dddd-111111111111/queue/queue-ARN-for-PrimaryQueue",
+                        "Name": "PrimaryQueue"
+                    }
+                ],
+                "Name": "Basic Routing Profile"
+            },
+            "Username": "(Removed)"
+        },
+        "Contacts": [
+            {
+                "Channel": "VOICE",
+                "ConnectedToAgentTimestamp": "2018-10-25T18:55:21.021Z",
+                "ContactId": "ContactId-1",
+                "InitialContactId": null,
+                "InitiationMethod": "OUTBOUND",
+                "Queue": {
+                    "ARN": "arn:aws:connect:us-east-1:012345678901:instance/aaaaaaaa-bbbb-cccc-dddd-111111111111/queue/queue-ARN-for-BasicQueue",
+                    "Name": "BasicQueue"
+                },
+                "QueueTimestamp": null,
+                "State": "ENDED",
+                "StateStartTimestamp": "2018-10-25T18:55:27.027Z"  //Agent entered ACW at this time
+            }
+        ]
+    },
+    "EventId": "EventId-1",
+    "EventTimestamp": "2018-10-25T18:55:27.027Z",
+    "EventType": "STATE_CHANGE",
+    "InstanceARN": "arn:aws:connect:us-east-1:012345678901:instance/aaaaaaaa-bbbb-cccc-dddd-111111111111",
+    "PreviousAgentSnapshot": {
+        "AgentStatus": {
+            "ARN": "arn:aws:connect:us-east-1:012345678901:instance/aaaaaaaa-bbbb-cccc-dddd-111111111111/agent-state/agent-state-ARN",
+            "Name": "Available",
+            "StartTimestamp": "2018-10-25T18:43:59.059Z"
+        },
+        "Configuration": {
+            "AgentHierarchyGroups": null,
+            "FirstName": "(Removed)",
+            "LastName": "(Removed)",
+            "RoutingProfile": {
+                "ARN": "arn:aws:connect:us-east-1:012345678901:instance/aaaaaaaa-bbbb-cccc-dddd-111111111111/routing-profile/routing-profile-ARN",
+                "DefaultOutboundQueue": {
+                    "ARN": "arn:aws:connect:us-east-1:012345678901:instance/aaaaaaaa-bbbb-cccc-dddd-111111111111/queue/queue-ARN-for-BasicQueue",
+                    "Name": "BasicQueue"
+                },
+                "InboundQueues": [
+                    {
+                        "ARN": "arn:aws:connect:us-east-1:012345678901:instance/aaaaaaaa-bbbb-cccc-dddd-111111111111/queue/queue-ARN-for-BasicQueue",
+                        "Name": "BasicQueue"
+                    },
+                    {
+                        "ARN": "arn:aws:connect:us-east-1:012345678901:instance/aaaaaaaa-bbbb-cccc-dddd-111111111111/queue/queue-ARN-for-PrimaryQueue",
+                        "Name": "PrimaryQueue"
+                    }
+                ],
+                "Name": "Basic Routing Profile"
+            },
+            "Username": "(Removed)"
+        },
+        "Contacts": [
+            {
+                "Channel": "VOICE",
+                "ConnectedToAgentTimestamp": "2018-10-25T18:55:21.021Z",
+                "ContactId": "ContactId-1",
+                "InitialContactId": null,
+                "InitiationMethod": "OUTBOUND",
+                "Queue": {
+                    "ARN": "arn:aws:connect:us-east-1:012345678901:instance/aaaaaaaa-bbbb-cccc-dddd-111111111111/queue/queue-ARN-for-BasicQueue",
+                    "Name": "BasicQueue"
+                },
+                "QueueTimestamp": null,
+                "State": "CONNECTED",
+                "StateStartTimestamp": "2018-10-25T18:55:21.021Z"
+            }
+        ]
+    },
+    "Version": "2017-10-01"
+}
+```
+
+Agent ACW state ends when the agent enters another state, such as when the agent chooses a status in the CCP\. To determine the time at which an agent left ACW status, you can view the `EventTimeStamp` for the `EventType` "STATE\_CHANGE" in the stream output\. Note that a STATE\_CHANGE event also occurs when the agent's configuration is changed, such as the routing profile assigned to the agent\. To confirm that you are using the correct `EventTimeStamp` associated with the agent leaving ACW status, use the `EventTimeStamp` for the event where the associated `CurrentAgentSnapshot` has no contacts listed, and the state for the contact listed in the `PreviousAgentSnapshot` equals ENDED\.
+
+For example, in the following example agent event stream file, the agent left ACW at "**EventTimestamp**": "2018\-10\-25T18:55:32\.032Z"\.
+
+```
+{
+    "AWSAccountId": "012345678901",
+    "AgentARN": "arn:aws:connect:us-east-1:012345678901:instance/aaaaaaaa-bbbb-cccc-dddd-111111111111/agent/agent-ARN",
+    "CurrentAgentSnapshot": {
+        "AgentStatus": {
+            "ARN": "arn:aws:connect:us-east-1:012345678901:instance/aaaaaaaa-bbbb-cccc-dddd-111111111111/agent-state/agent-state-ARN",
+            "Name": "Available",
+            "StartTimestamp": "2018-10-25T18:43:59.059Z"
+        },
+        "Configuration": {
+            "AgentHierarchyGroups": null,
+            "FirstName": "(Removed)",
+            "LastName": "(Removed)",
+            "RoutingProfile": {
+                "ARN": "arn:aws:connect:us-east-1:012345678901:instance/aaaaaaaa-bbbb-cccc-dddd-111111111111/routing-profile/routing-profile-ARN",
+                "DefaultOutboundQueue": {
+                    "ARN": "arn:aws:connect:us-east-1:012345678901:instance/aaaaaaaa-bbbb-cccc-dddd-111111111111/queue/queue-ARN-for-BasicQueue",
+                    "Name": "BasicQueue"
+                },
+                "InboundQueues": [
+                    {
+                        "ARN": "arn:aws:connect:us-east-1:012345678901:instance/aaaaaaaa-bbbb-cccc-dddd-111111111111/queue/queue-ARN-for-BasicQueue",
+                        "Name": "BasicQueue"
+                    },
+                    {
+                        "ARN": "arn:aws:connect:us-east-1:012345678901:instance/aaaaaaaa-bbbb-cccc-dddd-111111111111/queue/queue-ARN-for-PrimaryQueue",
+                        "Name": "PrimaryQueue"
+                    }
+                ],
+                "Name": "Basic Routing Profile"
+            },
+            "Username": "(Removed)"
+        },
+        "Contacts": []
+    },
+    "EventId": "477f2c4f-cd1a-4785-b1a8-97023dc1229d",
+    "EventTimestamp": "2018-10-25T18:55:32.032Z",
+    "EventType": "STATE_CHANGE",
+    "InstanceARN": "arn:aws:connect:us-east-1:012345678901:instance/aaaaaaaa-bbbb-cccc-dddd-111111111111",
+    "PreviousAgentSnapshot": {
+        "AgentStatus": {
+            "ARN": "arn:aws:connect:us-east-1:012345678901:instance/aaaaaaaa-bbbb-cccc-dddd-111111111111/agent-state/agent-state-ARN",
+            "Name": "Available",
+            "StartTimestamp": "2018-10-25T18:43:59.059Z"
+        },
+        "Configuration": {
+            "AgentHierarchyGroups": null,
+            "FirstName": "(Removed)",
+            "LastName": "(Removed)",
+            "RoutingProfile": {
+                "ARN": "arn:aws:connect:us-east-1:012345678901:instance/aaaaaaaa-bbbb-cccc-dddd-111111111111/routing-profile/routing-profile-ARN",
+                "DefaultOutboundQueue": {
+                    "ARN": "arn:aws:connect:us-east-1:012345678901:instance/aaaaaaaa-bbbb-cccc-dddd-111111111111/queue/queue-ARN-for-BasicQueue",
+                    "Name": "BasicQueue"
+                },
+                "InboundQueues": [
+                    {
+                        "ARN": "arn:aws:connect:us-east-1:012345678901:instance/aaaaaaaa-bbbb-cccc-dddd-111111111111/queue/queue-ARN-for-BasicQueue",
+                        "Name": "BasicQueue"
+                    },
+                    {
+                        "ARN": "arn:aws:connect:us-east-1:012345678901:instance/aaaaaaaa-bbbb-cccc-dddd-111111111111/queue/queue-ARN-for-PrimaryQueue",
+                        "Name": "PrimaryQueue"
+                    }
+                ],
+                "Name": "Basic Routing Profile"
+            },
+            "Username": "(Removed)"
+        },
+        "Contacts": [
+            {
+                "Channel": "VOICE",
+                "ConnectedToAgentTimestamp": "2018-10-25T18:55:21.021Z",
+                "ContactId": "ContactId-1",
+                "InitialContactId": null,
+                "InitiationMethod": "OUTBOUND",
+                "Queue": {
+                    "ARN": "arn:aws:connect:us-east-1:012345678901:instance/aaaaaaaa-bbbb-cccc-dddd-111111111111/queue/queue-ARN-for-BasicQueue",
+                    "Name": "BasicQueue"
+                },
+                "QueueTimestamp": null,
+                "State": "ENDED",
+                "StateStartTimestamp": "2018-10-25T18:55:27.027Z"
+            }
+        ]
+    },
+    "Version": "2017-10-01"
+}
+```
+
+To calculate the amount of time an agent spent in ACW, subtract the "**StateStartTimestamp**": "2018\-10\-25T18:55:27\.027Z" from the "**EventTimestamp**": "2018\-10\-25T18:55:32\.032Z"\. In this example, the value is 5\.005 seconds\.
+
 ## Agent Event Streams Data Model<a name="agent-event-stream-model"></a>
 
 Agent event streams are created in JavaScript Object Notation \(JSON\) format\. For each event type, a JSON blob is sent to the Kinesis data stream\. The following event types are included in agent event streams:
