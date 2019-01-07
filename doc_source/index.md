@@ -1,7 +1,7 @@
 # Amazon Connect User Guide
 
 -----
-*****Copyright &copy; 2018 Amazon Web Services, Inc. and/or its affiliates. All rights reserved.*****
+*****Copyright &copy; 2019 Amazon Web Services, Inc. and/or its affiliates. All rights reserved.*****
 
 -----
 Amazon's trademarks and trade dress may not be used in 
@@ -17,6 +17,7 @@ Amazon's trademarks and trade dress may not be used in
 + [Using Amazon Connect](using-amazon-connect.md)
    + [Working with User Settings](users.md)
    + [Understanding Contact Flows](contactflow.md)
+      + [Use Live Media Streaming in a Contact Flow](customer-voice-streams.md)
    + [Using Text-to-Speech with Amazon Connect](text-to-speech.md)
    + [Creating a Customer Contact Flow](routing.md)
    + [Working with Hierarchies](contact-management.md)

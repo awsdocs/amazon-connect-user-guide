@@ -16,6 +16,7 @@ Contact attributes let you pass data between Amazon Connect and other services, 
 + [System Attributes for Contact Flows](#system-attributes)
 + [Contact Attributes Available in Amazon Connect](#connect-attrib-list)
 + [System Metrics Attributes](#attribs-system-metrics-table)
++ [Media Streams Attributes](#media-stream-attribs)
 
 ## Using Contact Attributes<a name="using-contact-attributes"></a>
 
@@ -210,7 +211,7 @@ Alternatively, you could store the attributes returned from the Lambda function 
 
 When you reference attributes in a **Get customer input** block, and choose Amazon Lex as the method of collecting the input, the attribute values are retrieved and stored from the output from the customer interaction with the Amazon Lex bot\. You can use an attribute for each intent or slot used in the Amazon Lex bot, as well as the sessions attributes associated with the bot\. An output branch is added to the block for each intent you include\. When a customer chooses an intent when interacting with the bot, the branch associated with that intent is followed in the contact flow\.
 
-### Using n Amazon Lex bot to get customer input
+### Using an Amazon Lex bot to get customer input
 
 1. In Amazon Connect, choose **Routing**, **Contact flows**\.
 
@@ -358,3 +359,13 @@ The metrics attributes in the following table are returned when you use the **Ge
 | Agents busy | The number of agents currently active on a contact\. | System | $\.Metrics\.Agents\.Busy\.Count | 
 | Agents missed count | The number of agents in the Missed state, which is the state an agent enters after a missed call\. | System | $\.Metrics\.Agents\.Missed\.Count | 
 | Agents in non\-productive state | The number of agents in a non\-productive \(NPT\) state\. | System | $\.Metrics\.Agents\.NonProductive\.Count | 
+
+## Media Streams Attributes<a name="media-stream-attribs"></a>
+
+
+| Attribute | Description | Type | JSONPath Reference | 
+| --- | --- | --- | --- | 
+| Customer audio stream ARN | The ARN of the Kinesis Video stream used for Live media streaming that includes the customer data to reference\. | Media streams | $\.MediaStreams\.Customer\.Audio\.StreamARN | 
+| Customer audio start timestamp in the Kinesis video stream used for Live media streaming\. | The time at which the customer audio stream started\. | Media streams | $\.MediaStreams\.Customer\.Audio\.StartTimestamp | 
+| Customer audio stop timestamp | The time at which the customer audio stream stopped Kinesis video stream used for Live media streaming\. | Media streams | $\.MediaStreams\.Customer\.Audio\.StopTimestamp | 
+| Customer audio start fragment number | The number that identifies the Kinesis Video Streams fragment, in the stream used for Live media streaming, in which the customer audio stream started\. | Media streams | $\.MediaStreams\.Customer\.Audio\.StartPosition | 

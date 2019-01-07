@@ -5,7 +5,8 @@
 + [Creating Contact Flows](#create-contact-flow)
 + [Using a **Call phone number** block in a contact flow](#using-call-number-block)
 + [Using Queue to Queue Transfer](#queue-to-queue-transfer)
-+ [Transferring Calls Directly to an Agent](#transfer-to-agent)
++ [Transferring Calls Directly to a Specific Agent](#transfer-to-agent)
++ [Use Live Media Streaming in a Contact Flow](customer-voice-streams.md)
 + [Contact Flow Logs](#contact-flow-logs)
 + [Contact Flow Import/Export](#contact-flow-import-export)
 
@@ -41,6 +42,8 @@ When you set **User Defined** or **External** values in dynamic attribute fields
 |  **Loop prompts**  |  Loops a sequence of prompts while a customer or agent is on hold or in queue\.  |  When **Loop prompts** is used in a queue flow, audio playback can be interrupted with a flow at preset times\.  | 
 |  **Hold customer or agent**  |  Places a customer or agent on or off hold\.  |  Settings: Agent on hold / customer on call Customer on hold / agent on call Agent and customer on call  | 
 | **Call phone number** | Initiates an outbound call from an outbound whisper flow\. | Use the **Call phone number** block to place an outbound call\. This block is supported only in outbound whisper flows\. You can optionally set the phone number displayed as the caller ID number to a number from your instance, or to a number using an attribute\. The number must be in E\.164 format\. | 
+| **Start media streaming** | Starts capturing customer audio for a contact\. | Captures customer audio during a contact\. You must enable Live media streaming to successfully capture customer audio\. Media streaming continues until a **Stop media streaming** block is used or the contact ends\. To learn more, see [Use Live Media Streaming in a Contact Flow](customer-voice-streams.md)\. | 
+| **Stop media streaming** | Stops capturing customer audio after it is started with a **Start media streaming** block\. | Once started, media streaming continues, even when one contact flow transfer to another contact flow\. You must use a **Stop media streaming** block to stop media streaming\. | 
 
 ### Set<a name="contact-set"></a>
 
@@ -208,24 +211,16 @@ In the **Transfer to queue** block, there are two outputs to route calls through
 **Important**  
 To successfully complete the call transfer to another queue, you must include a block after the **Transfer to queue** block and connect the **Success** branch to it\. For example, use an **End flow / Resume** block to end the contact flow\. The flow does not end until the call is picked up by an agent\.
 
-## Transferring Calls Directly to an Agent<a name="transfer-to-agent"></a>
+## Transferring Calls Directly to a Specific Agent<a name="transfer-to-agent"></a>
 
-To provide a consistent customer experience for your customers, you can route calls directly to the agent the customer last interacted with, if available\. In each block that supports transferring the contact to a queue, such as the **Transfer to queue** block, there is a **By agent** radio button under **Queue** \(or **Queue to check \(optional\)** or **By queue** depending on the block\)\. When you select **By agent**, a drop\-down list that includes the name of all users in your instance is displayed\. When you select user name, the contact is transferred to the queue for that user\.
+With agent queues, you can route calls directly to a specific agent\. This can allow you to provide a consistent customer experience for your customers by letting you route calls directly to the agent the customer last interacted with if that agent is available\. In each block that supports transferring the contact to a queue, such as the **Transfer to queue** block, there is a **By agent** radio button under **Queue** \(or **Queue to check \(optional\)** or **By queue** depending on the block\)\. When you select **By agent**, a drop\-down list that includes all of the users in your instance is displayed\. When you select a user name, the contact is transferred to the queue for that user\.
 
 Contact flow blocks in which you can specify a queue include: **Set working queue**, **Get queue metrics**, **Check queue status**, **Check staffing**, and **Transfer to queue** when used in a customer queue flow\.
 
 **Note**  
-A queue is created for all users in your Amazon Connect instance, but only users assigned the Agent or Admin security profiles have permission to use the Contact Control Panel \(CCP\), which is required to answer calls in Amazon Connect\. If you route a call to a user that cannot access the CCP, the contact can never be answered\.
+A queue is created for all users in your Amazon Connect instance, but only users assigned permissions to use the Contact Control Panel \(CCP\) can use the CCP to receive calls\. The Agent or Admin security profiles are the only default security profiles that include permissions to use the CCP\. If you route a call to a user that cannot access the CCP, the contact can never be answered\.
 
-In some cases, you need to use the ARN of the queue to route the contact directly to an agent\. To determine the ARN for a queue created for users in your instance, first determine the resource ID for the agent's user account\. The resource ID for an agent is a numeric value assigned to the account when it is created\. The ID is included as part of the ARN for the account\. To find the value for the resource ID, enable agent event streams,
-
-The ARN for the queue created for the user account would be in the following format:
-
-arn:aws:connect:aws\-region:awsAccountId:instance/instance\-Id/queue/agent/agentResourceId
-
-arn:aaws:connect:us\-east\-1:613787477748:instance/*instanceId*/queue/agent/agentResourceId
-
-## To route a call directly to an agent
+**To route a call directly to a specific agent**
 
 1. In Amazon Connect, choose **Routing**, **Contact flows**\.
 
@@ -235,7 +230,7 @@ arn:aaws:connect:us\-east\-1:613787477748:instance/*instanceId*/queue/agent/agen
 
 1. Select the title of the block to open the block settings\.
 
-1. Choose **By queue**, then choose **By agent**\.
+1. Select **By agent**\.
 
 1. Under **Select an agent**, enter the user name of the agent, or select the agent's user name from the drop\-down list\.
 
@@ -244,6 +239,46 @@ arn:aaws:connect:us\-east\-1:613787477748:instance/*instanceId*/queue/agent/agen
 1. Connect the **Success** branch to the next block in your contact flow\.
 
 You can also choose to use an attribute to select the queue created for the agent user account\. To do so, after you choose **By agent**, choose **Use attribute**\.
+
+### Using Contact Attributes to Route Contacts to a Specific Agent<a name="use-attribs-agent-queue"></a>
+
+When you use a contact attributes in a contact flow to route calls to an agent, the attribute value must be either the agent's user name, or the agent's user ID\.
+
+To determine the user ID for an agent so that you can use the value as an attribute, you can use the [https://docs.aws.amazon.com/connect/latest/APIReference/API_ListUsers.html](https://docs.aws.amazon.com/connect/latest/APIReference/API_ListUsers.html) operation to retrieve the users from your instance\. The each agent's user ID is returned with the results from the operation as the value of the `Id` in the [https://docs.aws.amazon.com/connect/latest/APIReference/API_UserSummary.html](https://docs.aws.amazon.com/connect/latest/APIReference/API_UserSummary.html) object\.
+
+You can also find the directory user ID for an agent by using [Agent Event Streams](agent-event-streams.md)\. The agent events included in the agent event data stream includes the agent ARN, and the directory user ID is included in the agent ARN after `agent/`\. In the following example agent event data, the agent ID is **87654321\-4321\-4321\-4321\-123456789012**\.
+
+```
+{
+	"AWSAccountId": "123456789012",
+	"AgentARN": "arn:aws:connect:us-west-2:123456789012:instance/12345678-1234-1234-1234-123456789012/agent/87654321-4321-4321-4321-123456789012",
+	"CurrentAgentSnapshot": {
+		"AgentStatus": {
+			"ARN": "arn:aws:connect:us-west-2:123456789012:instance/12345678-1234-1234-1234-123456789012/agent-state/76543210-7654-6543-8765-765432109876",
+			"Name": "Available",
+			"StartTimestamp": "2019-01-02T19:16:11.011Z"
+		},
+		"Configuration": {
+			"AgentHierarchyGroups": null,
+			"FirstName": "IAM",
+			"LastName": "IAM",
+			"RoutingProfile": {
+				"ARN": "arn:aws:connect:us-west-2:123456789012:instance/12345678-1234-1234-1234-123456789012/routing-profile/aaaaaaaa-bbbb-cccc-dddd-111111111111",
+				"DefaultOutboundQueue": {
+					"ARN": "arn:aws:connect:us-west-2:123456789012:instance/12345678-1234-1234-1234-123456789012/queue/aaaaaaaa-bbbb-cccc-dddd-222222222222",
+					"Name": "BasicQueue"
+				},
+				"InboundQueues": [{
+					"ARN": "arn:aws:connect:us-west-2:123456789012:instance/12345678-1234-1234-1234-123456789012/queue/aaaaaaaa-bbbb-cccc-dddd-222222222222",
+					"Name": "BasicQueue"
+				}],
+				"Name": "Basic Routing Profile"
+			},
+			"Username": "agentUserName"
+		},
+		"Contacts": []
+	},
+```
 
 ## Contact Flow Logs<a name="contact-flow-logs"></a>
 

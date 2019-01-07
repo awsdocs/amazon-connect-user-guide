@@ -1,6 +1,6 @@
 # Historical Metrics Reports<a name="historical-metrics"></a>
 
-Historical metrics reports include data about past, completed activity and performance in your contact center\. You can generate the following reports for historical metrics in Amazon Connect\.
+Historical metrics reports include data about past, completed activity and performance in your contact center\. You can generate the following reports for historical metrics in Amazon Connect\. Metrics for agent queues are not included in reports by default\.
 + Queues
   + Contact metrics
   + Agent metrics
@@ -45,6 +45,26 @@ You can add multiple real\-time metrics reports to the dashboard to get differen
     A new report table is added to the page using the default report template\.
 
 1. Optionally, customize the report to get the view you want\. Making changes to the added table does not affect the other tables already on the page\.
+
+## Include Agent Queues in Historical Metric Reports<a name="add-agent-queue-metrics"></a>
+
+By default, agent queues are excluded from historical metrics reports\. To include agent queues in the report, you can select agent queues as a filter for the report\.
+
+**Include agent queues in historical metric reports**
+
+1. Create a historical metrics report\.
+
+1. Choose the cog icon near the top\-right corner of the report to open the report settings\.
+
+1. Choose the **Filters** tab\.
+
+1. Select the **Show agent queues** check box\.
+
+1. Select **Agent queues**\.
+
+1. Under Agent queues, select the agent queues to include in the report in the drop\-down\.
+
+1. Choose **Apply**\. The report now shows metric data for the selected agent queues\.
 
 ## Save a Historical Metrics Report<a name="save-hist-metrics-reports"></a>
 

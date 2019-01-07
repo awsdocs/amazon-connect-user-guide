@@ -40,6 +40,10 @@ For **Queues** and **Routing profiles** reports, the first row of the report is 
 
 ![\[Image NOT FOUND\]](http://docs.aws.amazon.com/connect/latest/userguide/images/connect-rtm-report-hide-report.png)
 
+## View real\-time metrics for agent queues<a name="real-time-agent-queues"></a>
+
+To view a real\-time metric report for agent queues, you can add an **Agent queues** table to the dashboard\. This adds a report to the dashboard that includes metric data for the agent queues in your instance\. To add an agent queue report, choose the down arrow next to **New table**, then choose **Agent queues**\.
+
 ## Customize Real\-time Metrics Reports<a name="customize-real-time-reports"></a>
 
 You can customize real\-time metrics report you create to get the view of your contact center that is the most meaningful for your organization\. To customize your report, choose the cog icon near the top\-right corner of the report table\.
@@ -107,7 +111,7 @@ You can add multiple real\-time metrics reports to the reports page to get diffe
 
 1. Create a Real\-time metrics report\.
 
-1.  On the **Real\-time metrics** page, choose **New table**, and then the report type to add, **Queue**, **Routing profiles**, or **Agents**\.
+1.  On the **Real\-time metrics** page, choose **New table**, and then the report type to add, **Queue**, **Agent queues**, **Routing profiles**, or **Agents**\.
 
     A new report table is added to the page using the default report template\.
 
