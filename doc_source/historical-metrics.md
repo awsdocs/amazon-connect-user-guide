@@ -48,7 +48,7 @@ You can add multiple real\-time metrics reports to the dashboard to get differen
 
 ## Include Agent Queues in Historical Metric Reports<a name="add-agent-queue-metrics"></a>
 
-By default, agent queues are excluded from historical metrics reports\. To include agent queues in the report, you can select agent queues as a filter for the report\.
+By default, agent queues are excluded from historical metrics reports\. To include agent queues in the report, select agent queues as a filter for the report\.
 
 **Include agent queues in historical metric reports**
 
@@ -62,7 +62,7 @@ By default, agent queues are excluded from historical metrics reports\. To inclu
 
 1. Select **Agent queues**\.
 
-1. Under Agent queues, select the agent queues to include in the report in the drop\-down\.
+1. Under **Agent queues**, select the agent queues to include in the report in the drop\-down list\.
 
 1. Choose **Apply**\. The report now shows metric data for the selected agent queues\.
 

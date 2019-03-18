@@ -42,7 +42,7 @@ For **Queues** and **Routing profiles** reports, the first row of the report is 
 
 ## View real\-time metrics for agent queues<a name="real-time-agent-queues"></a>
 
-To view a real\-time metric report for agent queues, you can add an **Agent queues** table to the dashboard\. This adds a report to the dashboard that includes metric data for the agent queues in your instance\. To add an agent queue report, choose the down arrow next to **New table**, then choose **Agent queues**\.
+To view a real\-time metric report for agent queues, you can add an **Agent queues** table to the dashboard\. This table adds a report to the dashboard that includes metric data for the agent queues in your instance\. To add an agent queue report, choose the down arrow next to **New table**, then choose **Agent queues**\.
 
 ## Customize Real\-time Metrics Reports<a name="customize-real-time-reports"></a>
 
@@ -154,7 +154,10 @@ The following performance metrics are included in default reports\.
 + **Handled**—Number of contacts in this queue that were answered by an agent\.
 + **Abandoned**—Number of contacts that were abandoned from the queue during the reporting time range\.
 + **AHT**—Average handled time \(AHT\) is the average time, from start to finish, that a contact was connected with an agent\. This is calculated by averaging the amount of time between the call being answered by an agent and the call ending\.
-+ **SL 60**—SL refers to service level, and is the number of contacts that were in the queue for less than 60 seconds\.
++ **SL 60**—SL refers to service level, and is the percentage of contacts that were added to a queue and then removed from queue within 60 seconds\. A call is removed from queue when one of the following occurs:
+  + Customer abandoned the call
+  + Agent answered the call
+  + Customer is transferred to a callback queue
 
 ### Additional Real\-time Metrics Available for Reports<a name="real-time-metrics-additional"></a>
 

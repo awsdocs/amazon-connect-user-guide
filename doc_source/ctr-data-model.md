@@ -154,7 +154,7 @@ Indicates how the contact was initiated\.
 Valid values: `INBOUND` \| `OUTBOUND` \| `TRANSFER` \| `CALLBACK` \| `API` \| `QUEUE_TRANSFER` 
 
 **InitiationTimestamp**  
-The date and time this contact was initiated\. For `INBOUND`, this is when the call arrived\. For `OUTBOUND` and `CALLBACK`, this is when the agent began dialing\. For `API`, this is when the request arrived\.  
+The date and time this contact was initiated\. For `INBOUND`, this is when the call arrived\. For `OUTBOUND`, this is when the agent began dialing\. For `CALLBACK`, this is when the callback contact was created\. For `TRANSFER` and `QUEUE_TRANSFER`, this is when the transfer was initiated\. For `API`, this is when the request arrived\.  
 Type: String \(*yyyy*\-*mm*\-*dd*T*hh*:*mm*:*ss*Z\)
 
 **InstanceARN**  

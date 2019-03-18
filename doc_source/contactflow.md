@@ -3,6 +3,7 @@
 **Topics**
 + [Contact Block Definitions](#contact-blocks)
 + [Creating Contact Flows](#create-contact-flow)
++ [Using Contact Flow Resume After Transfer](#contact-flow-resume)
 + [Using a **Call phone number** block in a contact flow](#using-call-number-block)
 + [Using Queue to Queue Transfer](#queue-to-queue-transfer)
 + [Transferring Calls Directly to a Specific Agent](#transfer-to-agent)
@@ -66,7 +67,7 @@ When you set **User Defined** or **External** values in dynamic attribute fields
 
 | Block | Action | Description | 
 | --- | --- | --- | 
-|  **Invoke AWS Lambda function**  |  Makes a call to AWS Lambda, and optionally returns key\-value pairs\.  |  The returned key\-value pairs can be used to set contact attributes\.  | 
+|  **Invoke AWS Lambda function**  |  Makes a call to AWS Lambda, and optionally returns key\-value pairs\.  |  The returned key\-value pairs can be used to set contact attributes\. To use an AWS Lambda function in a contact flow, first add the function to your instance\. For more information, see [Add an AWS Lambda function to your instance](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-instance.html#aws-lambda)\. After you add the function to your instance, you can select the function from the **Select a function** drop\-down list in the block to use it in the contact flow\.  | 
 
 ### Branch<a name="contact-branch"></a>
 
@@ -75,7 +76,7 @@ When you set **User Defined** or **External** values in dynamic attribute fields
 | --- | --- | --- | 
 |  **Check queue status**  |  Checks the status of the queue based on specified conditions\.  |  Branches based on the comparison of **Time in Queue** or **Queue capacity**\. If no match is found, the **No Match** branch is followed\.  | 
 |  **Check staffing**  |  Checks the current working queue, or queue you specify in the block, for whether agents are available, staffed \(on call, or after call work status\), or online\.  |  Branches based on whether agents are available, staffed \(available, on call, and after call work\), or online\.  You must set a queue before using a **Check staffing** block in your contact flow\. If a queue is not set, the block always proceeds through the error branch\. You can use a **Set working queue** block to set the queue\. When a contact is transferred from one flow to another, the queue that is set in a contact flow is passed from that flow to the next flow\.   | 
-|  **Check hours of operation**  |  Checks to see whether the contact is occurring within or outside of the hours of operation defined for the queue\.  |  Branches based on specified hours of operation, either directly or as associated to a queue that is within open hours\.   | 
+|  **Check hours of operation**  |  Checks to see whether the contact is occurring within or outside of the hours of operation defined for the queue\.  |  Branches based on specified hours of operation, either directly or as associated to a queue that is within open hours\. Queues that are automatically created for each user in your instance do not include an Hours of operation\. If you use the block to check the Hours of operation for one of these queues, the check fails and the **Error** branch is followed\.  | 
 |  **Check contact attributes**  |  Check the values of contact attributes\.  |  Branches based on a comparison to the value of a contact attribute\. Supported comparisons include: **Equals**, **Is Greater Than**, **Is Less Than**, **Starts With**, **Contains**\.  | 
 |  **Distribute by percentage**  |  Routes customers randomly based on a percentage\.  |  Like flipping a coin, contacts are distributed randomly, which doesn’t guarantee exact percentage splits\.  | 
 |  **Loop**  |   Loops through \(repeats\) the **Looping** branch for the number of loops specified\.  |   After the loops are completed, the **Complete** branch is followed\. If you enter 0 for the loop count, the **Complete** branch is followed the first time this block executes\.An example use of this block is to loop back to a **Get customer input** block to try to enter input, such as an account number, when an initial attempt does not succeed\.  | 
@@ -87,7 +88,7 @@ When you set **User Defined** or **External** values in dynamic attribute fields
 | --- | --- | --- | 
 |  **Disconnect / hang up**  |  Terminates a customer contact\.  |  Disconnects the customer’s call\.  | 
 |  **Transfer to queue**  |  In most contact flows, this block ends the current contact flow and places the customer in queue\. When used in a customer queue flow, this block transfers a call already in a queue to another queue\.  |  When used in most contact flows, a queue must be specified, using **Set working queue**, before invoking **Transfer to queue** except when used in a customer queue flow\. Optionally, the contact can be placed in queue to receive a callback, if a **Set customer callback number** block is used before this block in a flow\. When used in a customer queue flow, a **Loop prompts** block must be used prior to this block in the contact flow\. For more information, see [Using Queue to Queue Transfer](#queue-to-queue-transfer)\.  | 
-|  **Transfer to phone number**  |  Transfers the customer\.  |  Ends the current contact flow and transfers the customer to a phone number\. If the country you want to select is not listed, you can submit a request to add countries you want to transfer calls to using the [Amazon Connect service limits increase form](https://console.aws.amazon.com/support/home#/case/create?issueType=service-limit-increase&limitType=service-code-connect)\.  | 
+|  **Transfer to phone number**  |  Transfers the customer to a phone number external to your instance\.  |  Transfers the contact to the specified phone number\. You can choose to end the contact flow when the call is transferred, or choose to **Resume contact flow after disconnect**, which returns the caller to your instance and resume the contact flow after the transferred call ends\. For more information, see [Using Contact Flow Resume After Transfer](#contact-flow-resume) If the country you want to select is not listed, you can submit a request to add countries you want to transfer calls to using the [Amazon Connect service limits increase form](https://console.aws.amazon.com/support/home#/case/create?issueType=service-limit-increase&limitType=service-code-connect)\.  | 
 |  **Transfer to agent**  |  Transfers the customer to an agent\.  |  Ends the current contact flow and transfers the customer to an agent\. If the agent is on a call, the contact is disconnected\.  | 
 |  **Transfer to flow**  |  Transfers the customer to another contact flow\.  |  Ends the current contact flow and transfers the customer to a different contact flow\. Available in transfer to agent and transfer to queue flows\.  | 
 |  **End flow / Resume**  |  Ends the current flow without disconnecting the caller\.  |  This can be used to return to a Loop prompts block when it has been interrupted\. When **End flow / Resume** is invoked, the customer remains connected to the system\.  | 
@@ -125,6 +126,36 @@ For groups that support multiple branches, drag the connector to the appropriate
 All connectors must be connected to a block in order to successfully publish your contact flow\.
 
 A saved contact flow cannot be assigned to a number until it is published\.
+
+## Using Contact Flow Resume After Transfer<a name="contact-flow-resume"></a>
+
+Use the **Transfer to phone number** block to transfer customers to a phone number outside of your Amazon Connect instance, and then optionally resume the contact flow when the call with the external number ends\. This lets you integrate interactions with external or third party organizations into your contact flow\. For example, you can use a **Transfer to phone number** block to transfer the caller to a shipping provider to check the status of their delivery, and then return the caller to an agent if they need further assistance\. Or, you could send the caller to another department in your organization that is not using Amazon Connect, and return the caller to the Amazon Connect contact flow to speak with an agent\.
+
+### Using Resume After Transfer in a Contact Flow<a name="use-call-bridging"></a>
+
+You can use the **Transfer to phone number** block to transfer customers to a number outside of your Amazon Connect instance, and then optionally resume the contact flow after the caller disconnects from the external number\. You can use the resume after transfer functionality to enable the following scenarios:
++ Transfer a caller to a number outside of your instance and end the contact flow\. For example, asking the customer for an order number, and then transferring the customer to the delivery company that can provide their shipping status\.
++ Transfer the customer to a number outside of your instance, and then return the customer to the contact flow to request a survey, or to speak to an agent\. For example, when the delivery company could not resolve the issue for the customer\.
++ For advanced automation, send tracking information as DTMF digits when the call is transferred, so that the shipment information is retrieved with the transferred call prior to the customer being connected\.
+
+To resume a contact after a transfer to an external number, add a **Transfer to phone number** block to your contact flow\. In the **Transfer to phone number** block, enter the phone number to transfer the call to, and then connect it to the rest of your contact flow\. When the block executes, the call is transferred to the external number, and then, optionally, returned to the contact flow when the conversation with the external party ends\. The contact then follows the **Success** branch from the block to continue the flow\. If the call is not successfully transferred, one of the other branches is followed: **Call failed**, **Timeout**, or **Error**, depending on the reason the caller did not return to the flow\.
+
+### Transfer to Phone Number Block Settings<a name="transfer-to-number-settings"></a>
+
+The **Transfer to phone number** block includes the following settings:
++ **Transfer to**
+  + **Phone number**—Sets the phone number to transfer the call to\.
+  + **Use attribute**—Specify a contact attribute to set the phone number to transfer the call to\.
++ **Set timeout**
+  + **Timeout \(in seconds\)**—The number of seconds to wait for the recipient to answer the transferred call\.
++ **Use attribute**—Specify a contact attribute to use to set the **Timeout** duration\.
++ **Resume contact flow after disconnect**—When you select this option, after the call is transferred, the caller is returned to the contact flow when the call with the third party ends\. Additional branches for **Success**, **Call failed**, and **Timeout** are added to the block when you select this option so that you can appropriately route contacts when there is an issue with the transfer\.
++ **Optional parameters**
+  + **Send DTMF**—Select **Send DTMF** to include up to 50 Dual\-Tone Multi\-frequency \(DTMF\) characters with the transferred call\. You can enter the characters to include, or use an attribute\. Use the DTMF characters to navigate an automated IVR system that answers the call\.
+  + **Caller ID number**—Specify the caller ID number used for transferred call\. You can select a number from your instance, or use an attribute to set the number\.
+  + **Caller ID name**—Specify the caller ID name used for the transferred call\. You can enter a name, or use an attribute to set the name\.
+
+    In some cases, the caller ID information is provided by the carrier of the party you are calling\. The information may not be up\-to\-date with that carrier, or the number may get passed differently between systems because of hardware or configuration differences\. If that is the case, the person you call may not see the phone number, or may see the name of a previously registered owner of the number, instead of the name you specify in the block\.
 
 ## Using a **Call phone number** block in a contact flow<a name="using-call-number-block"></a>
 
@@ -242,42 +273,42 @@ You can also choose to use an attribute to select the queue created for the agen
 
 ### Using Contact Attributes to Route Contacts to a Specific Agent<a name="use-attribs-agent-queue"></a>
 
-When you use a contact attributes in a contact flow to route calls to an agent, the attribute value must be either the agent's user name, or the agent's user ID\.
+When you use contact attributes in a contact flow to route calls to an agent, the attribute value must be either the agent's user name, or the agent's user ID\.
 
-To determine the user ID for an agent so that you can use the value as an attribute, you can use the [https://docs.aws.amazon.com/connect/latest/APIReference/API_ListUsers.html](https://docs.aws.amazon.com/connect/latest/APIReference/API_ListUsers.html) operation to retrieve the users from your instance\. The each agent's user ID is returned with the results from the operation as the value of the `Id` in the [https://docs.aws.amazon.com/connect/latest/APIReference/API_UserSummary.html](https://docs.aws.amazon.com/connect/latest/APIReference/API_UserSummary.html) object\.
+To determine the user ID for an agent so that you can use the value as an attribute, use the [ListUsers](https://docs.aws.amazon.com/connect/latest/APIReference/API_ListUsers.html) operation to retrieve the users from your instance\. The agent's user ID is returned with the results from the operation as the value of the `Id` in the [UserSummary](https://docs.aws.amazon.com/connect/latest/APIReference/API_UserSummary.html) object\.
 
-You can also find the directory user ID for an agent by using [Agent Event Streams](agent-event-streams.md)\. The agent events included in the agent event data stream includes the agent ARN, and the directory user ID is included in the agent ARN after `agent/`\. In the following example agent event data, the agent ID is **87654321\-4321\-4321\-4321\-123456789012**\.
+You can also find the user ID for an agent by using [Agent Event Streams](agent-event-streams.md)\. The agent events, which are included in the agent event data stream, include the agent ARN\. The user ID is included in the agent ARN after `agent/`\. In the following example, agent event data, the agent ID is **87654321\-4321\-4321\-4321\-123456789012**\.
 
 ```
 {
-	"AWSAccountId": "123456789012",
-	"AgentARN": "arn:aws:connect:us-west-2:123456789012:instance/12345678-1234-1234-1234-123456789012/agent/87654321-4321-4321-4321-123456789012",
-	"CurrentAgentSnapshot": {
-		"AgentStatus": {
-			"ARN": "arn:aws:connect:us-west-2:123456789012:instance/12345678-1234-1234-1234-123456789012/agent-state/76543210-7654-6543-8765-765432109876",
-			"Name": "Available",
-			"StartTimestamp": "2019-01-02T19:16:11.011Z"
-		},
-		"Configuration": {
-			"AgentHierarchyGroups": null,
-			"FirstName": "IAM",
-			"LastName": "IAM",
-			"RoutingProfile": {
-				"ARN": "arn:aws:connect:us-west-2:123456789012:instance/12345678-1234-1234-1234-123456789012/routing-profile/aaaaaaaa-bbbb-cccc-dddd-111111111111",
-				"DefaultOutboundQueue": {
-					"ARN": "arn:aws:connect:us-west-2:123456789012:instance/12345678-1234-1234-1234-123456789012/queue/aaaaaaaa-bbbb-cccc-dddd-222222222222",
-					"Name": "BasicQueue"
-				},
-				"InboundQueues": [{
-					"ARN": "arn:aws:connect:us-west-2:123456789012:instance/12345678-1234-1234-1234-123456789012/queue/aaaaaaaa-bbbb-cccc-dddd-222222222222",
-					"Name": "BasicQueue"
-				}],
-				"Name": "Basic Routing Profile"
-			},
-			"Username": "agentUserName"
-		},
-		"Contacts": []
-	},
+    "AWSAccountId": "123456789012",
+    "AgentARN": "arn:aws:connect:us-west-2:123456789012:instance/12345678-1234-1234-1234-123456789012/agent/87654321-4321-4321-4321-123456789012",
+    "CurrentAgentSnapshot": {
+        "AgentStatus": {
+            "ARN": "arn:aws:connect:us-west-2:123456789012:instance/12345678-1234-1234-1234-123456789012/agent-state/76543210-7654-6543-8765-765432109876",
+            "Name": "Available",
+            "StartTimestamp": "2019-01-02T19:16:11.011Z"
+        },
+        "Configuration": {
+            "AgentHierarchyGroups": null,
+            "FirstName": "IAM",
+            "LastName": "IAM",
+            "RoutingProfile": {
+                "ARN": "arn:aws:connect:us-west-2:123456789012:instance/12345678-1234-1234-1234-123456789012/routing-profile/aaaaaaaa-bbbb-cccc-dddd-111111111111",
+                "DefaultOutboundQueue": {
+                    "ARN": "arn:aws:connect:us-west-2:123456789012:instance/12345678-1234-1234-1234-123456789012/queue/aaaaaaaa-bbbb-cccc-dddd-222222222222",
+                    "Name": "BasicQueue"
+                },
+                "InboundQueues": [{
+                    "ARN": "arn:aws:connect:us-west-2:123456789012:instance/12345678-1234-1234-1234-123456789012/queue/aaaaaaaa-bbbb-cccc-dddd-222222222222",
+                    "Name": "BasicQueue"
+                }],
+                "Name": "Basic Routing Profile"
+            },
+            "Username": "agentUserName"
+        },
+        "Contacts": []
+},
 ```
 
 ## Contact Flow Logs<a name="contact-flow-logs"></a>

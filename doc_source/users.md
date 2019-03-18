@@ -60,7 +60,7 @@ If you're editing multiple users, they are all assigned the chosen settings\.
 
 ## Routing Profiles<a name="routing-profiles"></a>
 
-A routing profile is a collection of queues that determines how contacts are routed to agents\. Routing profiles are used to prioritize contacts across specific queues and manage the priority in which contacts are handled based on the queues they are routed to\. This can be used to ensure alignment with service SLAs\. Routing profiles are managed and assigned to agents by the administrator\. An agent can only be assigned a single routing profile at a time; however, they may serve multiple queues, based on rules defined in the routing profile\.
+A routing profile is a collection of queues that determines how contacts are routed to agents\. Routing profiles are used to prioritize contacts across specific queues and manage the priority in which contacts are handled based on the queues they are routed to\. Routing profiles are managed and assigned to agents by the administrator\. An agent can only be assigned a single routing profile at a time; however, they may serve multiple queues, based on rules defined in the routing profile\.
 
 **To create a routing profile**
 
@@ -71,7 +71,7 @@ A routing profile is a collection of queues that determines how contacts are rou
    + **Description**—The routing profile's function\.
    + **Routing profile queues**—A queue to associate with the routing profile\. You can add multiple queues\.
    + **Priority**—The order in which contacts are handled by the queue they are in\. Set values in order of importance, with the lowest number equaling the highest priority\. For example, a contact in a queue with a priority of 2 would be a lower priority than a contact in a queue with a priority of 1\.
-   + **Delay \(in seconds\)**—The minimum hold time before the call is routed to an agent with a matching queue/threshold combination\. 
+   + **Delay \(in seconds\)**—The minimum queue time before the call is routed to an agent with a matching queue/threshold combination\. 
    + **Default outbound queue**—Outbound calls must be associated with one of the associated queues\. 
 
 1. Choose **Add new profile**\.

@@ -1,6 +1,6 @@
 # Using Amazon Connect<a name="using-amazon-connect"></a>
 
-This guide covers how to get started with using Amazon Connect to make and receive calls, generate helpful metrics and reporting, manage user permissions and security profiles, create contact flows, and use the Contact Control Panel \(CCP\) to handle calls\.
+This guide covers how to configure your Amazon Connect instance to make and receive calls, generate helpful metrics and reporting, manage user permissions and security profiles, create contact flows, and use the Contact Control Panel \(CCP\) to handle calls\.
 
 ## Amazon Connect Concepts<a name="amazon-connect-concepts"></a>
 
